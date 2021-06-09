@@ -21,7 +21,7 @@ class BondDistToString(beam.DoFn):
   def process(self, bond_dist):
     key, value = bond_dist
     print(f"BondDistToString: key {key} value {value}")
-    yield f"{key[0]}.{key[1]}.{key[2]}.{key[3]} {value}"
+    yield f"{key[0]}.{key[1]}.{key[2]}.{key[3]}.{value}"
 #   yield f"{key[0]}.{key[1]}.{key[2]}.{value[0]} {value[1]}"
 
 class GroupBondTypes(beam.DoFn):

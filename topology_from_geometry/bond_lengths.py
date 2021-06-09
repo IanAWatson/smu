@@ -22,16 +22,19 @@ class GetBondLengthDistribution(beam.DoFn):
     natoms = len(bt.atoms)
 
     for a1 in range(0, natoms):
-      atype1 = bt.atoms[a1]
       atomic_number1 = smu_utils_lib.ATOM_TYPE_TO_ATOMIC_NUMBER[bt.atoms[a1]]
       for a2 in range(a1 + 1, natoms):
+        atomic_number2 = smu_utils_lib.ATOM_TYPE_TO_ATOMIC_NUMBER[bt.atoms[a2]]
+        # Do not process H-H pairs
+        if atomic_number1 == 1 and atomic_number2 == 1:
+          continue
+
         d = utilities.distance_between_atoms(geom, a1, a2)
         if d > MAX_DIST:
           continue
 
-        atomic_number2 = smu_utils_lib.ATOM_TYPE_TO_ATOMIC_NUMBER[bt.atoms[a2]]
         discretized = int(d * utilities.DISTANCE_BINS)
-        yield (max(atomic_number1, atomic_number2), 
+        yield (min(atomic_number1, atomic_number2), 
                int(bonded[a1, a2]), 
-               min(atomic_number1, atomic_number2), discretized), 1
+               max(atomic_number1, atomic_number2), discretized), 1
 
