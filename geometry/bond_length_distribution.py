@@ -266,6 +266,10 @@ class AtomPairLengthDistributions:
 
   def __getitem__(self, bond_type):
     """Gets the Distribution for the bond_type."""
+    if not bond_type in self._bond_type_map:
+      print(f"No data for {bond_type}")
+      return 0.0
+
     return self._bond_type_map[bond_type]
 
   def probability_of_bond_types(
@@ -302,6 +306,20 @@ class AtomPairLengthDistributions:
       out[bond_type] /= normalizer
 
     return out
+
+  def pdf_length_given_type(self, bond_type: dataset_pb2.BondTopology.BondType,
+                            length:float) -> float:
+    """Return the pdf given `bond_type` and distance `length`.
+    Args:
+      bond_type:
+      length:
+    Returns:
+      float
+    """
+    if not bond_type in self._bond_type_map:
+      return 0.0
+
+    return self._bond_type_map[bond_type].pdf(length)
 
 
 class AllAtomPairLengthDistributions:
@@ -375,12 +393,24 @@ class AllAtomPairLengthDistributions:
 
       self.add(atom_a, atom_b, bond_type,
                EmpiricalLengthDistribution.from_file(fname, right_tail_mass))
+      self.add(atom_b, atom_a, bond_type,
+               EmpiricalLengthDistribution.from_file(fname, right_tail_mass))
 
   def pdf_length_given_type(self, atom_a,
                             atom_b,
                             bond_type,
                             length):
     """p(length | atom_a, atom_b, bond_type)."""
+    print(f"Types {atom_a} {atom_b} type {bond_type}")
+    if not (atom_a, atom_b) in self._atom_pair_dict:
+      return 0.0
+
+    return self._atom_pair_dict[(atom_a, atom_b)].pdf_length_given_type(bond_type, length)
+    print(f"Have data {self._atom_pair_dict[(atom_a, atom_b)]}")
+    if not bond_type in self._atom_pair_dict[(atom_a, atom_b)]:
+      return 0.0
+
+    print(f"Looking up pdf for {bond_type}")
     return self._atom_pair_dict[(atom_a, atom_b)][bond_type].pdf(length)
 
   def probability_of_bond_types(

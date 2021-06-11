@@ -44,6 +44,20 @@ def bonded(bond_topology: dataset_pb2.BondTopology) -> np.array:
     connected[a1, a2] = connected[a2, a1] = bond.bond_type
   return connected
 
+def distances(geometry: dataset_pb2.Geometry) -> np.array:
+  """Return a float array of the interatomic distances in `geometry`.
+  Args:
+    geometry:
+  Returns:
+    a numpy array of distances
+  """
+  natoms = len(geometry.atom_positions)
+  distances = np.full((natoms, natoms), 0.0, dtype=np.float32)
+  for i in range(0, natoms):
+    for j in range(i+1, natoms):
+      distances[i,j] = distances[j,i] = distance_between_atoms(geometry, i, j)
+  return distances
+
 def rdkit_atom_to_atom_type(atom: Chem.Atom) -> dataset_pb2.BondTopology.AtomType:
   """
     Args:

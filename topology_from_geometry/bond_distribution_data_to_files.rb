@@ -58,6 +58,11 @@ end
 
 def write_bond_length_distribution(fname, data) # rubocop:disable Metrics/MethodLength
   first_ndx, last_ndx = first_and_last(data)
+  if (last_ndx - first_ndx) < 2
+    $stderr << "Ignoring no data #{fname}\n"
+    return
+  end
+  $stderr << "Opening #{fname}\n"
   File.open(fname, 'w') do |output|
     (first_ndx..last_ndx).each do |ndx|
       output << ndx.to_f / 10_000.0
@@ -90,4 +95,4 @@ def main(input_fname, stem) # rubocop:disable Metrics/MethodLength, Metrics/AbcS
   end
 end
 
-main(options['--input'], options['--output'])
+main(options['--input'], options['--stem'])

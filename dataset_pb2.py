@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x11smu/dataset.proto\x1a google/protobuf/descriptor.proto\"\xa2\x03\n\x0c\x42ondTopology\x12%\n\x05\x61toms\x18\x01 \x03(\x0e\x32\x16.BondTopology.AtomType\x12!\n\x05\x62onds\x18\x02 \x03(\x0b\x32\x12.BondTopology.Bond\x12\x0e\n\x06smiles\x18\x03 \x01(\t\x12\x18\n\x10\x62ond_topology_id\x18\x04 \x01(\x05\x1aQ\n\x04\x42ond\x12\x0e\n\x06\x61tom_a\x18\x01 \x01(\x05\x12\x0e\n\x06\x61tom_b\x18\x02 \x01(\x05\x12)\n\tbond_type\x18\x03 \x01(\x0e\x32\x16.BondTopology.BondType\"x\n\x08\x41tomType\x12\x12\n\x0e\x41TOM_UNDEFINED\x10\x00\x12\n\n\x06\x41TOM_C\x10\x01\x12\n\n\x06\x41TOM_N\x10\x02\x12\r\n\tATOM_NPOS\x10\x03\x12\n\n\x06\x41TOM_O\x10\x04\x12\r\n\tATOM_ONEG\x10\x05\x12\n\n\x06\x41TOM_F\x10\x06\x12\n\n\x06\x41TOM_H\x10\x07\"Q\n\x08\x42ondType\x12\x12\n\x0e\x42OND_UNDEFINED\x10\x00\x12\x0f\n\x0b\x42OND_SINGLE\x10\x01\x12\x0f\n\x0b\x42OND_DOUBLE\x10\x02\x12\x0f\n\x0b\x42OND_TRIPLE\x10\x03\"a\n\x08Geometry\x12)\n\x0e\x61tom_positions\x18\x01 \x03(\x0b\x32\x11.Geometry.AtomPos\x1a*\n\x07\x41tomPos\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\xdbx\n\nProperties\x12*\n\x06\x65rrors\x18\x01 \x01(\x0b\x32\x12.Properties.ErrorsB\x06\xb0\xa5\xa0\x85\n\x03\x12L\n\x17geometry_gradient_norms\x18\x02 \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12N\n\x14harmonic_intensities\x18\x04 \x01(\x0b\x32(.Properties.MultiScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12O\n\x14harmonic_frequencies\x18\xad\x01 \x01(\x0b\x32(.Properties.MultiScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x35\n\x0cnormal_modes\x18\xae\x01 \x03(\x0b\x32\x16.Properties.NormalModeB\x06\xb0\xa5\xa0\x85\n\x03\x12W\n\"single_point_energy_pbe0d3_6_311gd\x18\x06 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12U\n single_point_energy_pbe0_6_311gd\x18\x07 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n%single_point_energy_pbe0_6_311gd_mrcc\x18\x08 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n%single_point_energy_pbe0_6_311gd_orca\x18\t \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Y\n$single_point_energy_pbe0_6_311gd_cat\x18\n \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12^\n)single_point_energy_pbe0_6_311gd_cat_mrcc\x18\x0b \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12^\n)single_point_energy_pbe0_6_311gd_cat_orca\x18\x0c \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12V\n!single_point_energy_pbe0_aug_pc_1\x18\r \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12R\n\x1dsingle_point_energy_hf_6_31gd\x18\x0e \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12X\n#single_point_energy_b3lyp_6_31ppgdp\x18\x0f \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12X\n#single_point_energy_b3lyp_aug_pcs_1\x18\x10 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12W\n\"single_point_energy_pbe0_6_31ppgdp\x18\x11 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12W\n\"single_point_energy_pbe0_aug_pcs_1\x18\x12 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12P\n\x1bsingle_point_energy_hf_tzvp\x18\x13 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1csingle_point_energy_mp2_tzvp\x18\x14 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1csingle_point_energy_cc2_tzvp\x18\x15 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12M\n\x18single_point_energy_hf_3\x18\x16 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12N\n\x19single_point_energy_mp2_3\x18\x17 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12M\n\x18single_point_energy_hf_4\x18\x18 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12N\n\x19single_point_energy_mp2_4\x18\x19 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12N\n\x19single_point_energy_hf_34\x18\x1a \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12O\n\x1asingle_point_energy_mp2_34\x18\x1b \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12P\n\x1bsingle_point_energy_hf_cvtz\x18\x1c \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12T\n\x1fsingle_point_energy_mp2ful_cvtz\x18\x1d \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12O\n\x1asingle_point_energy_hf_2sp\x18\x1e \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12P\n\x1bsingle_point_energy_mp2_2sp\x18\x1f \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1csingle_point_energy_ccsd_2sp\x18  \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12S\n\x1esingle_point_energy_ccsd_t_2sp\x18! \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12O\n\x1asingle_point_energy_hf_2sd\x18\" \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12P\n\x1bsingle_point_energy_mp2_2sd\x18# \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1csingle_point_energy_ccsd_2sd\x18$ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12S\n\x1esingle_point_energy_ccsd_t_2sd\x18% \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12P\n\x1bsingle_point_energy_hf_3psd\x18& \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1csingle_point_energy_mp2_3psd\x18\' \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12R\n\x1dsingle_point_energy_ccsd_3psd\x18( \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12R\n\x1dsingle_point_energy_atomic_b5\x18) \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12R\n\x1dsingle_point_energy_atomic_b6\x18* \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12N\n\x19single_point_energy_eccsd\x18x \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x41\n\x0czpe_unscaled\x18+ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x46\n\x11homo_pbe0_6_311gd\x18/ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x46\n\x11lumo_pbe0_6_311gd\x18\x30 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12G\n\x12homo_pbe0_aug_pc_1\x18\x31 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12G\n\x12lumo_pbe0_aug_pc_1\x18\x32 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12H\n\x13homo_pbe0_6_31ppgdp\x18\x33 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12H\n\x13lumo_pbe0_6_31ppgdp\x18\x34 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12H\n\x13homo_pbe0_aug_pcs_1\x18\x35 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12H\n\x13lumo_pbe0_aug_pcs_1\x18\x36 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12I\n\x14homo_b3lyp_6_31ppgdp\x18\x37 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12I\n\x14lumo_b3lyp_6_31ppgdp\x18\x38 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12I\n\x14homo_b3lyp_aug_pcs_1\x18\x39 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12I\n\x14lumo_b3lyp_aug_pcs_1\x18: \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x43\n\x0ehomo_hf_6_31gd\x18; \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x43\n\x0elumo_hf_6_31gd\x18< \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x41\n\x0chomo_hf_tzvp\x18= \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x41\n\x0clumo_hf_tzvp\x18> \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12>\n\thomo_hf_3\x18? \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12>\n\tlumo_hf_3\x18@ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12>\n\thomo_hf_4\x18\x41 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12>\n\tlumo_hf_4\x18\x42 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x41\n\x0chomo_hf_cvtz\x18\x43 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x41\n\x0clumo_hf_cvtz\x18\x44 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x17\x65xcitation_energies_cc2\x18\x45 \x01(\x0b\x32(.Properties.MultiScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12]\n#excitation_oscillator_strengths_cc2\x18\x46 \x01(\x0b\x32(.Properties.MultiScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12[\n&nmr_isotropic_shielding_pbe0_6_31ppgdp\x18G \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12[\n&nmr_isotropic_shielding_pbe0_aug_pcs_1\x18H \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\\\n\'nmr_isotropic_shielding_b3lyp_6_31ppgdp\x18I \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\\\n\'nmr_isotropic_shielding_b3lyp_aug_pcs_1\x18J \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12[\n&partial_charges_mulliken_pbe0_aug_pc_1\x18K \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12W\n\"partial_charges_mulliken_hf_6_31gd\x18L \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12Z\n%partial_charges_loewdin_pbe0_aug_pc_1\x18M \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12V\n!partial_charges_loewdin_hf_6_31gd\x18N \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12^\n)partial_charges_natural_nbo_pbe0_aug_pc_1\x18O \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n%partial_charges_natural_nbo_hf_6_31gd\x18P \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Y\n$partial_charges_paboon_pbe0_aug_pc_1\x18Q \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12U\n partial_charges_paboon_hf_6_31gd\x18R \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n%partial_charges_esp_fit_pbe0_aug_pc_1\x18S \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12V\n!partial_charges_esp_fit_hf_6_31gd\x18T \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12^\n*dipole_dipole_polarizability_pbe0_aug_pc_1\x18U \x01(\x0b\x32\".Properties.Rank2MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12Z\n&dipole_dipole_polarizability_hf_6_31gd\x18V \x01(\x0b\x32\".Properties.Rank2MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12R\n\x1b\x64ipole_moment_pbe0_aug_pc_1\x18W \x01(\x0b\x32%.Properties.Vector3DMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12N\n\x17\x64ipole_moment_hf_6_31gd\x18X \x01(\x0b\x32%.Properties.Vector3DMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12S\n\x1fquadrupole_moment_pbe0_aug_pc_1\x18Y \x01(\x0b\x32\".Properties.Rank2MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12O\n\x1bquadrupole_moment_hf_6_31gd\x18Z \x01(\x0b\x32\".Properties.Rank2MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1doctopole_moment_pbe0_aug_pc_1\x18[ \x01(\x0b\x32\".Properties.Rank3MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12M\n\x19octopole_moment_hf_6_31gd\x18\\ \x01(\x0b\x32\".Properties.Rank3MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12$\n\x14\x63ompute_cluster_info\x18] \x01(\tB\x06\xb0\xa5\xa0\x85\n\x01\x12,\n\x1csymmetry_used_in_calculation\x18^ \x01(\x08\x42\x06\xb0\xa5\xa0\x85\n\x01\x12L\n\x17initial_geometry_energy\x18_ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12S\n\x1einitial_geometry_gradient_norm\x18` \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12N\n\x19optimized_geometry_energy\x18\x61 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12U\n optimized_geometry_gradient_norm\x18\x62 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12K\n\x14rotational_constants\x18\x63 \x01(\x0b\x32%.Properties.Vector3DMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12R\n\x1d\x62ond_separation_reaction_left\x18z \x01(\x0b\x32#.Properties.StringMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12S\n\x1e\x62ond_separation_reaction_right\x18{ \x01(\x0b\x32#.Properties.StringMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12U\n bond_separation_energy_atomic_b5\x18| \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12X\n#bond_separation_energy_atomic_b5_um\x18} \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12[\n&bond_separation_energy_atomic_b5_um_ci\x18~ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12U\n bond_separation_energy_atomic_b6\x18\x7f \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Y\n#bond_separation_energy_atomic_b6_um\x18\x80\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\\\n&bond_separation_energy_atomic_b6_um_ci\x18\x81\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12R\n\x1c\x62ond_separation_energy_eccsd\x18\x82\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12U\n\x1f\x62ond_separation_energy_eccsd_um\x18\x83\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12X\n\"bond_separation_energy_eccsd_um_ci\x18\x84\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12`\n*atomization_energy_excluding_zpe_atomic_b5\x18\x85\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x63\n-atomization_energy_excluding_zpe_atomic_b5_um\x18\x86\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x66\n0atomization_energy_excluding_zpe_atomic_b5_um_ci\x18\x87\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12`\n*atomization_energy_excluding_zpe_atomic_b6\x18\x88\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x63\n-atomization_energy_excluding_zpe_atomic_b6_um\x18\x89\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x66\n0atomization_energy_excluding_zpe_atomic_b6_um_ci\x18\x8a\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\\\n&atomization_energy_excluding_zpe_eccsd\x18\x8b\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12_\n)atomization_energy_excluding_zpe_eccsd_um\x18\x8c\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x62\n,atomization_energy_excluding_zpe_eccsd_um_ci\x18\x8d\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12`\n*atomization_energy_including_zpe_atomic_b5\x18\x8e\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x63\n-atomization_energy_including_zpe_atomic_b5_um\x18\x8f\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x66\n0atomization_energy_including_zpe_atomic_b5_um_ci\x18\x90\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12`\n*atomization_energy_including_zpe_atomic_b6\x18\x91\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x63\n-atomization_energy_including_zpe_atomic_b6_um\x18\x92\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x66\n0atomization_energy_including_zpe_atomic_b6_um_ci\x18\x93\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\\\n&atomization_energy_including_zpe_eccsd\x18\x94\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12_\n)atomization_energy_including_zpe_eccsd_um\x18\x95\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x62\n,atomization_energy_including_zpe_eccsd_um_ci\x18\x96\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12X\n\"enthalpy_of_formation_0k_atomic_b5\x18\x97\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12[\n%enthalpy_of_formation_0k_atomic_b5_um\x18\x98\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12^\n(enthalpy_of_formation_0k_atomic_b5_um_ci\x18\x99\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12X\n\"enthalpy_of_formation_0k_atomic_b6\x18\x9a\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12[\n%enthalpy_of_formation_0k_atomic_b6_um\x18\x9b\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12^\n(enthalpy_of_formation_0k_atomic_b6_um_ci\x18\x9c\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12T\n\x1e\x65nthalpy_of_formation_0k_eccsd\x18\x9d\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12W\n!enthalpy_of_formation_0k_eccsd_um\x18\x9e\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n$enthalpy_of_formation_0k_eccsd_um_ci\x18\x9f\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n$enthalpy_of_formation_298k_atomic_b5\x18\xa0\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12]\n\'enthalpy_of_formation_298k_atomic_b5_um\x18\xa1\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12`\n*enthalpy_of_formation_298k_atomic_b5_um_ci\x18\xa2\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12Z\n$enthalpy_of_formation_298k_atomic_b6\x18\xa3\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12]\n\'enthalpy_of_formation_298k_atomic_b6_um\x18\xa4\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12`\n*enthalpy_of_formation_298k_atomic_b6_um_ci\x18\xa5\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12V\n enthalpy_of_formation_298k_eccsd\x18\xa6\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Y\n#enthalpy_of_formation_298k_eccsd_um\x18\xa7\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\\\n&enthalpy_of_formation_298k_eccsd_um_ci\x18\xa8\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12@\n\nzpe_atomic\x18\xa9\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x43\n\rzpe_atomic_um\x18\xaa\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x46\n\x10zpe_atomic_um_ci\x18\xab\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12,\n\x1cnumber_imaginary_frequencies\x18n \x01(\x05\x42\x06\xb0\xa5\xa0\x85\n\x02\x12+\n\x1bnumber_of_optimization_runs\x18o \x01(\x05\x42\x06\xb0\xa5\xa0\x85\n\x03\x12M\n\x18nuclear_repulsion_energy\x18p \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x01\x12L\n\x17\x64iagnostics_d1_ccsd_2sp\x18q \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12L\n\x17\x64iagnostics_d1_ccsd_2sd\x18r \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12M\n\x18\x64iagnostics_d1_ccsd_3psd\x18s \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12L\n\x17\x64iagnostics_t1_ccsd_2sp\x18t \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12L\n\x17\x64iagnostics_t1_ccsd_2sd\x18u \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12M\n\x18\x64iagnostics_t1_ccsd_3psd\x18v \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12S\n\x1e\x64iagnostics_t1_ccsd_2sp_excess\x18y \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12I\n\x16\x63\x61lculation_statistics\x18w \x03(\x0b\x32!.Properties.CalculationStatisticsB\x06\xb0\xa5\xa0\x85\n\x01\x12G\n\x15gaussian_sanity_check\x18\xac\x01 \x01(\x0b\x32\x1f.Properties.GaussianSanityCheckB\x06\xb0\xa5\xa0\x85\n\x01\x1a\xe0\x07\n\x06\x45rrors\x12\x19\n\x11\x65rror_frequencies\x18\x02 \x01(\x05\x12\x1d\n\x15\x65rror_atomic_analysis\x18\x03 \x01(\x05\x12,\n$error_nmr_analysis_b3lyp_small_basis\x18\x04 \x01(\x05\x12,\n$error_nmr_analysis_b3lyp_large_basis\x18\x05 \x01(\x05\x12+\n#error_nmr_analysis_pbe0_small_basis\x18\x06 \x01(\x05\x12+\n#error_nmr_analysis_pbe0_large_basis\x18\x07 \x01(\x05\x12\x1d\n\x15\x65rror_charge_analysis\x18\x08 \x01(\x05\x12$\n\x1c\x65rror_energies_orbitals_pvtz\x18\t \x01(\x05\x12$\n\x1c\x65rror_energies_orbitals_pvqz\x18\n \x01(\x05\x12%\n\x1d\x65rror_energies_orbitals_pcvtz\x18\x0b \x01(\x05\x12!\n\x19\x65rror_excitation_energies\x18\x0c \x01(\x05\x12#\n\x1b\x65rror_single_point_energies\x18\r \x01(\x05\x12\x39\n1error_inconsistent_molecule_energy_turbomole_mrcc\x18\x0e \x01(\x05\x12\x37\n/error_inconsistent_cation_energy_turbomole_mrcc\x18\x0f \x01(\x05\x12\x39\n1error_inconsistent_molecule_energy_turbomole_orca\x18\x10 \x01(\x05\x12\x37\n/error_inconsistent_cation_energy_turbomole_orca\x18\x11 \x01(\x05\x12\x1a\n\x12\x65rror_normal_modes\x18\x12 \x01(\x05\x12\x1e\n\x16\x65rror_rotational_modes\x18\x13 \x01(\x05\x12\x14\n\x0c\x65rror_nsvho1\x18\x14 \x01(\x05\x12\x14\n\x0c\x65rror_nsvho2\x18\x15 \x01(\x05\x12\x14\n\x0c\x65rror_nsvho3\x18\x16 \x01(\x05\x12\x14\n\x0c\x65rror_nsvneg\x18\x17 \x01(\x05\x12\x14\n\x0c\x65rror_nstat1\x18\x18 \x01(\x05\x12\x14\n\x0c\x65rror_nstatc\x18\x19 \x01(\x05\x12\x14\n\x0c\x65rror_nstatt\x18\x1a \x01(\x05\x12\x14\n\x0c\x65rror_nsvego\x18\x1b \x01(\x05\x12\x14\n\x0c\x65rror_nsvg09\x18\x1c \x01(\x05\x12\x1c\n\x14\x65rror_during_merging\x18\x41 \x01(\tJ\x04\x08\x01\x10\x02\x1a(\n\x17StringMolecularProperty\x12\r\n\x05value\x18\x01 \x01(\t\x1a(\n\x17ScalarMolecularProperty\x12\r\n\x05value\x18\x01 \x01(\x01\x1a-\n\x1cMultiScalarMolecularProperty\x12\r\n\x05value\x18\x01 \x03(\x01\x1a<\n\x17\x41tomicMolecularProperty\x12\x0e\n\x06values\x18\x01 \x03(\x01\x12\x11\n\tprecision\x18\x02 \x03(\x01\x1a<\n\x19Vector3DMolecularProperty\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x1a_\n\x19VectorFrequentialProperty\x12\x11\n\tmagnitude\x18\x01 \x01(\x01\x12\x1a\n\x12harmonic_intensity\x18\x02 \x01(\x01\x12\x13\n\x0bnormal_mode\x18\x03 \x01(\x01\x1a]\n\x1f\x41tomicVectorFrequentialProperty\x12:\n\x0b\x66requencies\x18\x01 \x03(\x0b\x32%.Properties.VectorFrequentialProperty\x1a/\n\x16Rank2MolecularProperty\x12\x15\n\rmatrix_values\x18\x01 \x03(\x01\x1a/\n\x16Rank3MolecularProperty\x12\x15\n\rtensor_values\x18\x01 \x03(\x01\x1a\x85\x01\n\nNormalMode\x12@\n\rdisplacements\x18\x01 \x03(\x0b\x32).Properties.NormalMode.AtomicDisplacement\x1a\x35\n\x12\x41tomicDisplacement\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x1a\x44\n\x15\x43\x61lculationStatistics\x12\x1a\n\x12\x63omputing_location\x18\x01 \x01(\t\x12\x0f\n\x07timings\x18\x02 \x01(\t\x1a\xd5\x02\n\x13GaussianSanityCheck\x12 \n\x18\x65nergy_pbe0_6_311gd_diff\x18\x01 \x01(\x02\x12\x11\n\tmax_force\x18\x02 \x01(\x02\x12\x1c\n\x14max_frequencies_diff\x18\x03 \x01(\x02\x12\x1d\n\x15mean_frequencies_diff\x18\x04 \x01(\x02\x12\x1c\n\x14max_intensities_diff\x18\x05 \x01(\x02\x12\x1d\n\x15mean_intensities_diff\x18\x06 \x01(\x02\x12\x1d\n\x15\x65nergy_hf_6_31gd_diff\x18\x07 \x01(\x02\x12\"\n\x1amax_dipole_components_diff\x18\x08 \x01(\x02\x12&\n\x1emax_quadropole_components_diff\x18\t \x01(\x02\x12$\n\x1cmax_octopole_components_diff\x18\n \x01(\x02J\x04\x08\x03\x10\x04J\x04\x08\x05\x10\x06J\x04\x08\x64\x10nJ\x04\x08,\x10/\"\xf3\x04\n\tConformer\x12\x14\n\x0c\x63onformer_id\x18\x01 \x01(\x05\x12(\n\x18original_conformer_index\x18\x02 \x01(\x05\x42\x06\xb0\xa5\xa0\x85\n\x01\x12%\n\x12initial_geometries\x18\x03 \x03(\x0b\x32\t.Geometry\x12%\n\x12optimized_geometry\x18\x04 \x01(\x0b\x32\t.Geometry\x12\x15\n\rduplicated_by\x18\x05 \x01(\x05\x12\x14\n\x0c\x64uplicate_of\x18\x06 \x03(\x05\x12\x1f\n\nproperties\x18\x07 \x01(\x0b\x32\x0b.Properties\x12&\n\x0f\x62ond_topologies\x18\x08 \x03(\x0b\x32\r.BondTopology\x12%\n\x04\x66\x61te\x18\t \x01(\x0e\x32\x17.Conformer.FateCategory\"\xba\x02\n\x0c\x46\x61teCategory\x12\x12\n\x0e\x46\x41TE_UNDEFINED\x10\x00\x12 \n\x1c\x46\x41TE_DUPLICATE_SAME_TOPOLOGY\x10\x01\x12%\n!FATE_DUPLICATE_DIFFERENT_TOPOLOGY\x10\x02\x12&\n\"FATE_GEOMETRY_OPTIMIZATION_PROBLEM\x10\x03\x12\x16\n\x12\x46\x41TE_DISASSOCIATED\x10\x04\x12\x1f\n\x1b\x46\x41TE_FORCE_CONSTANT_FAILURE\x10\x05\x12\x18\n\x14\x46\x41TE_DISCARDED_OTHER\x10\x06\x12\x1f\n\x1b\x46\x41TE_NO_CALCULATION_RESULTS\x10\x07\x12\x1f\n\x1b\x46\x41TE_CALCULATION_WITH_ERROR\x10\x08\x12\x10\n\x0c\x46\x41TE_SUCCESS\x10\t\"4\n\x12MultipleConformers\x12\x1e\n\nconformers\x18\x01 \x03(\x0b\x32\n.Conformer\"\xb8\x03\n\x13\x42ondTopologySummary\x12$\n\rbond_topology\x18\x01 \x01(\x0b\x32\r.BondTopology\x12\"\n\x1a\x63ount_attempted_conformers\x18\x02 \x01(\x05\x12&\n\x1e\x63ount_duplicates_same_topology\x18\x03 \x01(\x05\x12+\n#count_duplicates_different_topology\x18\x04 \x01(\x05\x12*\n\"count_failed_geometry_optimization\x18\x05 \x01(\x05\x12\x1b\n\x13\x63ount_kept_geometry\x18\x06 \x01(\x05\x12!\n\x19\x63ount_missing_calculation\x18\x07 \x01(\x05\x12$\n\x1c\x63ount_calculation_with_error\x18\x08 \x01(\x05\x12!\n\x19\x63ount_calculation_success\x18\t \x01(\x05\x12\'\n\x1f\x63ount_detected_match_with_error\x18\n \x01(\x05\x12$\n\x1c\x63ount_detected_match_success\x18\x0b \x01(\x05*R\n\x10\x41vailabilityEnum\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\x11\n\rINTERNAL_ONLY\x10\x01\x12\x0c\n\x08STANDARD\x10\x02\x12\x0c\n\x08\x43OMPLETE\x10\x03:J\n\x0c\x61vailability\x12\x1d.google.protobuf.FieldOptions\x18\xd6\x84\xd4\xa0\x01 \x01(\x0e\x32\x11.AvailabilityEnumb\x06proto3'
+  serialized_pb=b'\n\x11smu/dataset.proto\x1a google/protobuf/descriptor.proto\"\xcf\x03\n\x0c\x42ondTopology\x12%\n\x05\x61toms\x18\x01 \x03(\x0e\x32\x16.BondTopology.AtomType\x12!\n\x05\x62onds\x18\x02 \x03(\x0b\x32\x12.BondTopology.Bond\x12\x0e\n\x06smiles\x18\x03 \x01(\t\x12\x18\n\x10\x62ond_topology_id\x18\x04 \x01(\x05\x12\r\n\x05score\x18\x05 \x01(\x02\x12\x1c\n\x14is_starting_topology\x18\x06 \x01(\x08\x1aQ\n\x04\x42ond\x12\x0e\n\x06\x61tom_a\x18\x01 \x01(\x05\x12\x0e\n\x06\x61tom_b\x18\x02 \x01(\x05\x12)\n\tbond_type\x18\x03 \x01(\x0e\x32\x16.BondTopology.BondType\"x\n\x08\x41tomType\x12\x12\n\x0e\x41TOM_UNDEFINED\x10\x00\x12\n\n\x06\x41TOM_C\x10\x01\x12\n\n\x06\x41TOM_N\x10\x02\x12\r\n\tATOM_NPOS\x10\x03\x12\n\n\x06\x41TOM_O\x10\x04\x12\r\n\tATOM_ONEG\x10\x05\x12\n\n\x06\x41TOM_F\x10\x06\x12\n\n\x06\x41TOM_H\x10\x07\"Q\n\x08\x42ondType\x12\x12\n\x0e\x42OND_UNDEFINED\x10\x00\x12\x0f\n\x0b\x42OND_SINGLE\x10\x01\x12\x0f\n\x0b\x42OND_DOUBLE\x10\x02\x12\x0f\n\x0b\x42OND_TRIPLE\x10\x03\"7\n\x0fTopologyMatches\x12$\n\rbond_topology\x18\x01 \x03(\x0b\x32\r.BondTopology\"a\n\x08Geometry\x12)\n\x0e\x61tom_positions\x18\x01 \x03(\x0b\x32\x11.Geometry.AtomPos\x1a*\n\x07\x41tomPos\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\xdbx\n\nProperties\x12*\n\x06\x65rrors\x18\x01 \x01(\x0b\x32\x12.Properties.ErrorsB\x06\xb0\xa5\xa0\x85\n\x03\x12L\n\x17geometry_gradient_norms\x18\x02 \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12N\n\x14harmonic_intensities\x18\x04 \x01(\x0b\x32(.Properties.MultiScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12O\n\x14harmonic_frequencies\x18\xad\x01 \x01(\x0b\x32(.Properties.MultiScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x35\n\x0cnormal_modes\x18\xae\x01 \x03(\x0b\x32\x16.Properties.NormalModeB\x06\xb0\xa5\xa0\x85\n\x03\x12W\n\"single_point_energy_pbe0d3_6_311gd\x18\x06 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12U\n single_point_energy_pbe0_6_311gd\x18\x07 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n%single_point_energy_pbe0_6_311gd_mrcc\x18\x08 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n%single_point_energy_pbe0_6_311gd_orca\x18\t \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Y\n$single_point_energy_pbe0_6_311gd_cat\x18\n \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12^\n)single_point_energy_pbe0_6_311gd_cat_mrcc\x18\x0b \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12^\n)single_point_energy_pbe0_6_311gd_cat_orca\x18\x0c \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12V\n!single_point_energy_pbe0_aug_pc_1\x18\r \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12R\n\x1dsingle_point_energy_hf_6_31gd\x18\x0e \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12X\n#single_point_energy_b3lyp_6_31ppgdp\x18\x0f \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12X\n#single_point_energy_b3lyp_aug_pcs_1\x18\x10 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12W\n\"single_point_energy_pbe0_6_31ppgdp\x18\x11 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12W\n\"single_point_energy_pbe0_aug_pcs_1\x18\x12 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12P\n\x1bsingle_point_energy_hf_tzvp\x18\x13 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1csingle_point_energy_mp2_tzvp\x18\x14 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1csingle_point_energy_cc2_tzvp\x18\x15 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12M\n\x18single_point_energy_hf_3\x18\x16 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12N\n\x19single_point_energy_mp2_3\x18\x17 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12M\n\x18single_point_energy_hf_4\x18\x18 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12N\n\x19single_point_energy_mp2_4\x18\x19 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12N\n\x19single_point_energy_hf_34\x18\x1a \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12O\n\x1asingle_point_energy_mp2_34\x18\x1b \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12P\n\x1bsingle_point_energy_hf_cvtz\x18\x1c \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12T\n\x1fsingle_point_energy_mp2ful_cvtz\x18\x1d \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12O\n\x1asingle_point_energy_hf_2sp\x18\x1e \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12P\n\x1bsingle_point_energy_mp2_2sp\x18\x1f \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1csingle_point_energy_ccsd_2sp\x18  \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12S\n\x1esingle_point_energy_ccsd_t_2sp\x18! \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12O\n\x1asingle_point_energy_hf_2sd\x18\" \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12P\n\x1bsingle_point_energy_mp2_2sd\x18# \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1csingle_point_energy_ccsd_2sd\x18$ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12S\n\x1esingle_point_energy_ccsd_t_2sd\x18% \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12P\n\x1bsingle_point_energy_hf_3psd\x18& \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1csingle_point_energy_mp2_3psd\x18\' \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12R\n\x1dsingle_point_energy_ccsd_3psd\x18( \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12R\n\x1dsingle_point_energy_atomic_b5\x18) \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12R\n\x1dsingle_point_energy_atomic_b6\x18* \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12N\n\x19single_point_energy_eccsd\x18x \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x41\n\x0czpe_unscaled\x18+ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x46\n\x11homo_pbe0_6_311gd\x18/ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x46\n\x11lumo_pbe0_6_311gd\x18\x30 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12G\n\x12homo_pbe0_aug_pc_1\x18\x31 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12G\n\x12lumo_pbe0_aug_pc_1\x18\x32 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12H\n\x13homo_pbe0_6_31ppgdp\x18\x33 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12H\n\x13lumo_pbe0_6_31ppgdp\x18\x34 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12H\n\x13homo_pbe0_aug_pcs_1\x18\x35 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12H\n\x13lumo_pbe0_aug_pcs_1\x18\x36 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12I\n\x14homo_b3lyp_6_31ppgdp\x18\x37 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12I\n\x14lumo_b3lyp_6_31ppgdp\x18\x38 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12I\n\x14homo_b3lyp_aug_pcs_1\x18\x39 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12I\n\x14lumo_b3lyp_aug_pcs_1\x18: \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x43\n\x0ehomo_hf_6_31gd\x18; \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x43\n\x0elumo_hf_6_31gd\x18< \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x41\n\x0chomo_hf_tzvp\x18= \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x41\n\x0clumo_hf_tzvp\x18> \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12>\n\thomo_hf_3\x18? \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12>\n\tlumo_hf_3\x18@ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12>\n\thomo_hf_4\x18\x41 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12>\n\tlumo_hf_4\x18\x42 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x41\n\x0chomo_hf_cvtz\x18\x43 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x41\n\x0clumo_hf_cvtz\x18\x44 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x17\x65xcitation_energies_cc2\x18\x45 \x01(\x0b\x32(.Properties.MultiScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12]\n#excitation_oscillator_strengths_cc2\x18\x46 \x01(\x0b\x32(.Properties.MultiScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12[\n&nmr_isotropic_shielding_pbe0_6_31ppgdp\x18G \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12[\n&nmr_isotropic_shielding_pbe0_aug_pcs_1\x18H \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\\\n\'nmr_isotropic_shielding_b3lyp_6_31ppgdp\x18I \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\\\n\'nmr_isotropic_shielding_b3lyp_aug_pcs_1\x18J \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12[\n&partial_charges_mulliken_pbe0_aug_pc_1\x18K \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12W\n\"partial_charges_mulliken_hf_6_31gd\x18L \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12Z\n%partial_charges_loewdin_pbe0_aug_pc_1\x18M \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12V\n!partial_charges_loewdin_hf_6_31gd\x18N \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12^\n)partial_charges_natural_nbo_pbe0_aug_pc_1\x18O \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n%partial_charges_natural_nbo_hf_6_31gd\x18P \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Y\n$partial_charges_paboon_pbe0_aug_pc_1\x18Q \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12U\n partial_charges_paboon_hf_6_31gd\x18R \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n%partial_charges_esp_fit_pbe0_aug_pc_1\x18S \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12V\n!partial_charges_esp_fit_hf_6_31gd\x18T \x01(\x0b\x32#.Properties.AtomicMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12^\n*dipole_dipole_polarizability_pbe0_aug_pc_1\x18U \x01(\x0b\x32\".Properties.Rank2MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12Z\n&dipole_dipole_polarizability_hf_6_31gd\x18V \x01(\x0b\x32\".Properties.Rank2MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12R\n\x1b\x64ipole_moment_pbe0_aug_pc_1\x18W \x01(\x0b\x32%.Properties.Vector3DMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12N\n\x17\x64ipole_moment_hf_6_31gd\x18X \x01(\x0b\x32%.Properties.Vector3DMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12S\n\x1fquadrupole_moment_pbe0_aug_pc_1\x18Y \x01(\x0b\x32\".Properties.Rank2MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12O\n\x1bquadrupole_moment_hf_6_31gd\x18Z \x01(\x0b\x32\".Properties.Rank2MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Q\n\x1doctopole_moment_pbe0_aug_pc_1\x18[ \x01(\x0b\x32\".Properties.Rank3MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12M\n\x19octopole_moment_hf_6_31gd\x18\\ \x01(\x0b\x32\".Properties.Rank3MolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12$\n\x14\x63ompute_cluster_info\x18] \x01(\tB\x06\xb0\xa5\xa0\x85\n\x01\x12,\n\x1csymmetry_used_in_calculation\x18^ \x01(\x08\x42\x06\xb0\xa5\xa0\x85\n\x01\x12L\n\x17initial_geometry_energy\x18_ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12S\n\x1einitial_geometry_gradient_norm\x18` \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12N\n\x19optimized_geometry_energy\x18\x61 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12U\n optimized_geometry_gradient_norm\x18\x62 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12K\n\x14rotational_constants\x18\x63 \x01(\x0b\x32%.Properties.Vector3DMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12R\n\x1d\x62ond_separation_reaction_left\x18z \x01(\x0b\x32#.Properties.StringMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12S\n\x1e\x62ond_separation_reaction_right\x18{ \x01(\x0b\x32#.Properties.StringMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12U\n bond_separation_energy_atomic_b5\x18| \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12X\n#bond_separation_energy_atomic_b5_um\x18} \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12[\n&bond_separation_energy_atomic_b5_um_ci\x18~ \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12U\n bond_separation_energy_atomic_b6\x18\x7f \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Y\n#bond_separation_energy_atomic_b6_um\x18\x80\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\\\n&bond_separation_energy_atomic_b6_um_ci\x18\x81\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12R\n\x1c\x62ond_separation_energy_eccsd\x18\x82\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12U\n\x1f\x62ond_separation_energy_eccsd_um\x18\x83\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12X\n\"bond_separation_energy_eccsd_um_ci\x18\x84\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12`\n*atomization_energy_excluding_zpe_atomic_b5\x18\x85\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x63\n-atomization_energy_excluding_zpe_atomic_b5_um\x18\x86\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x66\n0atomization_energy_excluding_zpe_atomic_b5_um_ci\x18\x87\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12`\n*atomization_energy_excluding_zpe_atomic_b6\x18\x88\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x63\n-atomization_energy_excluding_zpe_atomic_b6_um\x18\x89\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x66\n0atomization_energy_excluding_zpe_atomic_b6_um_ci\x18\x8a\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\\\n&atomization_energy_excluding_zpe_eccsd\x18\x8b\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12_\n)atomization_energy_excluding_zpe_eccsd_um\x18\x8c\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x62\n,atomization_energy_excluding_zpe_eccsd_um_ci\x18\x8d\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12`\n*atomization_energy_including_zpe_atomic_b5\x18\x8e\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x63\n-atomization_energy_including_zpe_atomic_b5_um\x18\x8f\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x66\n0atomization_energy_including_zpe_atomic_b5_um_ci\x18\x90\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12`\n*atomization_energy_including_zpe_atomic_b6\x18\x91\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x63\n-atomization_energy_including_zpe_atomic_b6_um\x18\x92\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x66\n0atomization_energy_including_zpe_atomic_b6_um_ci\x18\x93\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\\\n&atomization_energy_including_zpe_eccsd\x18\x94\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12_\n)atomization_energy_including_zpe_eccsd_um\x18\x95\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\x62\n,atomization_energy_including_zpe_eccsd_um_ci\x18\x96\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12X\n\"enthalpy_of_formation_0k_atomic_b5\x18\x97\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12[\n%enthalpy_of_formation_0k_atomic_b5_um\x18\x98\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12^\n(enthalpy_of_formation_0k_atomic_b5_um_ci\x18\x99\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12X\n\"enthalpy_of_formation_0k_atomic_b6\x18\x9a\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12[\n%enthalpy_of_formation_0k_atomic_b6_um\x18\x9b\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12^\n(enthalpy_of_formation_0k_atomic_b6_um_ci\x18\x9c\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12T\n\x1e\x65nthalpy_of_formation_0k_eccsd\x18\x9d\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12W\n!enthalpy_of_formation_0k_eccsd_um\x18\x9e\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n$enthalpy_of_formation_0k_eccsd_um_ci\x18\x9f\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Z\n$enthalpy_of_formation_298k_atomic_b5\x18\xa0\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12]\n\'enthalpy_of_formation_298k_atomic_b5_um\x18\xa1\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12`\n*enthalpy_of_formation_298k_atomic_b5_um_ci\x18\xa2\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12Z\n$enthalpy_of_formation_298k_atomic_b6\x18\xa3\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12]\n\'enthalpy_of_formation_298k_atomic_b6_um\x18\xa4\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12`\n*enthalpy_of_formation_298k_atomic_b6_um_ci\x18\xa5\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12V\n enthalpy_of_formation_298k_eccsd\x18\xa6\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12Y\n#enthalpy_of_formation_298k_eccsd_um\x18\xa7\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12\\\n&enthalpy_of_formation_298k_eccsd_um_ci\x18\xa8\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12@\n\nzpe_atomic\x18\xa9\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x43\n\rzpe_atomic_um\x18\xaa\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12\x46\n\x10zpe_atomic_um_ci\x18\xab\x01 \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x02\x12,\n\x1cnumber_imaginary_frequencies\x18n \x01(\x05\x42\x06\xb0\xa5\xa0\x85\n\x02\x12+\n\x1bnumber_of_optimization_runs\x18o \x01(\x05\x42\x06\xb0\xa5\xa0\x85\n\x03\x12M\n\x18nuclear_repulsion_energy\x18p \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x01\x12L\n\x17\x64iagnostics_d1_ccsd_2sp\x18q \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12L\n\x17\x64iagnostics_d1_ccsd_2sd\x18r \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12M\n\x18\x64iagnostics_d1_ccsd_3psd\x18s \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12L\n\x17\x64iagnostics_t1_ccsd_2sp\x18t \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12L\n\x17\x64iagnostics_t1_ccsd_2sd\x18u \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12M\n\x18\x64iagnostics_t1_ccsd_3psd\x18v \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12S\n\x1e\x64iagnostics_t1_ccsd_2sp_excess\x18y \x01(\x0b\x32#.Properties.ScalarMolecularPropertyB\x06\xb0\xa5\xa0\x85\n\x03\x12I\n\x16\x63\x61lculation_statistics\x18w \x03(\x0b\x32!.Properties.CalculationStatisticsB\x06\xb0\xa5\xa0\x85\n\x01\x12G\n\x15gaussian_sanity_check\x18\xac\x01 \x01(\x0b\x32\x1f.Properties.GaussianSanityCheckB\x06\xb0\xa5\xa0\x85\n\x01\x1a\xe0\x07\n\x06\x45rrors\x12\x19\n\x11\x65rror_frequencies\x18\x02 \x01(\x05\x12\x1d\n\x15\x65rror_atomic_analysis\x18\x03 \x01(\x05\x12,\n$error_nmr_analysis_b3lyp_small_basis\x18\x04 \x01(\x05\x12,\n$error_nmr_analysis_b3lyp_large_basis\x18\x05 \x01(\x05\x12+\n#error_nmr_analysis_pbe0_small_basis\x18\x06 \x01(\x05\x12+\n#error_nmr_analysis_pbe0_large_basis\x18\x07 \x01(\x05\x12\x1d\n\x15\x65rror_charge_analysis\x18\x08 \x01(\x05\x12$\n\x1c\x65rror_energies_orbitals_pvtz\x18\t \x01(\x05\x12$\n\x1c\x65rror_energies_orbitals_pvqz\x18\n \x01(\x05\x12%\n\x1d\x65rror_energies_orbitals_pcvtz\x18\x0b \x01(\x05\x12!\n\x19\x65rror_excitation_energies\x18\x0c \x01(\x05\x12#\n\x1b\x65rror_single_point_energies\x18\r \x01(\x05\x12\x39\n1error_inconsistent_molecule_energy_turbomole_mrcc\x18\x0e \x01(\x05\x12\x37\n/error_inconsistent_cation_energy_turbomole_mrcc\x18\x0f \x01(\x05\x12\x39\n1error_inconsistent_molecule_energy_turbomole_orca\x18\x10 \x01(\x05\x12\x37\n/error_inconsistent_cation_energy_turbomole_orca\x18\x11 \x01(\x05\x12\x1a\n\x12\x65rror_normal_modes\x18\x12 \x01(\x05\x12\x1e\n\x16\x65rror_rotational_modes\x18\x13 \x01(\x05\x12\x14\n\x0c\x65rror_nsvho1\x18\x14 \x01(\x05\x12\x14\n\x0c\x65rror_nsvho2\x18\x15 \x01(\x05\x12\x14\n\x0c\x65rror_nsvho3\x18\x16 \x01(\x05\x12\x14\n\x0c\x65rror_nsvneg\x18\x17 \x01(\x05\x12\x14\n\x0c\x65rror_nstat1\x18\x18 \x01(\x05\x12\x14\n\x0c\x65rror_nstatc\x18\x19 \x01(\x05\x12\x14\n\x0c\x65rror_nstatt\x18\x1a \x01(\x05\x12\x14\n\x0c\x65rror_nsvego\x18\x1b \x01(\x05\x12\x14\n\x0c\x65rror_nsvg09\x18\x1c \x01(\x05\x12\x1c\n\x14\x65rror_during_merging\x18\x41 \x01(\tJ\x04\x08\x01\x10\x02\x1a(\n\x17StringMolecularProperty\x12\r\n\x05value\x18\x01 \x01(\t\x1a(\n\x17ScalarMolecularProperty\x12\r\n\x05value\x18\x01 \x01(\x01\x1a-\n\x1cMultiScalarMolecularProperty\x12\r\n\x05value\x18\x01 \x03(\x01\x1a<\n\x17\x41tomicMolecularProperty\x12\x0e\n\x06values\x18\x01 \x03(\x01\x12\x11\n\tprecision\x18\x02 \x03(\x01\x1a<\n\x19Vector3DMolecularProperty\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x1a_\n\x19VectorFrequentialProperty\x12\x11\n\tmagnitude\x18\x01 \x01(\x01\x12\x1a\n\x12harmonic_intensity\x18\x02 \x01(\x01\x12\x13\n\x0bnormal_mode\x18\x03 \x01(\x01\x1a]\n\x1f\x41tomicVectorFrequentialProperty\x12:\n\x0b\x66requencies\x18\x01 \x03(\x0b\x32%.Properties.VectorFrequentialProperty\x1a/\n\x16Rank2MolecularProperty\x12\x15\n\rmatrix_values\x18\x01 \x03(\x01\x1a/\n\x16Rank3MolecularProperty\x12\x15\n\rtensor_values\x18\x01 \x03(\x01\x1a\x85\x01\n\nNormalMode\x12@\n\rdisplacements\x18\x01 \x03(\x0b\x32).Properties.NormalMode.AtomicDisplacement\x1a\x35\n\x12\x41tomicDisplacement\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x1a\x44\n\x15\x43\x61lculationStatistics\x12\x1a\n\x12\x63omputing_location\x18\x01 \x01(\t\x12\x0f\n\x07timings\x18\x02 \x01(\t\x1a\xd5\x02\n\x13GaussianSanityCheck\x12 \n\x18\x65nergy_pbe0_6_311gd_diff\x18\x01 \x01(\x02\x12\x11\n\tmax_force\x18\x02 \x01(\x02\x12\x1c\n\x14max_frequencies_diff\x18\x03 \x01(\x02\x12\x1d\n\x15mean_frequencies_diff\x18\x04 \x01(\x02\x12\x1c\n\x14max_intensities_diff\x18\x05 \x01(\x02\x12\x1d\n\x15mean_intensities_diff\x18\x06 \x01(\x02\x12\x1d\n\x15\x65nergy_hf_6_31gd_diff\x18\x07 \x01(\x02\x12\"\n\x1amax_dipole_components_diff\x18\x08 \x01(\x02\x12&\n\x1emax_quadropole_components_diff\x18\t \x01(\x02\x12$\n\x1cmax_octopole_components_diff\x18\n \x01(\x02J\x04\x08\x03\x10\x04J\x04\x08\x05\x10\x06J\x04\x08\x64\x10nJ\x04\x08,\x10/\"\xf3\x04\n\tConformer\x12\x14\n\x0c\x63onformer_id\x18\x01 \x01(\x05\x12(\n\x18original_conformer_index\x18\x02 \x01(\x05\x42\x06\xb0\xa5\xa0\x85\n\x01\x12%\n\x12initial_geometries\x18\x03 \x03(\x0b\x32\t.Geometry\x12%\n\x12optimized_geometry\x18\x04 \x01(\x0b\x32\t.Geometry\x12\x15\n\rduplicated_by\x18\x05 \x01(\x05\x12\x14\n\x0c\x64uplicate_of\x18\x06 \x03(\x05\x12\x1f\n\nproperties\x18\x07 \x01(\x0b\x32\x0b.Properties\x12&\n\x0f\x62ond_topologies\x18\x08 \x03(\x0b\x32\r.BondTopology\x12%\n\x04\x66\x61te\x18\t \x01(\x0e\x32\x17.Conformer.FateCategory\"\xba\x02\n\x0c\x46\x61teCategory\x12\x12\n\x0e\x46\x41TE_UNDEFINED\x10\x00\x12 \n\x1c\x46\x41TE_DUPLICATE_SAME_TOPOLOGY\x10\x01\x12%\n!FATE_DUPLICATE_DIFFERENT_TOPOLOGY\x10\x02\x12&\n\"FATE_GEOMETRY_OPTIMIZATION_PROBLEM\x10\x03\x12\x16\n\x12\x46\x41TE_DISASSOCIATED\x10\x04\x12\x1f\n\x1b\x46\x41TE_FORCE_CONSTANT_FAILURE\x10\x05\x12\x18\n\x14\x46\x41TE_DISCARDED_OTHER\x10\x06\x12\x1f\n\x1b\x46\x41TE_NO_CALCULATION_RESULTS\x10\x07\x12\x1f\n\x1b\x46\x41TE_CALCULATION_WITH_ERROR\x10\x08\x12\x10\n\x0c\x46\x41TE_SUCCESS\x10\t\"4\n\x12MultipleConformers\x12\x1e\n\nconformers\x18\x01 \x03(\x0b\x32\n.Conformer\"\xb8\x03\n\x13\x42ondTopologySummary\x12$\n\rbond_topology\x18\x01 \x01(\x0b\x32\r.BondTopology\x12\"\n\x1a\x63ount_attempted_conformers\x18\x02 \x01(\x05\x12&\n\x1e\x63ount_duplicates_same_topology\x18\x03 \x01(\x05\x12+\n#count_duplicates_different_topology\x18\x04 \x01(\x05\x12*\n\"count_failed_geometry_optimization\x18\x05 \x01(\x05\x12\x1b\n\x13\x63ount_kept_geometry\x18\x06 \x01(\x05\x12!\n\x19\x63ount_missing_calculation\x18\x07 \x01(\x05\x12$\n\x1c\x63ount_calculation_with_error\x18\x08 \x01(\x05\x12!\n\x19\x63ount_calculation_success\x18\t \x01(\x05\x12\'\n\x1f\x63ount_detected_match_with_error\x18\n \x01(\x05\x12$\n\x1c\x63ount_detected_match_success\x18\x0b \x01(\x05*R\n\x10\x41vailabilityEnum\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\x11\n\rINTERNAL_ONLY\x10\x01\x12\x0c\n\x08STANDARD\x10\x02\x12\x0c\n\x08\x43OMPLETE\x10\x03:J\n\x0c\x61vailability\x12\x1d.google.protobuf.FieldOptions\x18\xd6\x84\xd4\xa0\x01 \x01(\x0e\x32\x11.AvailabilityEnumb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_descriptor__pb2.DESCRIPTOR,])
 
@@ -55,8 +55,8 @@ _AVAILABILITYENUM = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=17156,
-  serialized_end=17238,
+  serialized_start=17258,
+  serialized_end=17340,
 )
 _sym_db.RegisterEnumDescriptor(_AVAILABILITYENUM)
 
@@ -125,8 +125,8 @@ _BONDTOPOLOGY_ATOMTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=271,
-  serialized_end=391,
+  serialized_start=316,
+  serialized_end=436,
 )
 _sym_db.RegisterEnumDescriptor(_BONDTOPOLOGY_ATOMTYPE)
 
@@ -160,8 +160,8 @@ _BONDTOPOLOGY_BONDTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=393,
-  serialized_end=474,
+  serialized_start=438,
+  serialized_end=519,
 )
 _sym_db.RegisterEnumDescriptor(_BONDTOPOLOGY_BONDTYPE)
 
@@ -225,8 +225,8 @@ _CONFORMER_FATECATEGORY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=16343,
-  serialized_end=16657,
+  serialized_start=16445,
+  serialized_end=16759,
 )
 _sym_db.RegisterEnumDescriptor(_CONFORMER_FATECATEGORY)
 
@@ -272,8 +272,8 @@ _BONDTOPOLOGY_BOND = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=188,
-  serialized_end=269,
+  serialized_start=233,
+  serialized_end=314,
 )
 
 _BONDTOPOLOGY = _descriptor.Descriptor(
@@ -312,6 +312,20 @@ _BONDTOPOLOGY = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='score', full_name='BondTopology.score', index=4,
+      number=5, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='is_starting_topology', full_name='BondTopology.is_starting_topology', index=5,
+      number=6, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -327,7 +341,39 @@ _BONDTOPOLOGY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=56,
-  serialized_end=474,
+  serialized_end=519,
+)
+
+
+_TOPOLOGYMATCHES = _descriptor.Descriptor(
+  name='TopologyMatches',
+  full_name='TopologyMatches',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='bond_topology', full_name='TopologyMatches.bond_topology', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=521,
+  serialized_end=576,
 )
 
 
@@ -372,8 +418,8 @@ _GEOMETRY_ATOMPOS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=531,
-  serialized_end=573,
+  serialized_start=633,
+  serialized_end=675,
 )
 
 _GEOMETRY = _descriptor.Descriptor(
@@ -403,8 +449,8 @@ _GEOMETRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=476,
-  serialized_end=573,
+  serialized_start=578,
+  serialized_end=675,
 )
 
 
@@ -624,8 +670,8 @@ _PROPERTIES_ERRORS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=13916,
-  serialized_end=14908,
+  serialized_start=14018,
+  serialized_end=15010,
 )
 
 _PROPERTIES_STRINGMOLECULARPROPERTY = _descriptor.Descriptor(
@@ -655,8 +701,8 @@ _PROPERTIES_STRINGMOLECULARPROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=14910,
-  serialized_end=14950,
+  serialized_start=15012,
+  serialized_end=15052,
 )
 
 _PROPERTIES_SCALARMOLECULARPROPERTY = _descriptor.Descriptor(
@@ -686,8 +732,8 @@ _PROPERTIES_SCALARMOLECULARPROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=14952,
-  serialized_end=14992,
+  serialized_start=15054,
+  serialized_end=15094,
 )
 
 _PROPERTIES_MULTISCALARMOLECULARPROPERTY = _descriptor.Descriptor(
@@ -717,8 +763,8 @@ _PROPERTIES_MULTISCALARMOLECULARPROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=14994,
-  serialized_end=15039,
+  serialized_start=15096,
+  serialized_end=15141,
 )
 
 _PROPERTIES_ATOMICMOLECULARPROPERTY = _descriptor.Descriptor(
@@ -755,8 +801,8 @@ _PROPERTIES_ATOMICMOLECULARPROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15041,
-  serialized_end=15101,
+  serialized_start=15143,
+  serialized_end=15203,
 )
 
 _PROPERTIES_VECTOR3DMOLECULARPROPERTY = _descriptor.Descriptor(
@@ -800,8 +846,8 @@ _PROPERTIES_VECTOR3DMOLECULARPROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15103,
-  serialized_end=15163,
+  serialized_start=15205,
+  serialized_end=15265,
 )
 
 _PROPERTIES_VECTORFREQUENTIALPROPERTY = _descriptor.Descriptor(
@@ -845,8 +891,8 @@ _PROPERTIES_VECTORFREQUENTIALPROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15165,
-  serialized_end=15260,
+  serialized_start=15267,
+  serialized_end=15362,
 )
 
 _PROPERTIES_ATOMICVECTORFREQUENTIALPROPERTY = _descriptor.Descriptor(
@@ -876,8 +922,8 @@ _PROPERTIES_ATOMICVECTORFREQUENTIALPROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15262,
-  serialized_end=15355,
+  serialized_start=15364,
+  serialized_end=15457,
 )
 
 _PROPERTIES_RANK2MOLECULARPROPERTY = _descriptor.Descriptor(
@@ -907,8 +953,8 @@ _PROPERTIES_RANK2MOLECULARPROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15357,
-  serialized_end=15404,
+  serialized_start=15459,
+  serialized_end=15506,
 )
 
 _PROPERTIES_RANK3MOLECULARPROPERTY = _descriptor.Descriptor(
@@ -938,8 +984,8 @@ _PROPERTIES_RANK3MOLECULARPROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15406,
-  serialized_end=15453,
+  serialized_start=15508,
+  serialized_end=15555,
 )
 
 _PROPERTIES_NORMALMODE_ATOMICDISPLACEMENT = _descriptor.Descriptor(
@@ -983,8 +1029,8 @@ _PROPERTIES_NORMALMODE_ATOMICDISPLACEMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15536,
-  serialized_end=15589,
+  serialized_start=15638,
+  serialized_end=15691,
 )
 
 _PROPERTIES_NORMALMODE = _descriptor.Descriptor(
@@ -1014,8 +1060,8 @@ _PROPERTIES_NORMALMODE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15456,
-  serialized_end=15589,
+  serialized_start=15558,
+  serialized_end=15691,
 )
 
 _PROPERTIES_CALCULATIONSTATISTICS = _descriptor.Descriptor(
@@ -1052,8 +1098,8 @@ _PROPERTIES_CALCULATIONSTATISTICS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15591,
-  serialized_end=15659,
+  serialized_start=15693,
+  serialized_end=15761,
 )
 
 _PROPERTIES_GAUSSIANSANITYCHECK = _descriptor.Descriptor(
@@ -1146,8 +1192,8 @@ _PROPERTIES_GAUSSIANSANITYCHECK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=15662,
-  serialized_end=16003,
+  serialized_start=15764,
+  serialized_end=16105,
 )
 
 _PROPERTIES = _descriptor.Descriptor(
@@ -2283,8 +2329,8 @@ _PROPERTIES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=576,
-  serialized_end=16027,
+  serialized_start=678,
+  serialized_end=16129,
 )
 
 
@@ -2372,8 +2418,8 @@ _CONFORMER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=16030,
-  serialized_end=16657,
+  serialized_start=16132,
+  serialized_end=16759,
 )
 
 
@@ -2404,8 +2450,8 @@ _MULTIPLECONFORMERS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=16659,
-  serialized_end=16711,
+  serialized_start=16761,
+  serialized_end=16813,
 )
 
 
@@ -2506,8 +2552,8 @@ _BONDTOPOLOGYSUMMARY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=16714,
-  serialized_end=17154,
+  serialized_start=16816,
+  serialized_end=17256,
 )
 
 _BONDTOPOLOGY_BOND.fields_by_name['bond_type'].enum_type = _BONDTOPOLOGY_BONDTYPE
@@ -2516,6 +2562,7 @@ _BONDTOPOLOGY.fields_by_name['atoms'].enum_type = _BONDTOPOLOGY_ATOMTYPE
 _BONDTOPOLOGY.fields_by_name['bonds'].message_type = _BONDTOPOLOGY_BOND
 _BONDTOPOLOGY_ATOMTYPE.containing_type = _BONDTOPOLOGY
 _BONDTOPOLOGY_BONDTYPE.containing_type = _BONDTOPOLOGY
+_TOPOLOGYMATCHES.fields_by_name['bond_topology'].message_type = _BONDTOPOLOGY
 _GEOMETRY_ATOMPOS.containing_type = _GEOMETRY
 _GEOMETRY.fields_by_name['atom_positions'].message_type = _GEOMETRY_ATOMPOS
 _PROPERTIES_ERRORS.containing_type = _PROPERTIES
@@ -2698,6 +2745,7 @@ _CONFORMER_FATECATEGORY.containing_type = _CONFORMER
 _MULTIPLECONFORMERS.fields_by_name['conformers'].message_type = _CONFORMER
 _BONDTOPOLOGYSUMMARY.fields_by_name['bond_topology'].message_type = _BONDTOPOLOGY
 DESCRIPTOR.message_types_by_name['BondTopology'] = _BONDTOPOLOGY
+DESCRIPTOR.message_types_by_name['TopologyMatches'] = _TOPOLOGYMATCHES
 DESCRIPTOR.message_types_by_name['Geometry'] = _GEOMETRY
 DESCRIPTOR.message_types_by_name['Properties'] = _PROPERTIES
 DESCRIPTOR.message_types_by_name['Conformer'] = _CONFORMER
@@ -2721,6 +2769,13 @@ BondTopology = _reflection.GeneratedProtocolMessageType('BondTopology', (_messag
   })
 _sym_db.RegisterMessage(BondTopology)
 _sym_db.RegisterMessage(BondTopology.Bond)
+
+TopologyMatches = _reflection.GeneratedProtocolMessageType('TopologyMatches', (_message.Message,), {
+  'DESCRIPTOR' : _TOPOLOGYMATCHES,
+  '__module__' : 'smu.dataset_pb2'
+  # @@protoc_insertion_point(class_scope:TopologyMatches)
+  })
+_sym_db.RegisterMessage(TopologyMatches)
 
 Geometry = _reflection.GeneratedProtocolMessageType('Geometry', (_message.Message,), {
 
