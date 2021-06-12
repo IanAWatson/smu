@@ -1,68 +1,83 @@
+#"""Functions related to discerning the BondTopology from the geometry."""
 from typing import Optional
 
 import numpy as np
 
 import apache_beam as beam
 
+import utilities
+
 from smu import dataset_pb2
 from smu.geometry import bond_length_distribution
 from smu.parser import smu_utils_lib
-import utilities
 
 # The longest distance considered.
 THRESHOLD = 2.0
 
-class TopologyFromGeom(beam.DoFn):
-  """Beam class for extracting BondTopology from Conformer protos."""
-  def __init__(self, bond_lengths: bond_length_distribution.AllAtomPairLengthDistributions):
-    self.bond_lengths = bond_lengths
+def hydrogen_to_nearest_atom(bond_topology: dataset_pb2.BondTopology,
+                              distances: np.array) -> Optional[dataset_pb2.BondTopology]:
+  """Generate a BondTopology that joins each Hydrogen atom to its nearest
+      heavy atom.
+  Args:
+    bond_topology:
+    distances:
+  Returns:
+  """
+  result = dataset_pb2.BondTopology()
+  result.atoms[:] = bond_topology.atoms
+  natoms = len(bond_topology.atoms)
+  for a1 in range(0, natoms):
+    if bond_topology.atoms[a1] != dataset_pb2.BondTopology.AtomType.ATOM_H:
+      continue
 
-  def _hydrogen_to_nearest_atom(self, bond_topology: dataset_pb2.BondTopology,
-                                distances: np.array) -> Optional[dataset_pb2.BondTopology]:
-    """Generate a BondTopology that joins each Hydrogen atom to its nearest
-        heavy atom.
-    Args:
-      bond_topology:
-      distances:
-    Returns:
-    """
-    result = dataset_pb2.BondTopology()
-    result.atoms[:] = bond_topology.atoms
-    natoms = len(bond_topology.atoms)
-    for a1 in range(0, natoms):
-      if bond_topology.atoms[a1] != dataset_pb2.BondTopology.AtomType.ATOM_H:
+    shortest_distance = 1.0e+30
+    closest_heavy_atom = -1
+    for a2 in range(0, natoms):
+      if bond_topology.atoms[a2] == dataset_pb2.BondTopology.AtomType.ATOM_H:
         continue
 
-      shortest_distance = 1.0e+30
-      closest_heavy_atom = -1
-      for a2 in range(0, natoms):
-        if bond_topology.atoms[a2] == dataset_pb2.BondTopology.AtomType.ATOM_H:
-          continue
+      if distances[a1, a2] >= THRESHOLD:
+        continue
 
-        if distances[a1, a2] >= THRESHOLD:
-          continue
+      if distances[a1, a2] < shortest_distance:
+        shortest_distance = distances[a1, a2]
+        closest_heavy_atom = a2
 
-        if distances[a1, a2] < shortest_distance:
-          shortest_distance = distances[a1, a2]
-          closest_heavy_atom = a2
-  
-      if closest_heavy_atom < 0:
-        return None
+    if closest_heavy_atom < 0:
+      return None
 
-      bond = dataset_pb2.BondTopology.Bond(atom_a=a1, atom_b=a2, bond_type=dataset_pb2.BondTopology.BondType.BOND_SINGLE)
-      result.bonds.append(bond)
+    bond = dataset_pb2.BondTopology.Bond(atom_a=a1,
+                                         atom_b=a2,
+                                         bond_type=dataset_pb2.BondTopology.BondType.BOND_SINGLE)
+    result.bonds.append(bond)
 
     return result
-  def process(self, conformer:dataset_pb2.Conformer):
-    """
+
+
+class TopologyFromGeom(beam.DoFn):
+  """Beam class for extracting BondTopology from Conformer protos."""
+
+  def __init__(self, bond_lengths: bond_length_distribution.AllAtomPairLengthDistributions):
+    super().__init__()
+    self.bond_lengths = bond_lengths
+
+  def process(self, conformer: dataset_pb2.Conformer):
+    """Called by Beam.
+    Args:
+      conformer:
+    Yields:
+      dataset_pb2.TopologyMatches
     """
     yield self._topology_from_geom(conformer.bond_topologies[0], conformer.optimized_geometry)
 
   def _topology_from_geom(self, bond_topology: dataset_pb2.BondTopology,
-                         geometry: dataset_pb2.Geometry):
-    """
+                          geometry: dataset_pb2.Geometry) -> dataset_pb2.TopologyMatches:
+    """Discern the topology from `geometry`.
     Args:
+      bond_topology: BondTopology
+      geometry: atomic positions.
     Returns:
+      dataset_pb2.TopologyMatches
     """
 
     # This will be yield'd.
@@ -76,7 +91,7 @@ class TopologyFromGeom(beam.DoFn):
 
     # First join each Hydrogen to its nearest heavy atom, thereby
     # creating a starting BondTopology from which all others can grow
-    starting_bond_topology = self._hydrogen_to_nearest_atom(bond_topology, distances)
+    starting_bond_topology = hydrogen_to_nearest_atom(bond_topology, distances)
 
     heavy_atoms = [a for a in bond_topology.atoms if a != dataset_pb2.BondTopology.AtomType.ATOM_H]
     number_heavy_atoms = len(heavy_atoms)
@@ -97,5 +112,7 @@ class TopologyFromGeom(beam.DoFn):
           btypes[btype] = self.bond_lengths.pdf_length_given_type(itype, jtype, btype, dist)
         possible[(i, j)] = btypes
 
-    return result
+    # For each possibly bonded pair of atoms, we now have a list of scores for each of
+    # the plausible bond types.
 
+    return result
