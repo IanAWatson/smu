@@ -1,5 +1,3 @@
-import riegeli
-
 import tensorflow as tf
 
 from absl import app
@@ -16,7 +14,7 @@ import utilities
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string("smiles", None, "Smiles input file")
-flags.DEFINE_string("output", None, "Riegeli output file")
+flags.DEFINE_string("output", None, "TFRecord output file")
 
 def contains_aromatic(mol: Chem.RWMol) -> bool:
   """
@@ -45,6 +43,8 @@ def smi23d(unused_argv):
       hmols[n].SetProp("_Name","%s"%sid[n])
       hmols[n].SetProp("_ID","%s"%sid[n])
       hmols[n].SetProp("_SMILES","%s"%smiles[n])
+      if hmols[n].GetNumConformers() == 0:
+        continue
       conf = hmols[n].GetConformer(0)
       natoms = hmols[n].GetNumAtoms()
       geom = dataset_pb2.Geometry()

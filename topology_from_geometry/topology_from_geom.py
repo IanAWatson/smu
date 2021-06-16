@@ -14,6 +14,21 @@ from smu.parser import smu_utils_lib
 # The longest distance considered.
 THRESHOLD = 2.0
 
+class PairOfAtoms:
+  def __init__(self, a1: int, a2: int, scores: np.array):
+    self._a1 = a1
+    self._a2 = a2
+    self._scores = scores
+
+  def place_bond(self, bond_topology: molecule_pb2.BondTopology):
+    """
+    Args:
+      bond_topology:
+      
+    Returns:
+    """
+
+
 def hydrogen_to_nearest_atom(bond_topology: dataset_pb2.BondTopology,
                               distances: np.array) -> Optional[dataset_pb2.BondTopology]:
   """Generate a BondTopology that joins each Hydrogen atom to its nearest
@@ -51,7 +66,7 @@ def hydrogen_to_nearest_atom(bond_topology: dataset_pb2.BondTopology,
                                          bond_type=dataset_pb2.BondTopology.BondType.BOND_SINGLE)
     result.bonds.append(bond)
 
-    return result
+  return result
 
 
 class TopologyFromGeom(beam.DoFn):
@@ -97,6 +112,8 @@ class TopologyFromGeom(beam.DoFn):
     number_heavy_atoms = len(heavy_atoms)
 
     # For each atom pair, a list of possible bond types.
+    # Key is a tuple of the two atom numbers, value is an np.array
+    # with the score for each bond type.
 
     possible = {}
     for i in range(0, number_heavy_atoms):
@@ -110,9 +127,20 @@ class TopologyFromGeom(beam.DoFn):
         print(f"Looking for pdfs of #{itype} {jtype}")
         for btype in range(0, 4):
           btypes[btype] = self.bond_lengths.pdf_length_given_type(itype, jtype, btype, dist)
-        possible[(i, j)] = btypes
+
+        if np.count_nonzero(btypes) > 0:
+          possible[(i, j)] = btypes
 
     # For each possibly bonded pair of atoms, we now have a list of scores for each of
     # the plausible bond types.
+
+    atoms = []
+    btypes = []
+    scores = []
+    for key,value in possible.items():
+      atoms.append(key)
+
+      
+      
 
     return result

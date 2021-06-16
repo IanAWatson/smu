@@ -82,6 +82,13 @@ BOND_TYPE_TO_RDKIT = {
     dataset_pb2.BondTopology.BondType.BOND_TRIPLE: Chem.rdchem.BondType.TRIPLE,
 }
 
+INTEGER_TO_BOND_TYPE = [
+  dataset_pb2.BondTopology.BondType.BOND_UNDEFINED,
+  dataset_pb2.BondTopology.BondType.BOND_SINGLE,
+  dataset_pb2.BondTopology.BondType.BOND_DOUBLE,
+  dataset_pb2.BondTopology.BondType.BOND_TRIPLE,
+]
+
 ERROR_CODES = collections.OrderedDict([
     # TODO(pfr): give the ones with just error codes better names
     ('nstat1', 'error_nstat1'),

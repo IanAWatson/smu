@@ -6,6 +6,7 @@ SmuResults::SmuResults() {
   _molecules_examined = 0;
   _duplicates_discarded = 0;
   _invalid_valence_rejected = 0;
+  _already_produced_discarded = 0;
   _separator = ',';
 }
 
@@ -18,18 +19,21 @@ SmuResults::size() const {
 }
 
 void
-SmuResults::Report(std::ostream& output) const {
-  output << "Examined " << _molecules_examined << " molecules\n";
-  output << _duplicates_discarded << " duplicates discarded\n";
-  output << _invalid_valence_rejected << " discarded for invalid valence\n";
+SmuResults::Report(std::ostream& output, bool single_line) const {
+  const char line_sep = single_line ? ' ' : '\n';
+  output << _molecules_examined << " examined" << line_sep;
+  output << _duplicates_discarded << " duplicates" << line_sep;
+  output << size() << " molecules" << line_sep;
+  output << _invalid_valence_rejected << " invalid valence\n";
 }
 
 bool
 SmuResults::Add(std::unique_ptr<Molecule>& mol,
+                IW_STL_Hash_Set& already_produced,
                 bool non_aromatic_unique_smiles) {
   _molecules_examined++;
-  if (_molecules_examined % 10000 == 0) {
-    std::cerr << "examined " << _molecules_examined << " molecules\n";
+  if (_report_progress()) {
+    Report(std::cerr, true);
   }
 
   if (! mol->valence_ok()) {
@@ -40,6 +44,12 @@ SmuResults::Add(std::unique_ptr<Molecule>& mol,
 
   const IWString& usmi = non_aromatic_unique_smiles ?
         mol->non_aromatic_unique_smiles() : mol->unique_smiles();
+
+  if (already_produced.contains(usmi)) {
+    _already_produced_discarded++;
+    return false;
+  }
+  already_produced.emplace(usmi);
 
   if (_smiles_to_id.contains(usmi)) {
     _duplicates_discarded++;
@@ -54,16 +64,18 @@ SmuResults::Add(std::unique_ptr<Molecule>& mol,
 
 // If the `m` passes quality tests, write to `output`.
 // Returns true if written.
+template <typename ID>
 bool
 SmuResults::_maybe_write_molecule(Molecule& m,
                    const IWString& smiles,
-                   const IWString& id,
+                   const ID& id,
+                   const SMU_Params& params,
                    std::ostream& output) const {
   if (! m.valence_ok()) {
     return false;
   }
 
-  if (! OkCharges(m)) {
+  if (! OkCharges(m, params)) {
     return false;
   }
 
@@ -72,7 +84,7 @@ SmuResults::_maybe_write_molecule(Molecule& m,
 }
 
 int
-SmuResults::Write(std::ostream& output) const {
+SmuResults::Write(const SMU_Params& params, std::ostream& output) const {
   int written = 0;
   for (const auto& [smiles, id] : _smiles_to_id) {
     Molecule m;
@@ -80,18 +92,47 @@ SmuResults::Write(std::ostream& output) const {
       cerr << "Cannot build from " << smiles << "\n";
       continue;
     }
-    if (_maybe_write_molecule(m, smiles, id, output)) {
+    if (_maybe_write_molecule(m, smiles, id, params, output)) {
       written++;
     }
   }
+
+  return written;
+}
+
+int
+SmuResults::Write(int& next_id, 
+                  const SMU_Params& params, std::ostream& output) const {
+  int written = 0;
+  for (const auto& [smiles, id_not_used] : _smiles_to_id) {
+
+    Molecule m;
+    if (! m.build_from_smiles(smiles)) {
+      cerr << "Cannot build from " << smiles << "\n";
+      continue;
+    }
+    if (_maybe_write_molecule(m, smiles, next_id, params, output)) {
+      next_id++;
+      written++;
+    }
+  }
+
+  std::cerr << "SmuResults::Write:scanned " << _smiles_to_id.size() << " wrote " << written << "\n";
+
   return written;
 }
 
 std::vector<IWString>
-SmuResults::CurrentSmiles() const {
+SmuResults::CurrentSmiles(int natoms) const {
   std::vector<IWString> result;  // to be returned.
   result.reserve(_smiles_to_id.size());
-  for (auto& [smiles, mol] : _smiles_to_id) {
+  for (auto& [smiles, id_not_used] : _smiles_to_id) {
+    if (smiles.length() < natoms) {
+      continue;
+    }
+    if (count_atoms_in_smiles(smiles) != natoms) {
+      continue;
+    }
     result.emplace_back(smiles);
   }
 

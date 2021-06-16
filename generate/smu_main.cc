@@ -1,7 +1,8 @@
-// Generate small molecules exhaustively
+// Generate small molecule universe (SMU) exhaustively.
+
+#include <algorithm>
 
 #include "Foundational/cmdline/cmdline.h"
-#include "Foundational/iwmisc/report_progress.h"
 
 #include "Molecule_Lib/molecule.h"
 
@@ -9,41 +10,51 @@
 
 namespace smu {
 
-int verbose = 0;
-
-Report_Progress report_progress;
+using std::cerr;
+using std::cout;
 
 void
 usage(int rc) {
   cerr << "Generates SMU molecules\n";
+  cerr << " -B <smi>          csv smiles of starting atoms (default C,N,[NH4+],O,[O-],F)\n";
   cerr << " -M <number>       max number of atoms in generated molecules\n";
   cerr << " -x                use non aromatic unique smiles\n";
   cerr << " -O                allow O- to be added to any atom (not just N+)\n";
   cerr << " -f <sep>          output separator\n";
+  cerr << " -R <n>            report progress every <n> molecules examined\n";
   exit(0);
 }
 
+int
+initialise_starting_molecules(const std::vector<IWString>& smiles,
+             std::vector<Molecule>& starting_molecules) {
+  starting_molecules.reserve(smiles.size());
+  for (const IWString& smi : smiles) {
+    starting_molecules.emplace_back(Molecule());
+    if (! starting_molecules.back().build_from_smiles(smi)) {
+      cerr << "Huh, cannot build smiles " << smi << "\n";
+      return 0;
+    }
+    starting_molecules.back().unset_all_implicit_hydrogen_information(0);
+  }
+
+  return starting_molecules.size();
+}
+
 int generate_smu(int argc, char ** argv) {
-  Command_Line cl(argc, argv, "vA:E:M:xOR:f:");
+  Command_Line cl(argc, argv, "vA:E:M:xOf:B:R:");
 
   if (cl.unrecognised_options_encountered())
   {
     usage(1);
   }
 
-  verbose = cl.option_count('v');
+  const int verbose = cl.option_count('v');
 
   if (! process_elements(cl, verbose))
   {
     cerr << "Cannot parse element specifications\n";
     usage(2);
-  }
-
-  if (cl.option_present('R')) {
-    if (! report_progress.initialise(cl, 'R', verbose)) {
-      cerr << "Cannot initialise progress reporting (-R)\n";
-      return 1;
-    }
   }
 
   SMU_Params params;
@@ -80,28 +91,74 @@ int generate_smu(int argc, char ** argv) {
       cerr << "Will use non aromatic unique smiles\n";
   }
 
-  Molecule carbon;
-  carbon.build_from_smiles("C");
+  // The single atom molecules that start a build.
+  // Note that we do not enforce them being single atom molecules.
 
-  SmuResults smu_results;
+  std::vector<IWString> smiles;
+  if (cl.option_present('B')) {
+    const_IWSubstring b;
+    for (int i = 0; cl.value('B', b, i); ++i) {
+      int j = 0;
+      IWString smi;
+      while(b.nextword(smi, j, ',')) {
+        smiles.emplace_back(std::move(smi));
+      }
+    }
+  } else {
+    smiles = {"C", "N", "[NH4+]", "O", "[O-]", "F"};
+  }
+
+  std::vector<Molecule> starting_molecules;
+  if (! initialise_starting_molecules(smiles, starting_molecules)) {
+    cerr << "Cannot initialise starting molecules\n";
+    return 1;
+  }
+
+  const int number_starting_molecules = starting_molecules.size();
+
+  // One result for each starting molecule. Results get combined later.
+  std::vector<SmuResults> smu_results(number_starting_molecules);
 
   if (cl.option_present('f')) {
     IWString f = cl.option_value('f');
-    if (f == "space") {
-      f = ' ';
-    } else if (f == "tab") {
-      f = '\t';
+    char_name_to_char(f);  // Easy specification of tab, space...
+    std::for_each(smu_results.begin(), smu_results.end(),
+        [&f] (SmuResults& res) { res.set_output_separator(f[0]);});
+  }
+
+  if (cl.option_present('R')) {
+    std::for_each(smu_results.begin(), smu_results.end(),
+      [&cl, verbose](SmuResults& res) { res.InitialiseProgressReporting(cl, 'R', verbose);});
+  }
+
+  // For the reporting we do here, spread across multiple lines.
+  constexpr bool single_line = false;
+
+  // Save time by keeping track of what has been produced by other starting molecules.
+  IW_STL_Hash_Set already_produced;
+
+  for (int i = 0; i < number_starting_molecules; ++i) {
+    if (verbose > 1) {
+      cerr << "Begin expansion from " << starting_molecules[i].smiles() << "\n";
     }
-    smu_results.set_output_separator(f[0]);
+    Expand(starting_molecules[i], params, already_produced, smu_results[i]);
+    if (verbose > 1) {
+      cerr << "Smiles " << starting_molecules[i].smiles() << " generated " << smu_results[i].size() << " molecules\n";
+      smu_results[i].Report(std::cerr, single_line);
+    }
   }
 
-  Expand(carbon, params, smu_results);
-  if (verbose) {
-    smu_results.Report(std::cerr);
-    cerr << "Generated " << smu_results.size() << " molecules\n";
+  int molecules_generated = 0;
+  int written = 0;
+  int next_id = 1;
+  for (int i = 0; i < number_starting_molecules; ++i) {
+    molecules_generated += smu_results[i].size();
+    written += smu_results[i].Write(next_id, params, std::cout);
   }
 
-  smu_results.Write(std::cout);
+  if (verbose)
+    cerr << "Across " << number_starting_molecules << " starting molecules generated "
+            << molecules_generated << " wrote " << written << "\n";
 
   return 0;
 }

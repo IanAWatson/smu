@@ -27,7 +27,7 @@ ImplicitHydrogens(Molecule& m) {
 }
 
 bool
-OkCharges(const Molecule& m) {
+OkCharges(const Molecule& m, const SMU_Params& params) {
   atom_number_t first_positive_charge = INVALID_ATOM_NUMBER;
   atom_number_t first_negative_charge = INVALID_ATOM_NUMBER;
   const int matoms = m.natoms();
@@ -61,7 +61,11 @@ OkCharges(const Molecule& m) {
   }
 
   // Charged atoms are only OK if adjacent.
-  return m.are_bonded(first_negative_charge, first_positive_charge);
+  if (params.oneg_only_added_to_npos) {
+    return m.are_bonded(first_negative_charge, first_positive_charge);
+  }
+
+  return true;
 }
 
 // Is atom `a` a negatively charged oxygen?
@@ -141,6 +145,7 @@ FullyConnected(Molecule& m, atom_number_t zatom) {
 void 
 AddRings(Molecule& m,
          const SMU_Params& params,
+         IW_STL_Hash_Set& already_produced,
          SmuResults& smu_results) {
 
   const int matoms = m.natoms();
@@ -168,7 +173,7 @@ AddRings(Molecule& m,
         std::unique_ptr<Molecule> mcopy = std::make_unique<Molecule>(m);
 //      cerr << "Adding ring bond btw " << i << " and " << j << "\n";
         AddBond(*mcopy, i, j, bonds[btype]);
-        smu_results.Add(mcopy, params.non_aromatic_unique_smiles);
+        smu_results.Add(mcopy, already_produced, params.non_aromatic_unique_smiles);
       }
     }
   }
@@ -188,6 +193,7 @@ void
 ExpandFromAtom(Molecule & m,
                atom_number_t zatom,
                const SMU_Params& params,
+               IW_STL_Hash_Set& already_produced,
                SmuResults& smu_results) {
   const int ih_zatom = m.implicit_hydrogens(zatom);
   if (ih_zatom == 0) {
@@ -212,8 +218,8 @@ ExpandFromAtom(Molecule & m,
       AddBond(*mcopy, zatom, initial_natoms, bonds[btype]);
       // Because smu_results.Add may remove the pointer from mcopy on success, save it here.
       Molecule* msave = mcopy.get();
-      if (smu_results.Add(mcopy, params.non_aromatic_unique_smiles)) {
-        AddRings(*msave, params, smu_results);
+      if (smu_results.Add(mcopy, already_produced, params.non_aromatic_unique_smiles)) {
+        AddRings(*msave, params, already_produced, smu_results);
       }
     }
   }
@@ -221,10 +227,11 @@ ExpandFromAtom(Molecule & m,
 
 void ExpandMolecule(Molecule& m,
             const SMU_Params& params,
+            IW_STL_Hash_Set& already_produced,
             SmuResults& smu_results) {
   const int matoms = m.natoms();
   for (int i = 0; i < matoms; ++i) {
-    ExpandFromAtom(m, i, params, smu_results);
+    ExpandFromAtom(m, i, params, already_produced, smu_results);
   }
 }
 
@@ -232,16 +239,18 @@ void ExpandMolecule(Molecule& m,
 void
 Expand(Molecule& starting_molecule,
        const SMU_Params& params,
+       IW_STL_Hash_Set& already_produced,
        SmuResults& smu_results) {
   // Not really necessary.
   assert(starting_molecule.natoms() == 1);
 
   std::unique_ptr<Molecule> m = std::make_unique<Molecule>(starting_molecule);
-  smu_results.Add(m, params.non_aromatic_unique_smiles);
+  smu_results.Add(m, already_produced, params.non_aromatic_unique_smiles);
 
   // Range is max_atoms-1 since we have an initial molecule.
   for (int i = 0; i < params.max_atoms - 1; ++i) {
-    const std::vector<IWString> current_set = smu_results.CurrentSmiles();
+    const std::vector<IWString> current_set = smu_results.CurrentSmiles(i + 1);
+//  cerr << " i = " << i << " current_set " << current_set.size() << "\n";
     for (const IWString & smi : current_set) {
       Molecule m;
       if (! m.build_from_smiles(smi)) {
@@ -249,7 +258,7 @@ Expand(Molecule& starting_molecule,
         continue;
       }
       m.each_index_lambda([&m](int i) {m.unset_all_implicit_hydrogen_information(i);});
-      ExpandMolecule(m, params, smu_results);
+      ExpandMolecule(m, params, already_produced, smu_results);
     }
   }
 }
