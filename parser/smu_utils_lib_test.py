@@ -379,6 +379,24 @@ bonds {
     got = smu_utils_lib.bond_topology_to_molecule(bond_topology)
     self.assertEqual('C#[N+]([O-])F', Chem.MolToSmiles(got))
 
+class MoleculeToBondTopologyTest(parameterized.TestCase):
+
+  @parameterized.parameters(
+      ("[H]", """atoms: ATOM_H"""),
+      ("C", """atoms: ATOM_C"""),
+      ("N", """atoms: ATOM_N"""),
+      ("[NH4+]", """atoms: ATOM_NPOS"""),
+      ("O", """atoms: ATOM_O"""),
+      ("[O-]", """atoms: ATOM_ONEG"""),
+      ("F", """atoms: ATOM_F""")
+  )
+  def test_single_atoms(self, smiles: str, expected: str):
+    mol = Chem.MolFromSmiles(smiles)
+    self.assertIsNotNone(mol)
+    bond_topology = smu_utils_lib.molecule_to_bond_topology(mol)
+    expected_proto = text_format.Parse(expected, dataset_pb2.BondTopology())
+    expected_proto.smiles = Chem.MolToSmiles(mol)
+    self.assertEqual(bond_topology.SerializeToString(), expected_proto.SerializeToString())
 
 class ConformerToMoleculeTest(absltest.TestCase):
 

@@ -1,3 +1,5 @@
+import operator
+
 import itertools
 
 import numpy as np
@@ -108,7 +110,25 @@ class TestSMuMolecule(unittest.TestCase):
           self.assertEqual(res.bonds[1].bond_type, btype2)
       else:
         self.assertIsNone(res)
-    
+
+  def test_operators(self):
+    cc = text_format.Parse("""
+      atoms: ATOM_C
+      atoms: ATOM_C
+      atoms: ATOM_C
+""", dataset_pb2.BondTopology())
+#   print(f"Generating bonds {btype1} and {btype2}")
+    bonds_to_scores = {(0, 1): np.zeros(4, dtype=np.float32),
+                       (1, 2): np.zeros(4, dtype=np.float32)}
+    scores = np.array([1.0, 3.0], dtype=np.float32)
+    bonds_to_scores[(0, 1)][1] = scores[0]
+    bonds_to_scores[(1, 2)][1] = scores[1]
+    mol = smu_molecule.SmuMolecule(cc, bonds_to_scores)
+    mol.set_initial_score_and_incrementer(1.0, operator.mul)
+    state = mol.generate_search_state()
+    for s in itertools.product(*state):
+      res = mol.place_bonds(s)
+      self.assertAlmostEqual(res.score, np.product(scores))
 
 if __name__ == "__main__":
   unittest.main()

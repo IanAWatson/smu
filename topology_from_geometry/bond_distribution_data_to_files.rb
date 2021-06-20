@@ -48,6 +48,7 @@ def first_and_last(data)
   last_non_nil = -1
   data.each_with_index do |value, ndx|
     next unless value
+    next unless ndx > 10_000
 
     first_non_nil = ndx unless first_non_nil >= 0
     last_non_nil = ndx
@@ -62,7 +63,7 @@ def write_bond_length_distribution(fname, data) # rubocop:disable Metrics/Method
     $stderr << "Ignoring no data #{fname}\n"
     return
   end
-  $stderr << "Opening #{fname}\n"
+  $stderr << "Opening #{fname} range #{first_ndx} to #{last_ndx}\n"
   File.open(fname, 'w') do |output|
     (first_ndx..last_ndx).each do |ndx|
       output << ndx.to_f / 10_000.0

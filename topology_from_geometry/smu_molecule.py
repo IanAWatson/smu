@@ -1,7 +1,9 @@
 """Class that is responsible for building and assessing proposed
    bonding patterns."""
 
-from typing import Dict, List, Optional, Tuple
+import operator
+
+from typing import Callable, Dict, List, NoReturn, Optional, Tuple
 
 import numpy as np
 
@@ -9,17 +11,49 @@ from smu import dataset_pb2
 from smu.parser import smu_utils_lib
 
 
+class MatchingParameters:
+  """A class to specify optional matching parameters for SmuMolecule.place_bonds."""
+
+  def __init__(self):
+    self._must_match_all_bonds: bool = True
+
+  @property
+  def must_match_all_bonds(self) -> bool:
+    return self._must_match_all_bonds
+
+  @must_match_all_bonds.setter
+  def must_match_all_bonds(self, value: bool):
+    self._must_match_all_bonds = value
+
+
+def add_bond(a1: int, a2: int, btype: int, destination: dataset_pb2.BondTopology) -> NoReturn:
+  """Add a new Bond to `destination`.
+
+  Args:
+    a1: atom
+    a2: atom
+    btype: bond type.
+
+  """
+  destination.bonds.append(
+      dataset_pb2.BondTopology.Bond(atom_a=a1,
+                                    atom_b=a2,
+                                    bond_type=smu_utils_lib.INTEGER_TO_BOND_TYPE[btype]))
+
+
 class SmuMolecule:
   """Holds information about partially built molecules"""
 
   def __init__(self, hydrogens_attached: dataset_pb2.BondTopology,
-               bonds_to_scores: Dict[Tuple[int, int], np.array]):
+               bonds_to_scores: Dict[Tuple[int, int],
+                                     np.array], matching_parameters: MatchingParameters):
     """Class to perform bonding assessments.
     Args:
       hydrogens_attached: a BondTopology that has all atoms, and the bonds
         associated with the Hydrogen atoms.
       bonds_to_scores: A dict that maps tuples of pairs of atoms, to a
         numpy array of scores [0,3], for each possible bond type.
+      matching_parameters: contains possible optional behaviour modifiers.
     Returns:
     """
     self._starting_bond_topology = hydrogens_attached
@@ -43,6 +77,19 @@ class SmuMolecule:
 
     self._bonds = list(bonds_to_scores.keys())
     self._scores = list(bonds_to_scores.values())
+
+    self._initial_score = 0.0
+    self._accumualate_score = operator.add
+
+    # For testing, it can be convenient to allow for partial matches
+    # For example this allows matching C-C and C=C without the need
+    # to add explicit hydrogens
+    self._must_match_all_bonds = matching_parameters.must_match_all_bonds
+
+  def set_initial_score_and_incrementer(self, initial_score: float, op: Callable) -> NoReturn:
+    """Update values used for computing scores"""
+    self._initial_score = initial_score
+    self._accumualate_score = op
 
   def _initialize(self):
     """Make the molecule reading for adding bonds between heavy atoms.
@@ -103,8 +150,7 @@ class SmuMolecule:
 
     result = dataset_pb2.BondTopology()
     result.CopyFrom(self._starting_bond_topology)    # only Hydrogens attached.
-    #   result = self._starting_bond_topology  # Only the Hydrogens attached.
-    result.score = 0.0
+    result.score = self._initial_score
 
     for i in range(0, len(state)):
       a1 = self._bonds[i][0]
@@ -113,11 +159,17 @@ class SmuMolecule:
       if not self._place_bond(a1, a2, btype):
         return None
 
-      result.score += self._scores[i][btype]
-      if btype > 0:
-        result.bonds.append(
-            dataset_pb2.BondTopology.Bond(atom_a=a1,
-                                          atom_b=a2,
-                                          bond_type=smu_utils_lib.INTEGER_TO_BOND_TYPE[btype]))
+      result.score = self._accumualate_score(result.score, self._scores[i][btype])
+      if btype:
+        add_bond(a1, a2, btype, result)
+
+    print(f"At end of placement havea {result} _must_match_all_bonds {self._must_match_all_bonds}")
+    # Optionally check whether all bonds have been matched
+    if not self._must_match_all_bonds:
+      return result
+
+    print("Checking bonds")
+    if not np.array_equal(self._current_bonds_attached, self._max_bonds):
+      return None
 
     return result

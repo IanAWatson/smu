@@ -17,23 +17,27 @@ flags.DEFINE_string("input", None, "TFDataRecord file containg Conformer protos"
 flags.DEFINE_string("bonds", None, "File name stem for bond length distributions")
 flags.DEFINE_string("output", None, "Output file")
 
-def ReadConFormer(bond_lengths: bond_length_distribution.AllAtomPairLengthDistributions,
-                  input:str, output:str):
+
+def ReadConFormer(bond_lengths: bond_length_distribution.AllAtomPairLengthDistributions, input: str,
+                  output: str):
   """
   Args:
   Returns:
   """
+
   class GetAtoms(beam.DoFn):
+
     def process(self, item):
       yield item.optimized_geometry.atom_positions[0].x
+
   with beam.Pipeline(options=PipelineOptions()) as p:
-    protos = (p
-      | beam.io.tfrecordio.ReadFromTFRecord(input, coder=beam.coders.ProtoCoder(dataset_pb2.Conformer().__class__))
-      | beam.ParDo(topology_from_geom.TopologyFromGeom(bond_lengths))
-      | beam.io.textio.WriteToText(output)
-    )
+    protos = (p | beam.io.tfrecordio.ReadFromTFRecord(
+        input, coder=beam.coders.ProtoCoder(dataset_pb2.Conformer().__class__)) |
+              beam.ParDo(topology_from_geom.TopologyFromGeom(bond_lengths)) |
+              beam.io.textio.WriteToText(output))
 
     return protos
+
 
 def topology_from_geometry_main(unused_argv):
   del unused_argv
@@ -42,7 +46,6 @@ def topology_from_geometry_main(unused_argv):
   bond_lengths.add_from_files(FLAGS.bonds, 0.0)
   protos = ReadConFormer(bond_lengths, FLAGS.input, FLAGS.output)
   print(protos)
-
 
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ from rdkit import Chem
 from rdkit.Chem import AllChem
 
 from smu import dataset_pb2
+from smu.parser import smu_utils_lib
 import utilities
 
 FLAGS = flags.FLAGS
@@ -50,9 +51,9 @@ def smi23d(unused_argv):
       geom = dataset_pb2.Geometry()
       for i in range(0, natoms):
         atom = dataset_pb2.Geometry.AtomPos()
-        atom.x = conf.GetAtomPosition(i).x
-        atom.y = conf.GetAtomPosition(i).y
-        atom.z = conf.GetAtomPosition(i).z
+        atom.x = conf.GetAtomPosition(i).x / smu_utils_lib.BOHR_TO_ANGSTROMS
+        atom.y = conf.GetAtomPosition(i).y / smu_utils_lib.BOHR_TO_ANGSTROMS
+        atom.z = conf.GetAtomPosition(i).z / smu_utils_lib.BOHR_TO_ANGSTROMS
         geom.atom_positions.append(atom)
 
       conformer = dataset_pb2.Conformer()

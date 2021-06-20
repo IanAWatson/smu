@@ -19,6 +19,7 @@
 import collections
 import csv
 import enum
+from typing import NoReturn
 import numpy as np
 import pandas as pd
 from rdkit import Chem
@@ -80,6 +81,12 @@ BOND_TYPE_TO_RDKIT = {
     dataset_pb2.BondTopology.BondType.BOND_SINGLE: Chem.rdchem.BondType.SINGLE,
     dataset_pb2.BondTopology.BondType.BOND_DOUBLE: Chem.rdchem.BondType.DOUBLE,
     dataset_pb2.BondTopology.BondType.BOND_TRIPLE: Chem.rdchem.BondType.TRIPLE,
+}
+
+RDKIT_BOND_TO_BOND_TYPE = {
+    Chem.rdchem.BondType.SINGLE: dataset_pb2.BondTopology.BondType.BOND_SINGLE,
+    Chem.rdchem.BondType.DOUBLE: dataset_pb2.BondTopology.BondType.BOND_DOUBLE,
+    Chem.rdchem.BondType.TRIPLE: dataset_pb2.BondTopology.BondType.BOND_TRIPLE,
 }
 
 INTEGER_TO_BOND_TYPE = [
@@ -563,6 +570,66 @@ def bond_topology_to_molecule(bond_topology):
 
   return mol
 
+def AddAtom(atom: Chem.rdchem.Atom, bond_topology: dataset_pb2.BondTopology) -> NoReturn:
+  """Adds a new Atom to `bond_topology`.
+
+  Args:
+    atom: an RDKit Atom
+  """
+  atomic_number = atom.GetAtomicNum()
+  if atomic_number == 1:
+    bond_topology.atoms.append(dataset_pb2.BondTopology.AtomType.ATOM_H)
+  elif atomic_number == 6:
+    bond_topology.atoms.append(dataset_pb2.BondTopology.AtomType.ATOM_C)
+  elif atomic_number == 7:
+    if atom.GetFormalCharge() == 0:
+      bond_topology.atoms.append(dataset_pb2.BondTopology.AtomType.ATOM_N)
+    else:
+      bond_topology.atoms.append(dataset_pb2.BondTopology.AtomType.ATOM_NPOS)
+  elif atomic_number == 8:
+    if atom.GetFormalCharge() == 0:
+      bond_topology.atoms.append(dataset_pb2.BondTopology.AtomType.ATOM_O)
+    else:
+      bond_topology.atoms.append(dataset_pb2.BondTopology.AtomType.ATOM_ONEG)
+  elif atomic_number == 9:
+    bond_topology.atoms.append(dataset_pb2.BondTopology.AtomType.ATOM_F)
+  else:
+    raise ValueException(f"Unrecognized atomic number {atomic_number}")
+
+def AddBond(bond: Chem.rdchem.Bond, bond_topology: dataset_pb2.BondTopology) -> NoReturn:
+  """Adds a new Bond to `bond_topology`.
+
+  Args:
+    bond: an RDKit Bond
+  """
+  smu_btype = RDKIT_BOND_TO_BOND_TYPE[bond.GetBondType()]
+  bond_topology.bonds.append(dataset_pb2.BondTopology.Bond(
+        atom_a=bond.GetBeginAtom().GetIdx(),
+        atom_b=bond.GetEndAtom().GetIdx(),
+        bond_type=smu_btype))
+
+
+def molecule_to_bond_topology(mol: Chem.RWMol) -> dataset_pb2.BondTopology:
+  """Converts `mol` to a BondTopology.
+
+  Args:
+    mol: molecule
+  Returns:
+    BondTopology
+  """
+  Chem.Kekulize(mol)
+  result = dataset_pb2.BondTopology()  # To be returned.
+
+  for atom in mol.GetAtoms():
+    AddAtom(atom, result) 
+
+  for bond in mol.GetBonds():
+    AddBond(bond, result)
+
+  result.smiles = compute_smiles_for_molecule(mol, include_hs=True)
+
+  return result
+
 
 def conformer_to_molecules(conformer,
                            include_initial_geometries=True,
@@ -642,7 +709,7 @@ def conformer_to_molecules(conformer,
       yield mol
 
 
-def compute_smiles_for_bond_topology(bond_topology, include_hs):
+def compute_smiles_for_bond_topology(bond_topology, include_hs, labeled_atoms=False):
   """Calculate a canonical smiles for the given bond_topology.
 
   The bond topology may have the smiles field filled in but this method ignores
@@ -651,12 +718,13 @@ def compute_smiles_for_bond_topology(bond_topology, include_hs):
   Args:
     bond_topology: dataset_pb2.BondTopology
     include_hs: whether to include hs in the smiles string
+    labeled_atoms: whether or not to apply atom number labels.
 
   Returns:
     string
   """
   return compute_smiles_for_molecule(
-      bond_topology_to_molecule(bond_topology), include_hs)
+      bond_topology_to_molecule(bond_topology), include_hs, labeled_atoms=labeled_atoms)
 
 
 def compute_smiles_for_molecule(mol, include_hs, labeled_atoms = False):

@@ -401,7 +401,6 @@ class AllAtomPairLengthDistributions:
                             bond_type,
                             length):
     """p(length | atom_a, atom_b, bond_type)."""
-    print(f"Types {atom_a} {atom_b} type {bond_type}")
     if not (atom_a, atom_b) in self._atom_pair_dict:
       return 0.0
 
