@@ -1,3 +1,4 @@
+"""Conversion from smiles to 3D TFDatarecord."""
 import tensorflow as tf
 
 from absl import app
@@ -8,9 +9,9 @@ import pandas as pd
 from rdkit import Chem
 from rdkit.Chem import AllChem
 
+import utilities
 from smu import dataset_pb2
 from smu.parser import smu_utils_lib
-import utilities
 
 FLAGS = flags.FLAGS
 
@@ -18,14 +19,14 @@ flags.DEFINE_string("smiles", None, "Smiles input file")
 flags.DEFINE_string("output", None, "TFRecord output file")
 
 def contains_aromatic(mol: Chem.RWMol) -> bool:
-  """
-  """
+  """Returns True of `mol` contains any aromatic atoms."""
   for atom in mol.GetAtoms():
     if atom.GetIsAromatic():
       return True
   return False
 
 def smi23d(unused_argv):
+  """Converts a smiles file to 3D TFDatarecord proto Conformer"""
   del unused_argv
 
   df = pd.read_csv(FLAGS.smiles)
@@ -40,14 +41,14 @@ def smi23d(unused_argv):
 
   with tf.io.TFRecordWriter(FLAGS.output) as file_writer:
 
-    for n in range(len(hmols)):
-      hmols[n].SetProp("_Name","%s"%sid[n])
-      hmols[n].SetProp("_ID","%s"%sid[n])
-      hmols[n].SetProp("_SMILES","%s"%smiles[n])
-      if hmols[n].GetNumConformers() == 0:
+    for n, hmol in enumerate(hmols):
+      hmol.SetProp("_Name","%s"%sid[n])
+      hmol.SetProp("_ID","%s"%sid[n])
+      hmol.SetProp("_SMILES","%s"%smiles[n])
+      if hmol.GetNumConformers() == 0:
         continue
-      conf = hmols[n].GetConformer(0)
-      natoms = hmols[n].GetNumAtoms()
+      conf = hmol.GetConformer(0)
+      natoms = hmol.GetNumAtoms()
       geom = dataset_pb2.Geometry()
       for i in range(0, natoms):
         atom = dataset_pb2.Geometry.AtomPos()
@@ -57,7 +58,7 @@ def smi23d(unused_argv):
         geom.atom_positions.append(atom)
 
       conformer = dataset_pb2.Conformer()
-      conformer.bond_topologies.append(utilities.molecule_to_bond_topology(hmols[n]))
+      conformer.bond_topologies.append(utilities.molecule_to_bond_topology(hmol))
       conformer.optimized_geometry.CopyFrom(geom)
       file_writer.write(conformer.SerializeToString())
 

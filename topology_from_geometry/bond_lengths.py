@@ -1,11 +1,12 @@
-# Extract bond lengths from SMU molecules.
+"""Extract bond lengths from SMU molecules."""
 
 import apache_beam as beam
+
+import utilities
 
 from smu import dataset_pb2
 from smu.parser import smu_utils_lib
 
-import utilities
 
 MAX_DIST = 2.0
 
@@ -34,7 +35,6 @@ class GetBondLengthDistribution(beam.DoFn):
           continue
 
         discretized = int(d * utilities.DISTANCE_BINS)
-        yield (min(atomic_number1, atomic_number2), 
-               int(bonded[a1, a2]), 
+        yield (min(atomic_number1, atomic_number2),
+               int(bonded[a1, a2]),
                max(atomic_number1, atomic_number2), discretized), 1
-

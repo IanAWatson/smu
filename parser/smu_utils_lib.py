@@ -19,7 +19,6 @@
 import collections
 import csv
 import enum
-from typing import NoReturn
 import numpy as np
 import pandas as pd
 from rdkit import Chem
@@ -570,7 +569,7 @@ def bond_topology_to_molecule(bond_topology):
 
   return mol
 
-def AddAtom(atom: Chem.rdchem.Atom, bond_topology: dataset_pb2.BondTopology) -> NoReturn:
+def AddAtom(atom: Chem.rdchem.Atom, bond_topology: dataset_pb2.BondTopology) -> None:
   """Adds a new Atom to `bond_topology`.
 
   Args:
@@ -596,7 +595,7 @@ def AddAtom(atom: Chem.rdchem.Atom, bond_topology: dataset_pb2.BondTopology) -> 
   else:
     raise ValueException(f"Unrecognized atomic number {atomic_number}")
 
-def AddBond(bond: Chem.rdchem.Bond, bond_topology: dataset_pb2.BondTopology) -> NoReturn:
+def AddBond(bond: Chem.rdchem.Bond, bond_topology: dataset_pb2.BondTopology) -> None:
   """Adds a new Bond to `bond_topology`.
 
   Args:

@@ -7,8 +7,6 @@ from parameterized import parameterized, parameterized_class
 import numpy as np
 import pandas as pd
 
-from rdkit import Chem
-
 from smu import dataset_pb2
 from smu.geometry import bond_length_distribution
 from smu.parser import smu_utils_lib

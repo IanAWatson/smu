@@ -3,7 +3,7 @@
 
 import operator
 
-from typing import Callable, Dict, List, NoReturn, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -26,7 +26,7 @@ class MatchingParameters:
     self._must_match_all_bonds = value
 
 
-def add_bond(a1: int, a2: int, btype: int, destination: dataset_pb2.BondTopology) -> NoReturn:
+def add_bond(a1: int, a2: int, btype: int, destination: dataset_pb2.BondTopology) -> None:
   """Add a new Bond to `destination`.
 
   Args:
@@ -86,7 +86,7 @@ class SmuMolecule:
     # to add explicit hydrogens
     self._must_match_all_bonds = matching_parameters.must_match_all_bonds
 
-  def set_initial_score_and_incrementer(self, initial_score: float, op: Callable) -> NoReturn:
+  def set_initial_score_and_incrementer(self, initial_score: float, op: Callable) -> None:
     """Update values used for computing scores"""
     self._initial_score = initial_score
     self._accumualate_score = op
@@ -99,7 +99,7 @@ class SmuMolecule:
   def _place_bond(self, a1: int, a2: int, btype: int) -> bool:
     """Possibly add a new bond to the current config.
 
-    If the bond can be placed, updates self._current_bonds_attached for 
+    If the bond can be placed, updates self._current_bonds_attached for
     both `a`` and `a2`.
       Args:
         a1:
@@ -127,7 +127,7 @@ class SmuMolecule:
       List of lists - one for each atom pair.
     """
     result: List[List[int]] = []
-    for ndx, bond in enumerate(self._bonds):
+    for ndx in range(0, len(self._bonds)):
       # For each pair of atoms, the plausible bond types - non zero score.
       plausible_types: List[int] = []
       for i, score in enumerate(self._scores[ndx]):
@@ -152,10 +152,9 @@ class SmuMolecule:
     result.CopyFrom(self._starting_bond_topology)    # only Hydrogens attached.
     result.score = self._initial_score
 
-    for i in range(0, len(state)):
+    for i, btype in enumerate(state):
       a1 = self._bonds[i][0]
       a2 = self._bonds[i][1]
-      btype = state[i]
       if not self._place_bond(a1, a2, btype):
         return None
 
@@ -163,12 +162,10 @@ class SmuMolecule:
       if btype:
         add_bond(a1, a2, btype, result)
 
-    print(f"At end of placement havea {result} _must_match_all_bonds {self._must_match_all_bonds}")
     # Optionally check whether all bonds have been matched
     if not self._must_match_all_bonds:
       return result
 
-    print("Checking bonds")
     if not np.array_equal(self._current_bonds_attached, self._max_bonds):
       return None
 

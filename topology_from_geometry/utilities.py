@@ -2,9 +2,9 @@
 
 import math
 
-import numpy as np
+from typing import List
 
-from typing import List, NoReturn
+import numpy as np
 
 from rdkit import Chem
 
@@ -57,17 +57,17 @@ def distances(geometry: dataset_pb2.Geometry) -> np.array:
     a numpy array of distances
   """
   natoms = len(geometry.atom_positions)
-  distances = np.full((natoms, natoms), 0.0, dtype=np.float32)
+  result = np.full((natoms, natoms), 0.0, dtype=np.float32)
   for i in range(0, natoms):
     for j in range(i + 1, natoms):
-      distances[i, j] = distances[j, i] = distance_between_atoms(geometry, i, j)
-  return distances
+      result[i, j] = result[j, i] = distance_between_atoms(geometry, i, j)
+  return result
 
 
 def rdkit_atom_to_atom_type(atom: Chem.Atom) -> dataset_pb2.BondTopology.AtomType:
   """
     Args:
-      atom: 
+      atom:
     Returns:
       AtpmType
   """
@@ -97,11 +97,11 @@ def rdkit_bond_type_to_btype(bond_type: Chem.BondType) -> dataset_pb2.BondTopolo
     Returns:
   """
   if bond_type == Chem.rdchem.BondType.SINGLE:
-    return dataset_pb2.BondTopology.BOND_SINGLE
+    return dataset_pb2.BondTopology.BondType.BOND_SINGLE
   if bond_type == Chem.rdchem.BondType.DOUBLE:
-    return dataset_pb2.BondTopology.BOND_DOUBLE
+    return dataset_pb2.BondTopology.BondType.BOND_DOUBLE
   if bond_type == Chem.rdchem.BondType.TRIPLE:
-    return dataset_pb2.BondTopology.BOND_TRIPLE
+    return dataset_pb2.BondTopology.BondType.BOND_TRIPLE
 
   raise ValueError(f"Unrecognized bond type #{bond_type}")
 
@@ -124,7 +124,7 @@ def molecule_to_bond_topology(mol: Chem.RWMol) -> dataset_pb2.BondTopology:
   return bond_topology
 
 
-def canonical_bond_topology(bond_topology: dataset_pb2.BondTopology) -> NoReturn:
+def canonical_bond_topology(bond_topology: dataset_pb2.BondTopology) -> None:
   """Transform the bonds attribute of `bond_topology` to a canonical form.
 
   Args:

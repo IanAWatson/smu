@@ -1,15 +1,17 @@
 # Tester for SMU utilities functions.
 
+import unittest
+
 from parameterized import parameterized, parameterized_class
 
 from rdkit import Chem
 
+from google.protobuf import text_format
+
+import utilities
 from smu import dataset_pb2
 from smu.parser import smu_utils_lib
-import utilities
 
-import unittest
-from google.protobuf import text_format
 
 def zero2() -> dataset_pb2.Geometry:
   """Return a Geometry with two points at the origin."""

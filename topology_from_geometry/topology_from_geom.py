@@ -2,7 +2,7 @@
 import itertools
 
 from google.protobuf import text_format
-from typing import List, Optional
+from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -136,7 +136,7 @@ def bond_topologies_from_geom(
 
   search_space = mol.generate_search_state()
   for s in itertools.product(*search_space):
-    bt = mol.place_bonds(s)
+    bt = mol.place_bonds(list(s))
     if not bt:
       continue
 
