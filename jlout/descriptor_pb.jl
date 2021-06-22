@@ -14,11 +14,8 @@ mutable struct UninterpretedOption_NamePart <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -27,25 +24,10 @@ const __meta_UninterpretedOption_NamePart = Ref{ProtoMeta}()
 function meta(::Type{UninterpretedOption_NamePart})
     ProtoBuf.metalock() do
         if !isassigned(__meta_UninterpretedOption_NamePart)
-            __meta_UninterpretedOption_NamePart[] =
-                target = ProtoMeta(UninterpretedOption_NamePart)
-            req = Symbol[:name_part, :is_extension]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :name_part=>AbstractString,
-                :is_extension=>Bool,
-            ]
-            meta(
-                target,
-                UninterpretedOption_NamePart,
-                allflds,
-                req,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            __meta_UninterpretedOption_NamePart[] = target = ProtoMeta(UninterpretedOption_NamePart)
+            req = Symbol[:name_part,:is_extension]
+            allflds = Pair{Symbol,Union{Type,String}}[:name_part => AbstractString, :is_extension => Bool]
+            meta(target, UninterpretedOption_NamePart, allflds, req, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_UninterpretedOption_NamePart[]
     end
@@ -72,11 +54,8 @@ mutable struct UninterpretedOption <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -86,37 +65,16 @@ function meta(::Type{UninterpretedOption})
     ProtoBuf.metalock() do
         if !isassigned(__meta_UninterpretedOption)
             __meta_UninterpretedOption[] = target = ProtoMeta(UninterpretedOption)
-            fnum = Int[2, 3, 4, 5, 6, 7, 8]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :name=>Base.Vector{UninterpretedOption_NamePart},
-                :identifier_value=>AbstractString,
-                :positive_int_value=>UInt64,
-                :negative_int_value=>Int64,
-                :double_value=>Float64,
-                :string_value=>Vector{UInt8},
-                :aggregate_value=>AbstractString,
-            ]
-            meta(
-                target,
-                UninterpretedOption,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            fnum = Int[2,3,4,5,6,7,8]
+            allflds = Pair{Symbol,Union{Type,String}}[:name => Base.Vector{UninterpretedOption_NamePart}, :identifier_value => AbstractString, :positive_int_value => UInt64, :negative_int_value => Int64, :double_value => Float64, :string_value => Vector{UInt8}, :aggregate_value => AbstractString]
+            meta(target, UninterpretedOption, allflds, ProtoBuf.DEF_REQ, fnum, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_UninterpretedOption[]
     end
 end
 function Base.getproperty(obj::UninterpretedOption, name::Symbol)
     if name === :name
-        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{
-            UninterpretedOption_NamePart,
-        }
+        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{UninterpretedOption_NamePart}
     elseif name === :identifier_value
         return (obj.__protobuf_jl_internal_values[name])::AbstractString
     elseif name === :positive_int_value
@@ -134,21 +92,17 @@ function Base.getproperty(obj::UninterpretedOption, name::Symbol)
     end
 end
 
-const FieldOptions_CType = (;
-    [
-        Symbol("STRING") => Int32(0),
-        Symbol("CORD") => Int32(1),
-        Symbol("STRING_PIECE") => Int32(2),
-    ]...,
-)
+const FieldOptions_CType = (;[
+    Symbol("STRING") => Int32(0),
+    Symbol("CORD") => Int32(1),
+    Symbol("STRING_PIECE") => Int32(2),
+]...)
 
-const FieldOptions_JSType = (;
-    [
-        Symbol("JS_NORMAL") => Int32(0),
-        Symbol("JS_STRING") => Int32(1),
-        Symbol("JS_NUMBER") => Int32(2),
-    ]...,
-)
+const FieldOptions_JSType = (;[
+    Symbol("JS_NORMAL") => Int32(0),
+    Symbol("JS_STRING") => Int32(1),
+    Symbol("JS_NUMBER") => Int32(2),
+]...)
 
 mutable struct FieldOptions <: ProtoType
     __protobuf_jl_internal_meta::ProtoMeta
@@ -162,11 +116,8 @@ mutable struct FieldOptions <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -176,35 +127,10 @@ function meta(::Type{FieldOptions})
     ProtoBuf.metalock() do
         if !isassigned(__meta_FieldOptions)
             __meta_FieldOptions[] = target = ProtoMeta(FieldOptions)
-            val = Dict{Symbol,Any}(
-                :ctype => FieldOptions_CType.STRING,
-                :jstype => FieldOptions_JSType.JS_NORMAL,
-                :lazy => false,
-                :deprecated => false,
-                :weak => false,
-            )
-            fnum = Int[1, 2, 6, 5, 3, 10, 999]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :ctype=>Int32,
-                :packed=>Bool,
-                :jstype=>Int32,
-                :lazy=>Bool,
-                :deprecated=>Bool,
-                :weak=>Bool,
-                :uninterpreted_option=>Base.Vector{UninterpretedOption},
-            ]
-            meta(
-                target,
-                FieldOptions,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                val,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            val = Dict{Symbol,Any}(:ctype => FieldOptions_CType.STRING, :jstype => FieldOptions_JSType.JS_NORMAL, :lazy => false, :deprecated => false, :weak => false)
+            fnum = Int[1,2,6,5,3,10,999]
+            allflds = Pair{Symbol,Union{Type,String}}[:ctype => Int32, :packed => Bool, :jstype => Int32, :lazy => Bool, :deprecated => Bool, :weak => Bool, :uninterpreted_option => Base.Vector{UninterpretedOption}]
+            meta(target, FieldOptions, allflds, ProtoBuf.DEF_REQ, fnum, val, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_FieldOptions[]
     end
@@ -241,11 +167,8 @@ mutable struct MessageOptions <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -255,31 +178,10 @@ function meta(::Type{MessageOptions})
     ProtoBuf.metalock() do
         if !isassigned(__meta_MessageOptions)
             __meta_MessageOptions[] = target = ProtoMeta(MessageOptions)
-            val = Dict{Symbol,Any}(
-                :message_set_wire_format => false,
-                :no_standard_descriptor_accessor => false,
-                :deprecated => false,
-            )
-            fnum = Int[1, 2, 3, 7, 999]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :message_set_wire_format=>Bool,
-                :no_standard_descriptor_accessor=>Bool,
-                :deprecated=>Bool,
-                :map_entry=>Bool,
-                :uninterpreted_option=>Base.Vector{UninterpretedOption},
-            ]
-            meta(
-                target,
-                MessageOptions,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                val,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            val = Dict{Symbol,Any}(:message_set_wire_format => false, :no_standard_descriptor_accessor => false, :deprecated => false)
+            fnum = Int[1,2,3,7,999]
+            allflds = Pair{Symbol,Union{Type,String}}[:message_set_wire_format => Bool, :no_standard_descriptor_accessor => Bool, :deprecated => Bool, :map_entry => Bool, :uninterpreted_option => Base.Vector{UninterpretedOption}]
+            meta(target, MessageOptions, allflds, ProtoBuf.DEF_REQ, fnum, val, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_MessageOptions[]
     end
@@ -312,11 +214,8 @@ mutable struct EnumOptions <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -327,24 +226,9 @@ function meta(::Type{EnumOptions})
         if !isassigned(__meta_EnumOptions)
             __meta_EnumOptions[] = target = ProtoMeta(EnumOptions)
             val = Dict{Symbol,Any}(:deprecated => false)
-            fnum = Int[2, 3, 999]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :allow_alias=>Bool,
-                :deprecated=>Bool,
-                :uninterpreted_option=>Base.Vector{UninterpretedOption},
-            ]
-            meta(
-                target,
-                EnumOptions,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                val,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            fnum = Int[2,3,999]
+            allflds = Pair{Symbol,Union{Type,String}}[:allow_alias => Bool, :deprecated => Bool, :uninterpreted_option => Base.Vector{UninterpretedOption}]
+            meta(target, EnumOptions, allflds, ProtoBuf.DEF_REQ, fnum, val, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_EnumOptions[]
     end
@@ -373,11 +257,8 @@ mutable struct ExtensionRangeOptions <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -388,21 +269,8 @@ function meta(::Type{ExtensionRangeOptions})
         if !isassigned(__meta_ExtensionRangeOptions)
             __meta_ExtensionRangeOptions[] = target = ProtoMeta(ExtensionRangeOptions)
             fnum = Int[999]
-            allflds = Pair{Symbol,Union{Type,String}}[:uninterpreted_option=>Base.Vector{
-                UninterpretedOption,
-            }]
-            meta(
-                target,
-                ExtensionRangeOptions,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            allflds = Pair{Symbol,Union{Type,String}}[:uninterpreted_option => Base.Vector{UninterpretedOption}]
+            meta(target, ExtensionRangeOptions, allflds, ProtoBuf.DEF_REQ, fnum, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_ExtensionRangeOptions[]
     end
@@ -415,13 +283,11 @@ function Base.getproperty(obj::ExtensionRangeOptions, name::Symbol)
     end
 end
 
-const MethodOptions_IdempotencyLevel = (;
-    [
-        Symbol("IDEMPOTENCY_UNKNOWN") => Int32(0),
-        Symbol("NO_SIDE_EFFECTS") => Int32(1),
-        Symbol("IDEMPOTENT") => Int32(2),
-    ]...,
-)
+const MethodOptions_IdempotencyLevel = (;[
+    Symbol("IDEMPOTENCY_UNKNOWN") => Int32(0),
+    Symbol("NO_SIDE_EFFECTS") => Int32(1),
+    Symbol("IDEMPOTENT") => Int32(2),
+]...)
 
 mutable struct MethodOptions <: ProtoType
     __protobuf_jl_internal_meta::ProtoMeta
@@ -435,11 +301,8 @@ mutable struct MethodOptions <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -449,29 +312,10 @@ function meta(::Type{MethodOptions})
     ProtoBuf.metalock() do
         if !isassigned(__meta_MethodOptions)
             __meta_MethodOptions[] = target = ProtoMeta(MethodOptions)
-            val = Dict{Symbol,Any}(
-                :deprecated => false,
-                :idempotency_level =>
-                    MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
-            )
-            fnum = Int[33, 34, 999]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :deprecated=>Bool,
-                :idempotency_level=>Int32,
-                :uninterpreted_option=>Base.Vector{UninterpretedOption},
-            ]
-            meta(
-                target,
-                MethodOptions,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                val,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            val = Dict{Symbol,Any}(:deprecated => false, :idempotency_level => MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN)
+            fnum = Int[33,34,999]
+            allflds = Pair{Symbol,Union{Type,String}}[:deprecated => Bool, :idempotency_level => Int32, :uninterpreted_option => Base.Vector{UninterpretedOption}]
+            meta(target, MethodOptions, allflds, ProtoBuf.DEF_REQ, fnum, val, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_MethodOptions[]
     end
@@ -488,13 +332,11 @@ function Base.getproperty(obj::MethodOptions, name::Symbol)
     end
 end
 
-const FileOptions_OptimizeMode = (;
-    [
-        Symbol("SPEED") => Int32(1),
-        Symbol("CODE_SIZE") => Int32(2),
-        Symbol("LITE_RUNTIME") => Int32(3),
-    ]...,
-)
+const FileOptions_OptimizeMode = (;[
+    Symbol("SPEED") => Int32(1),
+    Symbol("CODE_SIZE") => Int32(2),
+    Symbol("LITE_RUNTIME") => Int32(3),
+]...)
 
 mutable struct FileOptions <: ProtoType
     __protobuf_jl_internal_meta::ProtoMeta
@@ -508,11 +350,8 @@ mutable struct FileOptions <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -522,75 +361,10 @@ function meta(::Type{FileOptions})
     ProtoBuf.metalock() do
         if !isassigned(__meta_FileOptions)
             __meta_FileOptions[] = target = ProtoMeta(FileOptions)
-            val = Dict{Symbol,Any}(
-                :java_multiple_files => false,
-                :java_string_check_utf8 => false,
-                :optimize_for => FileOptions_OptimizeMode.SPEED,
-                :cc_generic_services => false,
-                :java_generic_services => false,
-                :py_generic_services => false,
-                :php_generic_services => false,
-                :deprecated => false,
-                :cc_enable_arenas => true,
-            )
-            fnum = Int[
-                1,
-                8,
-                10,
-                20,
-                27,
-                9,
-                11,
-                16,
-                17,
-                18,
-                42,
-                23,
-                31,
-                36,
-                37,
-                39,
-                40,
-                41,
-                44,
-                45,
-                999,
-            ]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :java_package=>AbstractString,
-                :java_outer_classname=>AbstractString,
-                :java_multiple_files=>Bool,
-                :java_generate_equals_and_hash=>Bool,
-                :java_string_check_utf8=>Bool,
-                :optimize_for=>Int32,
-                :go_package=>AbstractString,
-                :cc_generic_services=>Bool,
-                :java_generic_services=>Bool,
-                :py_generic_services=>Bool,
-                :php_generic_services=>Bool,
-                :deprecated=>Bool,
-                :cc_enable_arenas=>Bool,
-                :objc_class_prefix=>AbstractString,
-                :csharp_namespace=>AbstractString,
-                :swift_prefix=>AbstractString,
-                :php_class_prefix=>AbstractString,
-                :php_namespace=>AbstractString,
-                :php_metadata_namespace=>AbstractString,
-                :ruby_package=>AbstractString,
-                :uninterpreted_option=>Base.Vector{UninterpretedOption},
-            ]
-            meta(
-                target,
-                FileOptions,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                val,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            val = Dict{Symbol,Any}(:java_multiple_files => false, :java_string_check_utf8 => false, :optimize_for => FileOptions_OptimizeMode.SPEED, :cc_generic_services => false, :java_generic_services => false, :py_generic_services => false, :php_generic_services => false, :deprecated => false, :cc_enable_arenas => true)
+            fnum = Int[1,8,10,20,27,9,11,16,17,18,42,23,31,36,37,39,40,41,44,45,999]
+            allflds = Pair{Symbol,Union{Type,String}}[:java_package => AbstractString, :java_outer_classname => AbstractString, :java_multiple_files => Bool, :java_generate_equals_and_hash => Bool, :java_string_check_utf8 => Bool, :optimize_for => Int32, :go_package => AbstractString, :cc_generic_services => Bool, :java_generic_services => Bool, :py_generic_services => Bool, :php_generic_services => Bool, :deprecated => Bool, :cc_enable_arenas => Bool, :objc_class_prefix => AbstractString, :csharp_namespace => AbstractString, :swift_prefix => AbstractString, :php_class_prefix => AbstractString, :php_namespace => AbstractString, :php_metadata_namespace => AbstractString, :ruby_package => AbstractString, :uninterpreted_option => Base.Vector{UninterpretedOption}]
+            meta(target, FileOptions, allflds, ProtoBuf.DEF_REQ, fnum, val, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_FileOptions[]
     end
@@ -655,11 +429,8 @@ mutable struct EnumValueOptions <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -670,23 +441,9 @@ function meta(::Type{EnumValueOptions})
         if !isassigned(__meta_EnumValueOptions)
             __meta_EnumValueOptions[] = target = ProtoMeta(EnumValueOptions)
             val = Dict{Symbol,Any}(:deprecated => false)
-            fnum = Int[1, 999]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :deprecated=>Bool,
-                :uninterpreted_option=>Base.Vector{UninterpretedOption},
-            ]
-            meta(
-                target,
-                EnumValueOptions,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                val,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            fnum = Int[1,999]
+            allflds = Pair{Symbol,Union{Type,String}}[:deprecated => Bool, :uninterpreted_option => Base.Vector{UninterpretedOption}]
+            meta(target, EnumValueOptions, allflds, ProtoBuf.DEF_REQ, fnum, val, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_EnumValueOptions[]
     end
@@ -713,11 +470,8 @@ mutable struct OneofOptions <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -728,21 +482,8 @@ function meta(::Type{OneofOptions})
         if !isassigned(__meta_OneofOptions)
             __meta_OneofOptions[] = target = ProtoMeta(OneofOptions)
             fnum = Int[999]
-            allflds = Pair{Symbol,Union{Type,String}}[:uninterpreted_option=>Base.Vector{
-                UninterpretedOption,
-            }]
-            meta(
-                target,
-                OneofOptions,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            allflds = Pair{Symbol,Union{Type,String}}[:uninterpreted_option => Base.Vector{UninterpretedOption}]
+            meta(target, OneofOptions, allflds, ProtoBuf.DEF_REQ, fnum, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_OneofOptions[]
     end
@@ -767,11 +508,8 @@ mutable struct ServiceOptions <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -782,23 +520,9 @@ function meta(::Type{ServiceOptions})
         if !isassigned(__meta_ServiceOptions)
             __meta_ServiceOptions[] = target = ProtoMeta(ServiceOptions)
             val = Dict{Symbol,Any}(:deprecated => false)
-            fnum = Int[33, 999]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :deprecated=>Bool,
-                :uninterpreted_option=>Base.Vector{UninterpretedOption},
-            ]
-            meta(
-                target,
-                ServiceOptions,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                val,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            fnum = Int[33,999]
+            allflds = Pair{Symbol,Union{Type,String}}[:deprecated => Bool, :uninterpreted_option => Base.Vector{UninterpretedOption}]
+            meta(target, ServiceOptions, allflds, ProtoBuf.DEF_REQ, fnum, val, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_ServiceOptions[]
     end
@@ -813,36 +537,32 @@ function Base.getproperty(obj::ServiceOptions, name::Symbol)
     end
 end
 
-const FieldDescriptorProto_Type = (;
-    [
-        Symbol("TYPE_DOUBLE") => Int32(1),
-        Symbol("TYPE_FLOAT") => Int32(2),
-        Symbol("TYPE_INT64") => Int32(3),
-        Symbol("TYPE_UINT64") => Int32(4),
-        Symbol("TYPE_INT32") => Int32(5),
-        Symbol("TYPE_FIXED64") => Int32(6),
-        Symbol("TYPE_FIXED32") => Int32(7),
-        Symbol("TYPE_BOOL") => Int32(8),
-        Symbol("TYPE_STRING") => Int32(9),
-        Symbol("TYPE_GROUP") => Int32(10),
-        Symbol("TYPE_MESSAGE") => Int32(11),
-        Symbol("TYPE_BYTES") => Int32(12),
-        Symbol("TYPE_UINT32") => Int32(13),
-        Symbol("TYPE_ENUM") => Int32(14),
-        Symbol("TYPE_SFIXED32") => Int32(15),
-        Symbol("TYPE_SFIXED64") => Int32(16),
-        Symbol("TYPE_SINT32") => Int32(17),
-        Symbol("TYPE_SINT64") => Int32(18),
-    ]...,
-)
+const FieldDescriptorProto_Type = (;[
+    Symbol("TYPE_DOUBLE") => Int32(1),
+    Symbol("TYPE_FLOAT") => Int32(2),
+    Symbol("TYPE_INT64") => Int32(3),
+    Symbol("TYPE_UINT64") => Int32(4),
+    Symbol("TYPE_INT32") => Int32(5),
+    Symbol("TYPE_FIXED64") => Int32(6),
+    Symbol("TYPE_FIXED32") => Int32(7),
+    Symbol("TYPE_BOOL") => Int32(8),
+    Symbol("TYPE_STRING") => Int32(9),
+    Symbol("TYPE_GROUP") => Int32(10),
+    Symbol("TYPE_MESSAGE") => Int32(11),
+    Symbol("TYPE_BYTES") => Int32(12),
+    Symbol("TYPE_UINT32") => Int32(13),
+    Symbol("TYPE_ENUM") => Int32(14),
+    Symbol("TYPE_SFIXED32") => Int32(15),
+    Symbol("TYPE_SFIXED64") => Int32(16),
+    Symbol("TYPE_SINT32") => Int32(17),
+    Symbol("TYPE_SINT64") => Int32(18),
+]...)
 
-const FieldDescriptorProto_Label = (;
-    [
-        Symbol("LABEL_OPTIONAL") => Int32(1),
-        Symbol("LABEL_REQUIRED") => Int32(2),
-        Symbol("LABEL_REPEATED") => Int32(3),
-    ]...,
-)
+const FieldDescriptorProto_Label = (;[
+    Symbol("LABEL_OPTIONAL") => Int32(1),
+    Symbol("LABEL_REQUIRED") => Int32(2),
+    Symbol("LABEL_REPEATED") => Int32(3),
+]...)
 
 mutable struct FieldDescriptorProto <: ProtoType
     __protobuf_jl_internal_meta::ProtoMeta
@@ -856,11 +576,8 @@ mutable struct FieldDescriptorProto <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -870,32 +587,9 @@ function meta(::Type{FieldDescriptorProto})
     ProtoBuf.metalock() do
         if !isassigned(__meta_FieldDescriptorProto)
             __meta_FieldDescriptorProto[] = target = ProtoMeta(FieldDescriptorProto)
-            fnum = Int[1, 3, 4, 5, 6, 2, 7, 9, 10, 8, 17]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :name=>AbstractString,
-                :number=>Int32,
-                :label=>Int32,
-                :_type=>Int32,
-                :type_name=>AbstractString,
-                :extendee=>AbstractString,
-                :default_value=>AbstractString,
-                :oneof_index=>Int32,
-                :json_name=>AbstractString,
-                :options=>FieldOptions,
-                :proto3_optional=>Bool,
-            ]
-            meta(
-                target,
-                FieldDescriptorProto,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            fnum = Int[1,3,4,5,6,2,7,9,10,8,17]
+            allflds = Pair{Symbol,Union{Type,String}}[:name => AbstractString, :number => Int32, :label => Int32, :_type => Int32, :type_name => AbstractString, :extendee => AbstractString, :default_value => AbstractString, :oneof_index => Int32, :json_name => AbstractString, :options => FieldOptions, :proto3_optional => Bool]
+            meta(target, FieldDescriptorProto, allflds, ProtoBuf.DEF_REQ, fnum, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_FieldDescriptorProto[]
     end
@@ -940,11 +634,8 @@ mutable struct DescriptorProto_ExtensionRange <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -953,25 +644,9 @@ const __meta_DescriptorProto_ExtensionRange = Ref{ProtoMeta}()
 function meta(::Type{DescriptorProto_ExtensionRange})
     ProtoBuf.metalock() do
         if !isassigned(__meta_DescriptorProto_ExtensionRange)
-            __meta_DescriptorProto_ExtensionRange[] =
-                target = ProtoMeta(DescriptorProto_ExtensionRange)
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :start=>Int32,
-                :_end=>Int32,
-                :options=>ExtensionRangeOptions,
-            ]
-            meta(
-                target,
-                DescriptorProto_ExtensionRange,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            __meta_DescriptorProto_ExtensionRange[] = target = ProtoMeta(DescriptorProto_ExtensionRange)
+            allflds = Pair{Symbol,Union{Type,String}}[:start => Int32, :_end => Int32, :options => ExtensionRangeOptions]
+            meta(target, DescriptorProto_ExtensionRange, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_DescriptorProto_ExtensionRange[]
     end
@@ -1000,11 +675,8 @@ mutable struct MethodDescriptorProto <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1015,26 +687,8 @@ function meta(::Type{MethodDescriptorProto})
         if !isassigned(__meta_MethodDescriptorProto)
             __meta_MethodDescriptorProto[] = target = ProtoMeta(MethodDescriptorProto)
             val = Dict{Symbol,Any}(:client_streaming => false, :server_streaming => false)
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :name=>AbstractString,
-                :input_type=>AbstractString,
-                :output_type=>AbstractString,
-                :options=>MethodOptions,
-                :client_streaming=>Bool,
-                :server_streaming=>Bool,
-            ]
-            meta(
-                target,
-                MethodDescriptorProto,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                val,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            allflds = Pair{Symbol,Union{Type,String}}[:name => AbstractString, :input_type => AbstractString, :output_type => AbstractString, :options => MethodOptions, :client_streaming => Bool, :server_streaming => Bool]
+            meta(target, MethodDescriptorProto, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, val, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_MethodDescriptorProto[]
     end
@@ -1069,11 +723,8 @@ mutable struct EnumValueDescriptorProto <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1083,23 +734,8 @@ function meta(::Type{EnumValueDescriptorProto})
     ProtoBuf.metalock() do
         if !isassigned(__meta_EnumValueDescriptorProto)
             __meta_EnumValueDescriptorProto[] = target = ProtoMeta(EnumValueDescriptorProto)
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :name=>AbstractString,
-                :number=>Int32,
-                :options=>EnumValueOptions,
-            ]
-            meta(
-                target,
-                EnumValueDescriptorProto,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            allflds = Pair{Symbol,Union{Type,String}}[:name => AbstractString, :number => Int32, :options => EnumValueOptions]
+            meta(target, EnumValueDescriptorProto, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_EnumValueDescriptorProto[]
     end
@@ -1122,21 +758,14 @@ mutable struct EnumDescriptorProto_EnumReservedRange <: ProtoType
     __protobuf_jl_internal_defaultset::Set{Symbol}
 
     function EnumDescriptorProto_EnumReservedRange(; kwargs...)
-        obj = new(
-            meta(EnumDescriptorProto_EnumReservedRange),
-            Dict{Symbol,Any}(),
-            Set{Symbol}(),
-        )
+        obj = new(meta(EnumDescriptorProto_EnumReservedRange), Dict{Symbol,Any}(), Set{Symbol}())
         values = obj.__protobuf_jl_internal_values
         symdict = obj.__protobuf_jl_internal_meta.symdict
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1145,21 +774,9 @@ const __meta_EnumDescriptorProto_EnumReservedRange = Ref{ProtoMeta}()
 function meta(::Type{EnumDescriptorProto_EnumReservedRange})
     ProtoBuf.metalock() do
         if !isassigned(__meta_EnumDescriptorProto_EnumReservedRange)
-            __meta_EnumDescriptorProto_EnumReservedRange[] =
-                target = ProtoMeta(EnumDescriptorProto_EnumReservedRange)
-            allflds = Pair{Symbol,Union{Type,String}}[:start=>Int32, :_end=>Int32]
-            meta(
-                target,
-                EnumDescriptorProto_EnumReservedRange,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            __meta_EnumDescriptorProto_EnumReservedRange[] = target = ProtoMeta(EnumDescriptorProto_EnumReservedRange)
+            allflds = Pair{Symbol,Union{Type,String}}[:start => Int32, :_end => Int32]
+            meta(target, EnumDescriptorProto_EnumReservedRange, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_EnumDescriptorProto_EnumReservedRange[]
     end
@@ -1186,11 +803,8 @@ mutable struct EnumDescriptorProto <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1200,25 +814,8 @@ function meta(::Type{EnumDescriptorProto})
     ProtoBuf.metalock() do
         if !isassigned(__meta_EnumDescriptorProto)
             __meta_EnumDescriptorProto[] = target = ProtoMeta(EnumDescriptorProto)
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :name=>AbstractString,
-                :value=>Base.Vector{EnumValueDescriptorProto},
-                :options=>EnumOptions,
-                :reserved_range=>Base.Vector{EnumDescriptorProto_EnumReservedRange},
-                :reserved_name=>Base.Vector{AbstractString},
-            ]
-            meta(
-                target,
-                EnumDescriptorProto,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            allflds = Pair{Symbol,Union{Type,String}}[:name => AbstractString, :value => Base.Vector{EnumValueDescriptorProto}, :options => EnumOptions, :reserved_range => Base.Vector{EnumDescriptorProto_EnumReservedRange}, :reserved_name => Base.Vector{AbstractString}]
+            meta(target, EnumDescriptorProto, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_EnumDescriptorProto[]
     end
@@ -1227,15 +824,11 @@ function Base.getproperty(obj::EnumDescriptorProto, name::Symbol)
     if name === :name
         return (obj.__protobuf_jl_internal_values[name])::AbstractString
     elseif name === :value
-        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{
-            EnumValueDescriptorProto,
-        }
+        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{EnumValueDescriptorProto}
     elseif name === :options
         return (obj.__protobuf_jl_internal_values[name])::EnumOptions
     elseif name === :reserved_range
-        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{
-            EnumDescriptorProto_EnumReservedRange,
-        }
+        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{EnumDescriptorProto_EnumReservedRange}
     elseif name === :reserved_name
         return (obj.__protobuf_jl_internal_values[name])::Base.Vector{AbstractString}
     else
@@ -1255,11 +848,8 @@ mutable struct OneofDescriptorProto <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1269,22 +859,8 @@ function meta(::Type{OneofDescriptorProto})
     ProtoBuf.metalock() do
         if !isassigned(__meta_OneofDescriptorProto)
             __meta_OneofDescriptorProto[] = target = ProtoMeta(OneofDescriptorProto)
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :name=>AbstractString,
-                :options=>OneofOptions,
-            ]
-            meta(
-                target,
-                OneofDescriptorProto,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            allflds = Pair{Symbol,Union{Type,String}}[:name => AbstractString, :options => OneofOptions]
+            meta(target, OneofDescriptorProto, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_OneofDescriptorProto[]
     end
@@ -1311,11 +887,8 @@ mutable struct DescriptorProto_ReservedRange <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1324,21 +897,9 @@ const __meta_DescriptorProto_ReservedRange = Ref{ProtoMeta}()
 function meta(::Type{DescriptorProto_ReservedRange})
     ProtoBuf.metalock() do
         if !isassigned(__meta_DescriptorProto_ReservedRange)
-            __meta_DescriptorProto_ReservedRange[] =
-                target = ProtoMeta(DescriptorProto_ReservedRange)
-            allflds = Pair{Symbol,Union{Type,String}}[:start=>Int32, :_end=>Int32]
-            meta(
-                target,
-                DescriptorProto_ReservedRange,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            __meta_DescriptorProto_ReservedRange[] = target = ProtoMeta(DescriptorProto_ReservedRange)
+            allflds = Pair{Symbol,Union{Type,String}}[:start => Int32, :_end => Int32]
+            meta(target, DescriptorProto_ReservedRange, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_DescriptorProto_ReservedRange[]
     end
@@ -1365,11 +926,8 @@ mutable struct DescriptorProto <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1379,31 +937,9 @@ function meta(::Type{DescriptorProto})
     ProtoBuf.metalock() do
         if !isassigned(__meta_DescriptorProto)
             __meta_DescriptorProto[] = target = ProtoMeta(DescriptorProto)
-            fnum = Int[1, 2, 6, 3, 4, 5, 8, 7, 9, 10]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :name=>AbstractString,
-                :field=>Base.Vector{FieldDescriptorProto},
-                :extension=>Base.Vector{FieldDescriptorProto},
-                :nested_type=>Base.Vector{DescriptorProto},
-                :enum_type=>Base.Vector{EnumDescriptorProto},
-                :extension_range=>Base.Vector{DescriptorProto_ExtensionRange},
-                :oneof_decl=>Base.Vector{OneofDescriptorProto},
-                :options=>MessageOptions,
-                :reserved_range=>Base.Vector{DescriptorProto_ReservedRange},
-                :reserved_name=>Base.Vector{AbstractString},
-            ]
-            meta(
-                target,
-                DescriptorProto,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            fnum = Int[1,2,6,3,4,5,8,7,9,10]
+            allflds = Pair{Symbol,Union{Type,String}}[:name => AbstractString, :field => Base.Vector{FieldDescriptorProto}, :extension => Base.Vector{FieldDescriptorProto}, :nested_type => Base.Vector{DescriptorProto}, :enum_type => Base.Vector{EnumDescriptorProto}, :extension_range => Base.Vector{DescriptorProto_ExtensionRange}, :oneof_decl => Base.Vector{OneofDescriptorProto}, :options => MessageOptions, :reserved_range => Base.Vector{DescriptorProto_ReservedRange}, :reserved_name => Base.Vector{AbstractString}]
+            meta(target, DescriptorProto, allflds, ProtoBuf.DEF_REQ, fnum, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_DescriptorProto[]
     end
@@ -1420,17 +956,13 @@ function Base.getproperty(obj::DescriptorProto, name::Symbol)
     elseif name === :enum_type
         return (obj.__protobuf_jl_internal_values[name])::Base.Vector{EnumDescriptorProto}
     elseif name === :extension_range
-        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{
-            DescriptorProto_ExtensionRange,
-        }
+        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{DescriptorProto_ExtensionRange}
     elseif name === :oneof_decl
         return (obj.__protobuf_jl_internal_values[name])::Base.Vector{OneofDescriptorProto}
     elseif name === :options
         return (obj.__protobuf_jl_internal_values[name])::MessageOptions
     elseif name === :reserved_range
-        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{
-            DescriptorProto_ReservedRange,
-        }
+        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{DescriptorProto_ReservedRange}
     elseif name === :reserved_name
         return (obj.__protobuf_jl_internal_values[name])::Base.Vector{AbstractString}
     else
@@ -1450,11 +982,8 @@ mutable struct ServiceDescriptorProto <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1464,23 +993,8 @@ function meta(::Type{ServiceDescriptorProto})
     ProtoBuf.metalock() do
         if !isassigned(__meta_ServiceDescriptorProto)
             __meta_ServiceDescriptorProto[] = target = ProtoMeta(ServiceDescriptorProto)
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :name=>AbstractString,
-                :method=>Base.Vector{MethodDescriptorProto},
-                :options=>ServiceOptions,
-            ]
-            meta(
-                target,
-                ServiceDescriptorProto,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            allflds = Pair{Symbol,Union{Type,String}}[:name => AbstractString, :method => Base.Vector{MethodDescriptorProto}, :options => ServiceOptions]
+            meta(target, ServiceDescriptorProto, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_ServiceDescriptorProto[]
     end
@@ -1509,11 +1023,8 @@ mutable struct SourceCodeInfo_Location <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1523,27 +1034,10 @@ function meta(::Type{SourceCodeInfo_Location})
     ProtoBuf.metalock() do
         if !isassigned(__meta_SourceCodeInfo_Location)
             __meta_SourceCodeInfo_Location[] = target = ProtoMeta(SourceCodeInfo_Location)
-            fnum = Int[1, 2, 3, 4, 6]
-            pack = Symbol[:path, :span]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :path=>Base.Vector{Int32},
-                :span=>Base.Vector{Int32},
-                :leading_comments=>AbstractString,
-                :trailing_comments=>AbstractString,
-                :leading_detached_comments=>Base.Vector{AbstractString},
-            ]
-            meta(
-                target,
-                SourceCodeInfo_Location,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                ProtoBuf.DEF_VAL,
-                pack,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            fnum = Int[1,2,3,4,6]
+            pack = Symbol[:path,:span]
+            allflds = Pair{Symbol,Union{Type,String}}[:path => Base.Vector{Int32}, :span => Base.Vector{Int32}, :leading_comments => AbstractString, :trailing_comments => AbstractString, :leading_detached_comments => Base.Vector{AbstractString}]
+            meta(target, SourceCodeInfo_Location, allflds, ProtoBuf.DEF_REQ, fnum, ProtoBuf.DEF_VAL, pack, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_SourceCodeInfo_Location[]
     end
@@ -1576,11 +1070,8 @@ mutable struct SourceCodeInfo <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1590,30 +1081,15 @@ function meta(::Type{SourceCodeInfo})
     ProtoBuf.metalock() do
         if !isassigned(__meta_SourceCodeInfo)
             __meta_SourceCodeInfo[] = target = ProtoMeta(SourceCodeInfo)
-            allflds = Pair{Symbol,Union{Type,String}}[:location=>Base.Vector{
-                SourceCodeInfo_Location,
-            }]
-            meta(
-                target,
-                SourceCodeInfo,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            allflds = Pair{Symbol,Union{Type,String}}[:location => Base.Vector{SourceCodeInfo_Location}]
+            meta(target, SourceCodeInfo, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_SourceCodeInfo[]
     end
 end
 function Base.getproperty(obj::SourceCodeInfo, name::Symbol)
     if name === :location
-        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{
-            SourceCodeInfo_Location,
-        }
+        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{SourceCodeInfo_Location}
     else
         getfield(obj, name)
     end
@@ -1631,11 +1107,8 @@ mutable struct FileDescriptorProto <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1645,33 +1118,9 @@ function meta(::Type{FileDescriptorProto})
     ProtoBuf.metalock() do
         if !isassigned(__meta_FileDescriptorProto)
             __meta_FileDescriptorProto[] = target = ProtoMeta(FileDescriptorProto)
-            fnum = Int[1, 2, 3, 10, 11, 4, 5, 6, 7, 8, 9, 12]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :name=>AbstractString,
-                :package=>AbstractString,
-                :dependency=>Base.Vector{AbstractString},
-                :public_dependency=>Base.Vector{Int32},
-                :weak_dependency=>Base.Vector{Int32},
-                :message_type=>Base.Vector{DescriptorProto},
-                :enum_type=>Base.Vector{EnumDescriptorProto},
-                :service=>Base.Vector{ServiceDescriptorProto},
-                :extension=>Base.Vector{FieldDescriptorProto},
-                :options=>FileOptions,
-                :source_code_info=>SourceCodeInfo,
-                :syntax=>AbstractString,
-            ]
-            meta(
-                target,
-                FileDescriptorProto,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                fnum,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            fnum = Int[1,2,3,10,11,4,5,6,7,8,9,12]
+            allflds = Pair{Symbol,Union{Type,String}}[:name => AbstractString, :package => AbstractString, :dependency => Base.Vector{AbstractString}, :public_dependency => Base.Vector{Int32}, :weak_dependency => Base.Vector{Int32}, :message_type => Base.Vector{DescriptorProto}, :enum_type => Base.Vector{EnumDescriptorProto}, :service => Base.Vector{ServiceDescriptorProto}, :extension => Base.Vector{FieldDescriptorProto}, :options => FileOptions, :source_code_info => SourceCodeInfo, :syntax => AbstractString]
+            meta(target, FileDescriptorProto, allflds, ProtoBuf.DEF_REQ, fnum, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_FileDescriptorProto[]
     end
@@ -1692,9 +1141,7 @@ function Base.getproperty(obj::FileDescriptorProto, name::Symbol)
     elseif name === :enum_type
         return (obj.__protobuf_jl_internal_values[name])::Base.Vector{EnumDescriptorProto}
     elseif name === :service
-        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{
-            ServiceDescriptorProto,
-        }
+        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{ServiceDescriptorProto}
     elseif name === :extension
         return (obj.__protobuf_jl_internal_values[name])::Base.Vector{FieldDescriptorProto}
     elseif name === :options
@@ -1720,11 +1167,8 @@ mutable struct FileDescriptorSet <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1734,20 +1178,8 @@ function meta(::Type{FileDescriptorSet})
     ProtoBuf.metalock() do
         if !isassigned(__meta_FileDescriptorSet)
             __meta_FileDescriptorSet[] = target = ProtoMeta(FileDescriptorSet)
-            allflds =
-                Pair{Symbol,Union{Type,String}}[:file=>Base.Vector{FileDescriptorProto}]
-            meta(
-                target,
-                FileDescriptorSet,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            allflds = Pair{Symbol,Union{Type,String}}[:file => Base.Vector{FileDescriptorProto}]
+            meta(target, FileDescriptorSet, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_FileDescriptorSet[]
     end
@@ -1772,11 +1204,8 @@ mutable struct GeneratedCodeInfo_Annotation <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1785,27 +1214,10 @@ const __meta_GeneratedCodeInfo_Annotation = Ref{ProtoMeta}()
 function meta(::Type{GeneratedCodeInfo_Annotation})
     ProtoBuf.metalock() do
         if !isassigned(__meta_GeneratedCodeInfo_Annotation)
-            __meta_GeneratedCodeInfo_Annotation[] =
-                target = ProtoMeta(GeneratedCodeInfo_Annotation)
+            __meta_GeneratedCodeInfo_Annotation[] = target = ProtoMeta(GeneratedCodeInfo_Annotation)
             pack = Symbol[:path]
-            allflds = Pair{Symbol,Union{Type,String}}[
-                :path=>Base.Vector{Int32},
-                :source_file=>AbstractString,
-                :_begin=>Int32,
-                :_end=>Int32,
-            ]
-            meta(
-                target,
-                GeneratedCodeInfo_Annotation,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                pack,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            allflds = Pair{Symbol,Union{Type,String}}[:path => Base.Vector{Int32}, :source_file => AbstractString, :_begin => Int32, :_end => Int32]
+            meta(target, GeneratedCodeInfo_Annotation, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, pack, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_GeneratedCodeInfo_Annotation[]
     end
@@ -1836,11 +1248,8 @@ mutable struct GeneratedCodeInfo <: ProtoType
         for nv in kwargs
             fldname, fldval = nv
             fldtype = symdict[fldname].jtyp
-            (fldname in keys(symdict)) ||
-                error(string(typeof(obj), " has no field with name ", fldname))
-            if fldval !== nothing
-                values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
-            end
+            (fldname in keys(symdict)) || error(string(typeof(obj), " has no field with name ", fldname))
+            values[fldname] = isa(fldval, fldtype) ? fldval : convert(fldtype, fldval)
         end
         obj
     end
@@ -1850,65 +1259,18 @@ function meta(::Type{GeneratedCodeInfo})
     ProtoBuf.metalock() do
         if !isassigned(__meta_GeneratedCodeInfo)
             __meta_GeneratedCodeInfo[] = target = ProtoMeta(GeneratedCodeInfo)
-            allflds = Pair{Symbol,Union{Type,String}}[:annotation=>Base.Vector{
-                GeneratedCodeInfo_Annotation,
-            }]
-            meta(
-                target,
-                GeneratedCodeInfo,
-                allflds,
-                ProtoBuf.DEF_REQ,
-                ProtoBuf.DEF_FNUM,
-                ProtoBuf.DEF_VAL,
-                ProtoBuf.DEF_PACK,
-                ProtoBuf.DEF_WTYPES,
-                ProtoBuf.DEF_ONEOFS,
-                ProtoBuf.DEF_ONEOF_NAMES,
-            )
+            allflds = Pair{Symbol,Union{Type,String}}[:annotation => Base.Vector{GeneratedCodeInfo_Annotation}]
+            meta(target, GeneratedCodeInfo, allflds, ProtoBuf.DEF_REQ, ProtoBuf.DEF_FNUM, ProtoBuf.DEF_VAL, ProtoBuf.DEF_PACK, ProtoBuf.DEF_WTYPES, ProtoBuf.DEF_ONEOFS, ProtoBuf.DEF_ONEOF_NAMES)
         end
         __meta_GeneratedCodeInfo[]
     end
 end
 function Base.getproperty(obj::GeneratedCodeInfo, name::Symbol)
     if name === :annotation
-        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{
-            GeneratedCodeInfo_Annotation,
-        }
+        return (obj.__protobuf_jl_internal_values[name])::Base.Vector{GeneratedCodeInfo_Annotation}
     else
         getfield(obj, name)
     end
 end
 
-export FileDescriptorSet,
-    FileDescriptorProto,
-    DescriptorProto_ExtensionRange,
-    DescriptorProto_ReservedRange,
-    DescriptorProto,
-    ExtensionRangeOptions,
-    FieldDescriptorProto_Type,
-    FieldDescriptorProto_Label,
-    FieldDescriptorProto,
-    OneofDescriptorProto,
-    EnumDescriptorProto_EnumReservedRange,
-    EnumDescriptorProto,
-    EnumValueDescriptorProto,
-    ServiceDescriptorProto,
-    MethodDescriptorProto,
-    FileOptions_OptimizeMode,
-    FileOptions,
-    MessageOptions,
-    FieldOptions_CType,
-    FieldOptions_JSType,
-    FieldOptions,
-    OneofOptions,
-    EnumOptions,
-    EnumValueOptions,
-    ServiceOptions,
-    MethodOptions_IdempotencyLevel,
-    MethodOptions,
-    UninterpretedOption_NamePart,
-    UninterpretedOption,
-    SourceCodeInfo_Location,
-    SourceCodeInfo,
-    GeneratedCodeInfo_Annotation,
-    GeneratedCodeInfo
+export FileDescriptorSet, FileDescriptorProto, DescriptorProto_ExtensionRange, DescriptorProto_ReservedRange, DescriptorProto, ExtensionRangeOptions, FieldDescriptorProto_Type, FieldDescriptorProto_Label, FieldDescriptorProto, OneofDescriptorProto, EnumDescriptorProto_EnumReservedRange, EnumDescriptorProto, EnumValueDescriptorProto, ServiceDescriptorProto, MethodDescriptorProto, FileOptions_OptimizeMode, FileOptions, MessageOptions, FieldOptions_CType, FieldOptions_JSType, FieldOptions, OneofOptions, EnumOptions, EnumValueOptions, ServiceOptions, MethodOptions_IdempotencyLevel, MethodOptions, UninterpretedOption_NamePart, UninterpretedOption, SourceCodeInfo_Location, SourceCodeInfo, GeneratedCodeInfo_Annotation, GeneratedCodeInfo

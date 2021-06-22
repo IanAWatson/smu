@@ -26,6 +26,7 @@
 
 syntax = "proto3";
 
+package dataset_pb2;
 
 import "google/protobuf/descriptor.proto";
 

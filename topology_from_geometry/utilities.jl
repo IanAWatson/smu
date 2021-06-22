@@ -1,12 +1,9 @@
 # utility functions needed for discerning topology from geometry
 
-module Utilities
-
 using Combinatorics
 
-include("../jlout/dataset_pb.jl")
-
 export bohr_to_angstroms, angstroms_to_bohr, distance_between_atoms, bonded, distances
+export add_atom!, add_bond!
 
 function bohr_to_angstroms(distance)
   return distance * 0.529177249
@@ -16,7 +13,7 @@ function angstroms_to_bohr(distance)
   return distance / 0.529177249
 end
 
-function distance_between_atoms(geom, a1, a2)::Float32
+function distance_between_atoms(geom::dataset_pb2.Geometry, a1, a2)::Float32
   return bohr_to_angstroms(sqrt(
     (geom.atom_positions[a1].x - geom.atom_positions[a2].x) *
     (geom.atom_positions[a1].x - geom.atom_positions[a2].x) +
@@ -27,12 +24,61 @@ function distance_between_atoms(geom, a1, a2)::Float32
   ))
 end
 
+function add_bond!(a1::T, a2::T, btype::T, bond_topology::dataset_pb2.BondTopology) where {T<:Integer}
+  if btype == 1
+    smu_btype = BondTopology_BondType.BOND_SINGLE
+  elseif btype == 2
+    smu_btype = BondTopology_BondType.BOND_DOUBLE
+  elseif btype == 3
+    smu_btype = BondTopology_BondType.BOND_TRIPLE
+  else
+    @error("Unrecognized bond type $(btype)")
+  end
+
+  if !hasproperty(bond_topology, :bonds)
+    bonds = [BondTopology_Bond(atom_a=a1, atom_b=a2, bond_type=smu_btype)]
+    setproperty!(bond_topology, :bonds, bonds)
+  else
+    push!(bond_topology.bonds, BondTopology_Bond(atom_a=a1, atom_b=a2, bond_type=smu_btype))
+  end
+end
+
+function add_atom!(bond_topology::dataset_pb2.BondTopology, atype::T, charge::T=0) where {T<:Integer}
+  if atype == 6
+    smu_atype = BondTopology_AtomType.ATOM_C
+  elseif atype == 7
+    if charge == 0
+      smu_atype = BondTopology_AtomType.ATOM_N
+    else
+      smu_atype = BondTopology_AtomType.ATOM_NPOS
+    end
+  elseif atype == 8
+    if charge == 0
+      smu_atype = BondTopology_AtomType.ATOM_O
+    else
+      smu_atype = BondTopology_AtomType.ATOM_ONEG
+    end
+  elseif atype == 9
+    smu_atype = BondTopology_AtomType.ATOM_F
+  elseif atype == 1
+    smu_atype = BondTopology_AtomType.ATOM_H
+  else
+    @error("Unrecognized atom type $(atype)")
+  end
+
+  if !hasproperty(bond_topology, :atoms)
+    setproperty!(bond_topology, :atoms, [smu_atype])
+  else
+    push!(bond_topology.atoms, smu_atype)
+  end
+end
+
 """Return an int array of the bonded atoms in `bond_topology`.
 Args:
 Returns:
   a numpy array of BondType's
 """
-function bonded(bond_topology)::Array{Int32, 2}
+function bonded(bond_topology::dataset_pb2.BondTopology)::Array{Int32, 2}
   natoms = length(bond_topology.atoms)
   connected = zeros(Int32, (natoms, natoms))  # to be returned
   # Note need to convert to 1 indexing for Julia
@@ -72,11 +118,13 @@ Args:
 Returns:
   a numpy array of distances
 """
-function distances(geometry::Geometry)::Array{Float, 2}
+function distances(geometry)::Array{Float32, 2}
   natoms = length(geometry.atom_positions)
   result = zeros(Float32, (natoms, natoms))
   for atoms in combinations(1:natoms, 2)
-    result[i, j] = result[j, i] = distance_between_atoms(geometry, atoms[1], atoms[2])
+    i = atoms[1]
+    j = atoms[2]
+    result[i, j] = result[j, i] = distance_between_atoms(geometry, i, j)
   end
   return result
 end
@@ -89,7 +137,7 @@ Args:
 Returns:
   BondTopology
 """
-function canonical_bond_topology(bond_topology::BondTopology)
+function canonical_bond_topology(bond_topology)
   if length(bond_topology.bonds) < 2
     return
   end
@@ -100,7 +148,7 @@ function canonical_bond_topology(bond_topology::BondTopology)
     end
   end
 
-  sort!(bond_topology.bonds, b -> (b.atom_a, b.atom_b))
+  sort!(bond_topology.bonds, by = b -> (b.atom_a, b.atom_b))
 end
 
 Base.:(==)(b1::BondTopology_Bond, b2::BondTopology_Bond)::Bool = b1.atom_a == b2.atom_a &&
@@ -111,25 +159,27 @@ Note that there is no attempt to canonialise the protos.
 Args:
 Returns:
 """
-function same_bond_topology(bt1::BondTopology, bt2::BondTopology)::Bool
-  if length(bt2.atoms) != length(bt2.atoms)
-    return false
-  end
-
-  if length(bt2.bonds) != length(bt2.bonds)
-    return false
-  end
+function same_bond_topology(bt1, bt2)::Bool
+  length(bt2.atoms) == length(bt2.atoms) || return false
+  length(bt2.bonds) == length(bt2.bonds) || return false
 
   # https://stackoverflow.com/questions/47564825/check-if-all-the-elements-of-a-julia-array-are-equal
   # all(y->y==x[1], x);
 
   atoms1 = bt1.atoms
-  if ! all(atoms1->a1==bt2.atoms[1], bt2.atoms)
+  if ! all(atoms1->atoms1==bt2.atoms[1], bt2.atoms)
     return false
   end
 
-  bonds1 = bt1.bonds
-  return all(bonds1->b1==bt2.bonds[1], bt2.bonds)
+  # This should work, but raises an exception.
+  # bonds1 = bt1.bonds
+  # bonds2 = bt2.bonds
+  # return all(bonds1->bonds1==bonds2[1], bonds2)
+
+  for i in 1:length(bt1.bonds)
+    bt1.bonds[i] != bt2.bonds[i] && return false
+  end
+  return true
 end
 
 """Recusrively visit nodes in the graph defined by `nbrs`.
@@ -140,8 +190,8 @@ Args:
 Returns:
   The number of nodes visited - including `atom`.
 """
-function visit(nbrs::Vector, atom::Int, visited::Vector{Bool})::Int32
-  visited[atom] = 1
+function visit(nbrs::Vector, atom::T, visited::Vector{Bool})::Int32 where {T<:Integer}
+  visited[atom] = true
   result = 1    # To be returned.
   for nbr in nbrs[atom]
     if visited[nbr] > 0
@@ -163,9 +213,7 @@ function is_single_fragment(bond_topology::BondTopology)::Bool
   natoms = length(bond_topology.atoms)
   nbonds = length(bond_topology.bonds)
   # Some special cases are easy.
-  if natoms == 1
-    return true
-  end
+  natoms == 1 && return true
   if natoms == 2 && nbonds == 1
     return true
   end
@@ -178,16 +226,14 @@ function is_single_fragment(bond_topology::BondTopology)::Bool
 
   attached = connections(bonded(bond_topology))
   # Any atom with zero neighbors means a detached atom.
-  if any(n->length(n) == 0, attached)
-    return false
-  end
+  any(n->length(n) == 0, attached) && return false
 
-  visited = zeros(Int32, natoms)
+  visited = zeros(Bool, natoms)
   # Mark anything with a single connection as visited.
   # Record the index of an atom that has multiple connections.
   a_multiply_connected_atom = -1
-  for i in range(1, natoms)
-    if bond_topology.atoms[i] == BondTopology.AtomType.ATOM_H
+  for i in 1:natoms
+    if bond_topology.atoms[i] == BondTopology_AtomType.ATOM_H
       visited[i] = 1
       continue
     end
@@ -197,18 +243,15 @@ function is_single_fragment(bond_topology::BondTopology)::Bool
       continue
     end
 
-    # A singly connected heavy atom. Mark visited if not of a two atom fragment.
-    if length(attached[attached[i][0]]) > 1
+    # A singly connected heavy atom. Mark visited if not part of a two atom fragment.
+    if length(attached[attached[i][1]]) > 1
       visited[i] = 1
     end
   end
 
-  if a_multiply_connected_atom < 0     # Cannot happen
-    return false
-  end
+  # Not sure this can happen.
+  a_multiply_connected_atom < 0 && return false
 
   number_visited = sum(visited) + visit(attached, a_multiply_connected_atom, visited)
   return number_visited == natoms
 end
-
-end  # module Utilities
