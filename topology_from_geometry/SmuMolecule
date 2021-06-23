@@ -1,0 +1,5 @@
+module SmuMolecule
+
+include "smu_molecule.jl"
+
+end  # module SmuMolecule

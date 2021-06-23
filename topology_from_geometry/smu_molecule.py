@@ -94,7 +94,7 @@ class SmuMolecule:
   def _initialize(self):
     """Make the molecule reading for adding bonds between heavy atoms.
     """
-    self._current_bonds_attached = self._bonds_with_hydrogens_attached
+    self._current_bonds_attached = np.copy(self._bonds_with_hydrogens_attached)
 
   def _place_bond(self, a1: int, a2: int, btype: int) -> bool:
     """Possibly add a new bond to the current config.
@@ -110,7 +110,7 @@ class SmuMolecule:
     """
     if self._current_bonds_attached[a1] + btype > self._max_bonds[a1]:
       return False
-    if self._current_bonds_attached[a2] + btype > self._max_bonds[a1]:
+    if self._current_bonds_attached[a2] + btype > self._max_bonds[a2]:
       return False
 
     self._current_bonds_attached[a1] += btype

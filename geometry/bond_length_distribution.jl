@@ -1,7 +1,5 @@
 # Implementation empirical bond length distributions, supporting pdf() functions.
 
-module BondLengthDistributions
-
 using Combinatorics
 using CSV
 using DataFrames
@@ -113,5 +111,3 @@ function pdf(distributions::AllBondLengthDistributions, type1::Int, type2::Int, 
 
   return value.pdf(distance)
 end
-
-end  # module BondLengthDistributions

@@ -2,8 +2,13 @@
 
 using Combinatorics
 
+using dataset_pb2
+
 export bohr_to_angstroms, angstroms_to_bohr, distance_between_atoms, bonded, distances
 export add_atom!, add_bond!
+export smu_atype_to_atomic_number, number_to_smu_btype, smu_btype_to_number, smu_atom_type_to_max_con
+export atomic_number_to_smu_atom_type
+export add_atom_by_atomic_number!, add_atom_by_type!
 
 function bohr_to_angstroms(distance)
   return distance * 0.529177249
@@ -24,48 +29,112 @@ function distance_between_atoms(geom::dataset_pb2.Geometry, a1, a2)::Float32
   ))
 end
 
-function add_bond!(a1::T, a2::T, btype::T, bond_topology::dataset_pb2.BondTopology) where {T<:Integer}
-  if btype == 1
-    smu_btype = BondTopology_BondType.BOND_SINGLE
-  elseif btype == 2
-    smu_btype = BondTopology_BondType.BOND_DOUBLE
-  elseif btype == 3
-    smu_btype = BondTopology_BondType.BOND_TRIPLE
-  else
-    @error("Unrecognized bond type $(btype)")
-  end
+_smu_atype_to_atomic_number = Dict{Int32, Int32}(
+  BondTopology_AtomType.ATOM_H => 1,
+  BondTopology_AtomType.ATOM_C => 6,
+  BondTopology_AtomType.ATOM_N => 7,
+  BondTopology_AtomType.ATOM_NPOS => 7,
+  BondTopology_AtomType.ATOM_O => 8,
+  BondTopology_AtomType.ATOM_ONEG => 8,
+  BondTopology_AtomType.ATOM_F => 9
+)
 
-  if !hasproperty(bond_topology, :bonds)
-    bonds = [BondTopology_Bond(atom_a=a1, atom_b=a2, bond_type=smu_btype)]
-    setproperty!(bond_topology, :bonds, bonds)
+function smu_atype_to_atomic_number(smu_type::T)::Int32 where {T<:Integer}
+  return _smu_atype_to_atomic_number[smu_type]
+end
+
+"""Given an atomic number and charge, return the BondTopology_AtomType
+Args:
+  atomic_number:
+  charge:
+Returns:
+  BondTopology_AtomType
+This type annotation does not work...
+function atomic_number_to_smu_atom_type(atomic_number::T, charge::T=0)::BondTopology_AtomType where {T<:Integer}
+"""
+function atomic_number_to_smu_atom_type(atomic_number::T, charge::T=0)::Int32 where {T<:Integer}
+  if atomic_number == 6
+    return BondTopology_AtomType.ATOM_C
+  elseif atomic_number == 7
+    if charge == 0
+      return BondTopology_AtomType.ATOM_N
+    else
+      return BondTopology_AtomType.ATOM_NPOS
+    end
+  elseif atomic_number == 8
+    if charge == 0
+      return BondTopology_AtomType.ATOM_O
+    else
+      return BondTopology_AtomType.ATOM_ONEG
+    end
+  elseif atomic_number == 9
+    return BondTopology_AtomType.ATOM_F
+  elseif atomic_number == 1
+    return BondTopology_AtomType.ATOM_H
   else
-    push!(bond_topology.bonds, BondTopology_Bond(atom_a=a1, atom_b=a2, bond_type=smu_btype))
+    @error("Unrecognized atomic number $(atomic_number)")
   end
 end
 
-function add_atom!(bond_topology::dataset_pb2.BondTopology, atype::T, charge::T=0) where {T<:Integer}
-  if atype == 6
-    smu_atype = BondTopology_AtomType.ATOM_C
-  elseif atype == 7
-    if charge == 0
-      smu_atype = BondTopology_AtomType.ATOM_N
-    else
-      smu_atype = BondTopology_AtomType.ATOM_NPOS
-    end
-  elseif atype == 8
-    if charge == 0
-      smu_atype = BondTopology_AtomType.ATOM_O
-    else
-      smu_atype = BondTopology_AtomType.ATOM_ONEG
-    end
-  elseif atype == 9
-    smu_atype = BondTopology_AtomType.ATOM_F
-  elseif atype == 1
-    smu_atype = BondTopology_AtomType.ATOM_H
-  else
-    @error("Unrecognized atom type $(atype)")
-  end
+_number_to_smu_btype = Dict{Int32, Int32}(
+  0 => BondTopology_BondType.BOND_UNDEFINED,
+  1 => BondTopology_BondType.BOND_SINGLE,
+  2 => BondTopology_BondType.BOND_DOUBLE,
+  3 => BondTopology_BondType.BOND_TRIPLE
+)
 
+function number_to_smu_btype(n::T)::Int32 where {T<:Integer}
+  return _number_to_smu_btype[n]
+end
+
+_smu_btype_to_number = Dict{Int32, Int32}(
+  BondTopology_BondType.BOND_UNDEFINED => 0,
+  BondTopology_BondType.BOND_SINGLE => 1,
+  BondTopology_BondType.BOND_DOUBLE => 2,
+  BondTopology_BondType.BOND_TRIPLE => 3
+)
+
+_smu_atom_type_to_max_con = Dict{Int32, Int32}(
+  BondTopology_AtomType.ATOM_H => 1,
+  BondTopology_AtomType.ATOM_C => 4,
+  BondTopology_AtomType.ATOM_N => 3,
+  BondTopology_AtomType.ATOM_NPOS => 3,
+  BondTopology_AtomType.ATOM_O => 2,
+  BondTopology_AtomType.ATOM_ONEG => 1,
+  BondTopology_AtomType.ATOM_F => 1
+)
+
+# Return the maximum number of bonds for `smu_atype`.
+# Unfortunately the type declaration on the next line does not work.
+# function smu_atom_type_to_max_con(smu_atype::BondTopology_AtomType)::Int32
+
+function smu_atom_type_to_max_con(smu_atype::T)::Int32 where {T <:Integer}
+  return _smu_atom_type_to_max_con[smu_atype]
+end
+
+function smu_btype_to_number(smu_btype::T)::Int32 where {T<:Integer}
+  return _smu_btype_to_number[smu_btype]
+end
+
+
+function add_bond!(a1::T, a2::T, btype::T, bond_topology::dataset_pb2.BondTopology) where {T<:Integer}
+  smu_btype = number_to_smu_btype(btype)
+
+  new_bond = BondTopology_Bond(atom_a=a1, atom_b=a2, bond_type=smu_btype)
+
+  if !hasproperty(bond_topology, :bonds)
+    setproperty!(bond_topology, :bonds, [new_bond])
+  else
+    push!(bond_topology.bonds, new_bond)
+  end
+end
+
+function add_atom_by_atomic_number!(bond_topology::dataset_pb2.BondTopology, atomic_number::T, charge::T=0) where {T<:Integer}
+  smu_atype = atomic_number_to_smu_atom_type(atomic_number, charge)
+  add_atom_by_type!(bond_topology, smu_atype)
+end
+
+function add_atom_by_type!(bond_topology::dataset_pb2.BondTopology, smu_atype::T) where {T <:Integer}
   if !hasproperty(bond_topology, :atoms)
     setproperty!(bond_topology, :atoms, [smu_atype])
   else
@@ -74,9 +143,13 @@ function add_atom!(bond_topology::dataset_pb2.BondTopology, atype::T, charge::T=
 end
 
 """Return an int array of the bonded atoms in `bond_topology`.
+The returned array is square[natoms,natoms]. If there is no bond
+between the atoms, the value is zero. If the atoms are bonded,
+the entry will be the bond type.
 Args:
+  bond_topology:
 Returns:
-  a numpy array of BondType's
+  Vector of BondType's
 """
 function bonded(bond_topology::dataset_pb2.BondTopology)::Array{Int32, 2}
   natoms = length(bond_topology.atoms)

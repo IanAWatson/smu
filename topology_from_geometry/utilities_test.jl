@@ -15,15 +15,15 @@ end
 
 function test_add_atom()
   bond_topology = BondTopology()
-  add_atom!(bond_topology, 6)
+  add_atom_by_atomic_number!(bond_topology, 6)
   @test length(bond_topology.atoms) == 1
   @test bond_topology.atoms[1] == BondTopology_AtomType.ATOM_C
 
-  add_atom!(bond_topology, 7)
+  add_atom_by_atomic_number!(bond_topology, 7)
   @test length(bond_topology.atoms) == 2
   @test bond_topology.atoms[2] == BondTopology_AtomType.ATOM_N
 
-  add_atom!(bond_topology, 7, 1)
+  add_atom_by_atomic_number!(bond_topology, 7, 1)
   @test length(bond_topology.atoms) == 3
   @test bond_topology.atoms[3] == BondTopology_AtomType.ATOM_NPOS
 
@@ -42,7 +42,7 @@ function test_add_atom()
 
   bt = BondTopology()
   for i in zip(atype, expected)
-    add_atom!(bt, i[1][1], i[1][2])
+    add_atom_by_atomic_number!(bt, i[1][1], i[1][2])
     @test bt.atoms[end] == i[2]
   end
   @test length(bt.atoms) == length(expected)
