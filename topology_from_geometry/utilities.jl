@@ -117,7 +117,7 @@ function smu_btype_to_number(smu_btype::T)::Int32 where {T<:Integer}
 end
 
 
-function add_bond!(a1::T, a2::T, btype::T, bond_topology::dataset_pb2.BondTopology) where {T<:Integer}
+function add_bond!(a1::T, a2::T, btype, bond_topology::dataset_pb2.BondTopology) where {T<:Integer}
   smu_btype = number_to_smu_btype(btype)
 
   new_bond = BondTopology_Bond(atom_a=a1, atom_b=a2, bond_type=smu_btype)

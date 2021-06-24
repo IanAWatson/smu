@@ -113,9 +113,7 @@ function bond_topologies_from_geom(
   search_space = mol.generate_search_state()
   for s in product(search_space...)
     bt = mol.place_bonds(s...)
-    if not bt
-      continue
-    end
+    bt || continue
 
     utilities.canonical_bond_topology(bt)
     utilities.same_bond_topology(bond_topology, bt) && bt.is_starting_topology = true
