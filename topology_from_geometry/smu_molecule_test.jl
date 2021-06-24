@@ -59,7 +59,6 @@ function test_ethane_all_btypes()
     numeric_btype = t[1]
     smu_btype = t[2]
     cc = carbon_atoms(2)
-#   add_bond!(0, 1, 1, cc)
     bonds_to_scores = Dict{Tuple{Int32,Int32}, Vector{Float32}}((0, 1) => zeros(Float32, 4))
     bonds_to_scores[(0, 1)][numeric_btype + 1] = 1.0
     mol = SmuMolecule(cc, bonds_to_scores, matching_parameters)

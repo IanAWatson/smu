@@ -17,7 +17,6 @@ MatchingParameters() = MatchingParameters(true)
 
 mutable struct SmuMolecule
   starting_bond_topology::BondTopology
-# natoms::Int32
   # For each atom, the maximum number of bonds that can be attached.
   max_bonds::Vector{Int32}
 

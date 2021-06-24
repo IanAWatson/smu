@@ -7,10 +7,11 @@ using Test
 
 using dataset_pb2
 
-using TopologyFromGeom
+using SmuUtilities
+#using TopologyFromGeometry
 
 function test_bohr_angstroms()
-  @test isapprox(TopologyFromGeom.angstroms_to_bohr(TopologyFromGeom.bohr_to_angstroms(1.0)), 1.0)
+  @test isapprox(angstroms_to_bohr(SmuUtilities.bohr_to_angstroms(1.0)), 1.0)
 end
 
 function test_add_atom()
@@ -109,16 +110,16 @@ function test_distance_between()
   atoms = Vector{Geometry_AtomPos}()
   a1 = Geometry_AtomPos(x=0.0, y=0.0, z=0.0)
   push!(atoms, a1)
-  a2 = Geometry_AtomPos(x=0.0, y=0.0, z=TopologyFromGeom.angstroms_to_bohr(1.0))
+  a2 = Geometry_AtomPos(x=0.0, y=0.0, z=angstroms_to_bohr(1.0))
   push!(atoms, a2)
   setproperty!(geom, :atom_positions, atoms)
-  @test isapprox(TopologyFromGeom.distance_between_atoms(geom, 1, 2), 1.0)
-  setproperty!(geom.atom_positions[2], :x, TopologyFromGeom.angstroms_to_bohr(1.0))
-  setproperty!(geom.atom_positions[2], :y, TopologyFromGeom.angstroms_to_bohr(1.0))
-  setproperty!(geom.atom_positions[2], :z, TopologyFromGeom.angstroms_to_bohr(1.0))
-  @test isapprox(TopologyFromGeom.distance_between_atoms(geom, 1, 2), sqrt(3.0))
+  @test isapprox(distance_between_atoms(geom, 1, 2), 1.0)
+  setproperty!(geom.atom_positions[2], :x, angstroms_to_bohr(1.0))
+  setproperty!(geom.atom_positions[2], :y, angstroms_to_bohr(1.0))
+  setproperty!(geom.atom_positions[2], :z, angstroms_to_bohr(1.0))
+  @test isapprox(distance_between_atoms(geom, 1, 2), sqrt(3.0))
 
-  distances = TopologyFromGeom.distances(geom)
+  distances = SmuUtilities.distances(geom)
   @test distances[1,1] == 0.0
   @test distances[2,2] == 0.0
   @test isapprox(distances[1,2], sqrt(3.0))
@@ -138,16 +139,16 @@ function test_bonded()
   setproperty!(bond_topology, :atoms, atoms)
   setproperty!(bond_topology, :bonds, bonds)
 
-  bonded = TopologyFromGeom.bonded(bond_topology)
-  @test length(atoms) == size(bonded, 1)
-  @test bonded[1,2] > 0
-  @test bonded[2,3] > 0
-  @test count(!iszero, bonded) == 4  # Bonds are placed twice.
+  connection_matrix = SmuUtilities.bonded(bond_topology)
+  @test length(atoms) == size(connection_matrix, 1)
+  @test connection_matrix[1,2] > 0
+  @test connection_matrix[2,3] > 0
+  @test count(!iszero, connection_matrix) == 4  # Bonds are placed twice.
   push!(bond_topology.bonds, BondTopology_Bond(atom_a=0, atom_b=2, bond_type=BondTopology_BondType.BOND_DOUBLE))
-  bonded = TopologyFromGeom.bonded(bond_topology)
-  @test count(!iszero, bonded) == 6  # Bonds are placed twice.
-  @test bonded[1,2] == bonded[2,3]
-  @test bonded[1,2] != bonded[3,1]
+  connection_matrix = SmuUtilities.bonded(bond_topology)
+  @test count(!iszero, connection_matrix) == 6  # Bonds are placed twice.
+  @test connection_matrix[1,2] == connection_matrix[2,3]
+  @test connection_matrix[1,2] != connection_matrix[3,1]
   true
 end
 
@@ -163,7 +164,7 @@ function test_connections()
   setproperty!(bond_topology, :atoms, atoms)
   setproperty!(bond_topology, :bonds, bonds)
 
-  connections = TopologyFromGeom.connections(TopologyFromGeom.bonded(bond_topology))
+  connections = SmuUtilities.connections(SmuUtilities.bonded(bond_topology))
   @test length(connections) == length(atoms)
   @test length(connections[1]) == 1
   @test length(connections[2]) == 2
@@ -187,7 +188,7 @@ function test_canonical_bond_topology()
   setproperty!(bond_topology, :atoms, atoms)
   setproperty!(bond_topology, :bonds, bonds)
 
-  TopologyFromGeom.canonical_bond_topology(bond_topology)
+  SmuUtilities.canonical_bond_topology(bond_topology)
 
   expected = BondTopology()
   atoms = Vector{Int32}()
@@ -200,7 +201,7 @@ function test_canonical_bond_topology()
   setproperty!(expected, :atoms, atoms)
   setproperty!(expected, :bonds, bonds)
   @test bond_topology == expected
-  @test TopologyFromGeom.same_bond_topology(bond_topology, expected)
+  @test SmuUtilities.same_bond_topology(bond_topology, expected)
 
   true
 end
@@ -216,23 +217,23 @@ function test_single_fragment1()
   setproperty!(bond_topology, :atoms, atoms)
   setproperty!(bond_topology, :bonds, bonds)
 
-  @test !TopologyFromGeom.is_single_fragment(bond_topology)
+  @test !SmuUtilities.is_single_fragment(bond_topology)
 
   push!(bond_topology.bonds, BondTopology_Bond(atom_a=1, atom_b=2, bond_type=BondTopology_BondType.BOND_SINGLE))
-  @test TopologyFromGeom.is_single_fragment(bond_topology)
+  @test SmuUtilities.is_single_fragment(bond_topology)
   
   push!(bond_topology.atoms, BondTopology_AtomType.ATOM_C)  # atom 3
-  @test !TopologyFromGeom.is_single_fragment(bond_topology)
+  @test !SmuUtilities.is_single_fragment(bond_topology)
 
   push!(bond_topology.atoms, BondTopology_AtomType.ATOM_C)  # atom 4
-  @test !TopologyFromGeom.is_single_fragment(bond_topology)
+  @test !SmuUtilities.is_single_fragment(bond_topology)
   push!(bond_topology.bonds, BondTopology_Bond(atom_a=3, atom_b=4, bond_type=BondTopology_BondType.BOND_SINGLE))
-  @test !TopologyFromGeom.is_single_fragment(bond_topology)
+  @test !SmuUtilities.is_single_fragment(bond_topology)
 
   push!(bond_topology.bonds, BondTopology_Bond(atom_a=2, atom_b=3, bond_type=BondTopology_BondType.BOND_SINGLE))
-  @test TopologyFromGeom.is_single_fragment(bond_topology)
+  @test SmuUtilities.is_single_fragment(bond_topology)
   push!(bond_topology.bonds, BondTopology_Bond(atom_a=0, atom_b=4, bond_type=BondTopology_BondType.BOND_SINGLE))
-  @test TopologyFromGeom.is_single_fragment(bond_topology)
+  @test SmuUtilities.is_single_fragment(bond_topology)
 
   true
 end

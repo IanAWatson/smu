@@ -9,6 +9,8 @@ export add_atom!, add_bond!
 export smu_atype_to_atomic_number, number_to_smu_btype, smu_btype_to_number, smu_atom_type_to_max_con
 export atomic_number_to_smu_atom_type
 export add_atom_by_atomic_number!, add_atom_by_type!
+export distances
+export bonded
 
 function bohr_to_angstroms(distance)
   return distance * 0.529177249

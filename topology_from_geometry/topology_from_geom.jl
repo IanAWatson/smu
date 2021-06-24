@@ -2,6 +2,8 @@
 using dataset_pb2
 
 using BondLengthDistributions
+using SmuMolecules
+using SmuUtilities
 
 """Generate a BondTopology that joins each Hydrogen atom to its nearest
     heavy atom.
@@ -9,9 +11,9 @@ Args:
   bond_topology:
   distances:
 Returns:
-""'
+"""
 function hydrogen_to_nearest_atom(bond_topology::dataset_pb2.BondTopology,
-                             distances::Array{Float32,2})::Union{dataset_pb2.BondTopology
+                             distances::Array{Float32,2})::Union{dataset_pb2.BondTopology, Nothing}
   result = dataset_pb2.BondTopology()
   # Not sure if this is safe or not.
   setproperty!(result, :atoms, bond_topology.atoms)
@@ -43,7 +45,6 @@ function hydrogen_to_nearest_atom(bond_topology::dataset_pb2.BondTopology,
   return result
 end
 
-
 """Return the indices of the heavy atoms in `bond_topology`.
   Args:
   Returns:
@@ -67,15 +68,15 @@ end
     TopologyMatches
 """
 function bond_topologies_from_geom(
-    bond_lengths::AllAtomPairLengthDistributions,
+    bond_lengths::AllBondLengthDistributions,
     bond_topology::dataset_pb2.BondTopology,
     geometry::dataset_pb2.Geometry,
-    matching_parameters::smu_molecule.MatchingParameters)::dataset_pb2.TopologyMatches
+    matching_parameters::MatchingParameters)::dataset_pb2.TopologyMatches
   result = dataset_pb2.TopologyMatches()    # To be returned.
   len(bond_topology.atoms) == 1 && return result  # return an empty result
 
-  utilities.canonical_bond_topology(bond_topology)
-  distances = utilities.distances(geometry)
+  canonical_bond_topology(bond_topology)
+  distances = distances(geometry)
 
   # First join each Hydrogen to its nearest heavy atom, thereby
   # creating a starting BondTopology from which all others can grow
@@ -89,25 +90,28 @@ function bond_topologies_from_geom(
   # Key is a tuple of the two atom numbers, value is a Vector
   # with the score for each bond type.
 
-  bonds_to_scores = Dict{Tuple{Int32,Int64}}, Vector{Float32}}()
+  bonds_to_scores = Dict{Tuple{Int32,Int32}, Vector{Float32}}()
 
   found_topologies = Vector{BondTopology}()
 
   for c in combinations(heavy_atom_indices, 2)  # All pairs
-    i = c[1]
-    j = c[2]
-    dist = distances[i, j]
-    dist > THRESHOLD && continue
+     i = c[1]
+     j = c[2]
+     dist = distances[i, j]
+     dist > THRESHOLD && continue
 
     btypes = [bond_lengths.pdf_length_given_type(bond_topology.atoms[i],
                                                  bond_topology.atoms[j], btype, dist) for btype in 0:4]
 
-    any(nonzero, btypes) && bonds_to_scores[(i, j)] = btypes
+#   Should work does not compile.
+#   any(nonzero, btypes) && bonds_to_scores[(i, j)] = btypes
+    if any(nonzero, btypes)
+      bonds_to_scores[(i, j)] = btypes
+    end
   end
 
   isempty(bonds_to_scores) && return result
 
-# print(f"Mol with {len(bond_topology.atoms)} has {bonds_to_scores}")
   mol = smu_molecule.SmuMolecule(starting_bond_topology, bonds_to_scores, matching_parameters)
 
   search_space = mol.generate_search_state()
@@ -115,8 +119,12 @@ function bond_topologies_from_geom(
     bt = mol.place_bonds(s...)
     bt || continue
 
-    utilities.canonical_bond_topology(bt)
-    utilities.same_bond_topology(bond_topology, bt) && bt.is_starting_topology = true
+    canonical_bond_topology(bt)
+#   should work, fails to compile...
+#   same_bond_topology(bond_topology, bt) && bt.is_starting_topology = true
+    if same_bond_topology(bond_topology, bt)
+      bt.is_starting_topology = true
+    end
     # smiles not set
     push!(found_topologies, bt)
   end
