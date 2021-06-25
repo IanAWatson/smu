@@ -49,6 +49,7 @@ function pdf(distribution::BondLengthDistribution, distance::Real)::Float32
   distance >= distribution.max_distance && return 0.0
 
   idx = round(Int32, (distance - distribution.min_distance) / distribution.bucket_size) + 1
+  idx > length(distribution.pdf) && return 0.0  # will happen due to fp inaccuracy
   return distribution.pdf[idx]
 end
 
@@ -61,6 +62,7 @@ struct AtypesBtype
   btype::Int
 end 
 
+# functions to facilitate hashing
 function Base.isequal(t1::AtypesBtype, t2::AtypesBtype)::Bool
   t1.type1 == t1.type1 && t1.type2 == t2.type2 && t1.btype == t2.btype
 end
@@ -69,11 +71,23 @@ function Base.hash(atypes::AtypesBtype)::UInt64
   return 200 * atypes.type1 + 100 * atypes.type2 + atypes.btype
 end
 
+"""The main interface to bond length distributions.
+  Holds a mapping from atom and bond types to a distribution, which si then
+  used by pdf().
+"""
 mutable struct AllBondLengthDistributions
+  # Whether or not the non-bonded types are read during construction 
+  # from files.
+  include_non_bonded::Bool
+  # For each atom types/bond type combination, a distribution.
   distribution::Dict{AtypesBtype, BondLengthDistribution}
 end
-AllBondLengthDistributions() = AllBondLengthDistributions(Dict{AtypesBtype, BondLengthDistribution}())
+AllBondLengthDistributions() = AllBondLengthDistributions(true, Dict{AtypesBtype, BondLengthDistribution}())
 
+"""Add a bond length distribution to `distributions` by reading data from `fname`.
+Args:
+Returns:
+"""
 function add_file!(fname::String, distributions::AllBondLengthDistributions, key::AtypesBtype)::Bool
   dist = BondLengthDistribution()
   if ! from_file!(fname, dist)
@@ -104,11 +118,13 @@ Returns:
   true if successful
 """
 function add_from_files!(stem::String, distributions::AllBondLengthDistributions)::Bool
+  bstart  = distributions.include_non_bonded ? 0 : 1
+
   bond_types = [0, 1, 2, 3]
 
   atomic_numbers = [1, 6, 7, 8, 9]
   for (t1, t2) in filter(x->x[1] <= x[2], collect(Iterators.product(ntuple(i->atomic_numbers, 2)...))[:])
-    for btype in 0:3
+    for btype in bstart:3
       fname = "$stem.$(t1).$(btype).$(t2)"
       @info("Processing $fname")
       if ! isfile(fname)
@@ -116,7 +132,7 @@ function add_from_files!(stem::String, distributions::AllBondLengthDistributions
         continue
       end
       key = AtypesBtype(t1, t2, btype)
-      @debug("Adding to key $key")
+#     @debug("Adding to key $key")
       if ! add_file!(fname, distributions, key)
         @error("error adding $(fname)")
         return false
@@ -129,7 +145,7 @@ end
 function pdf(distributions::AllBondLengthDistributions, type1::Integer, type2::Integer, btype::Integer, distance::Real)::Float32
   key = AtypesBtype(minmax(smu_atype_to_atomic_number(type1), smu_atype_to_atomic_number(type2))..., btype)
   value = get(distributions.distribution, key, nothing)
-  @debug("value for $type1 $type2 $btype $value")
+# @debug("value for $type1 $type2 $btype $value")
   value == nothing && return 0.0
 
   return pdf(value, distance)

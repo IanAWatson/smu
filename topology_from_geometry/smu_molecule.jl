@@ -155,16 +155,13 @@ function place_bonds!(state::Tuple,
     btype = state[i]
     _place_bond!(a1, a2, btype - 1, mol) || return nothing
     # If the bond is anything other than BOND_UNDEFINED, add it to result.
-    (btype - 1) == BondTopology_BondType.BOND_UNDEFINED || add_bond!(a1, a2, btype - 1, result)
+    (btype - 1) == BondTopology_BondType.BOND_UNDEFINED || add_bond!(a1 - 1, a2 - 1, btype - 1, result)
     result.score = accumulate_score(mol, result.score, mol.scores[i][btype])
   end
 
   # Optionally check whether all bonds have been matched
-  @debug("Checking all bonds $(mol.must_match_all_bonds)")
   mol.must_match_all_bonds || return result
 
-  @debug("Cf bonds $(mol.current_bonds_attached) $(mol.max_bonds)")
-  mol.current_bonds_attached == mol.max_bonds || return nothing
-
-  return result
+# @debug("Cf bonds $(mol.current_bonds_attached) $(mol.max_bonds)")
+  mol.current_bonds_attached == mol.max_bonds ? result : nothing
 end

@@ -11,6 +11,7 @@ export atomic_number_to_smu_atom_type
 export add_atom_by_atomic_number!, add_atom_by_type!
 export distances, bonded
 export canonical_bond_topology!, same_bond_topology
+export is_single_fragment
 
 function bohr_to_angstroms(distance)
   return distance * 0.529177249

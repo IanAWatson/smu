@@ -130,11 +130,11 @@ def bond_topologies_from_geom(
   if not bonds_to_scores:    # Seems unlikely.
     return result
 
-
 # print(f"Mol with {len(bond_topology.atoms)} has {bonds_to_scores}")
   mol = smu_molecule.SmuMolecule(starting_bond_topology, bonds_to_scores, matching_parameters)
 
   search_space = mol.generate_search_state()
+  print(f"search_space {search_space}")
   for s in itertools.product(*search_space):
     bt = mol.place_bonds(list(s))
     if not bt:

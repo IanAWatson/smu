@@ -345,7 +345,8 @@ class AllAtomPairLengthDistributions:
     self._atom_pair_dict[(atom_a, atom_b)].add(bond_type, dist)
 
   def add_from_files(self, filestem,
-                     unbonded_right_tail_mass):
+                     unbonded_right_tail_mass,
+                     include_nonbonded):
     """Adds distributions from a set of files.
 
     Files are expected to be named {filestem}.{atom_a}.{bond_type}.{atom_b}
@@ -361,6 +362,7 @@ class AllAtomPairLengthDistributions:
       filestem: prefix of files to load
       unbonded_right_tail_mass: right_tail_mass (as described in
         EmpiricalLengthDistribution) for the unbonded cases.
+      include_nonbonded: whether or not to include non-bonded data.
     """
     atom_types = [
         dataset_pb2.BondTopology.ATOM_H,
@@ -370,12 +372,19 @@ class AllAtomPairLengthDistributions:
         dataset_pb2.BondTopology.ATOM_F,
     ]
 
-    bond_types = [
-        dataset_pb2.BondTopology.BOND_UNDEFINED,
-        dataset_pb2.BondTopology.BOND_SINGLE,
-        dataset_pb2.BondTopology.BOND_DOUBLE,
-        dataset_pb2.BondTopology.BOND_TRIPLE,
-    ]
+    if include_nonbonded:
+      bond_types = [
+          dataset_pb2.BondTopology.BOND_UNDEFINED,
+          dataset_pb2.BondTopology.BOND_SINGLE,
+          dataset_pb2.BondTopology.BOND_DOUBLE,
+          dataset_pb2.BondTopology.BOND_TRIPLE,
+      ]
+    else:
+      bond_types = [
+          dataset_pb2.BondTopology.BOND_SINGLE,
+          dataset_pb2.BondTopology.BOND_DOUBLE,
+          dataset_pb2.BondTopology.BOND_TRIPLE,
+      ]
 
     for (atom_a, atom_b), bond_type in itertools.product(
         itertools.combinations_with_replacement(atom_types, 2), bond_types):

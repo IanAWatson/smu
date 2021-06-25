@@ -106,7 +106,7 @@ function bond_topologies_from_geom(
     any(nonzero, scores) && (bonds_to_scores[(i, j)] = scores)
   end
 
-  @debug("bonds_to_scores $(bonds_to_scores)")
+# @debug("bonds_to_scores $(bonds_to_scores)")
   isempty(bonds_to_scores) && return result
 
   found_topologies = Vector{BondTopology}()  # Will be set into `result`.
@@ -114,9 +114,11 @@ function bond_topologies_from_geom(
   mol = SmuMolecule(starting_bond_topology, bonds_to_scores, matching_parameters)
 
   search_space = generate_search_state(mol)
+  println("search_space $search_space ", prod(x->length(x), search_space))
   for s in Iterators.product(search_space...)
     @debug("Placing state $s")
     (bt = place_bonds!(s, mol)) == nothing && continue
+    is_single_fragment(bt) || continue
 
     canonical_bond_topology!(bt)
     same_bond_topology(bond_topology, bt) && (bt.is_starting_topology = true)

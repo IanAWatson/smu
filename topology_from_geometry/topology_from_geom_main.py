@@ -16,6 +16,7 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string("input", None, "TFDataRecord file containg Conformer protos")
 flags.DEFINE_string("bonds", None, "File name stem for bond length distributions")
 flags.DEFINE_string("output", None, "Output file")
+flags.DEFINE_boolean("xnonbond", False, "Exclude non bonded interactions")
 
 
 def ReadConFormer(bond_lengths: bond_length_distribution.AllAtomPairLengthDistributions, input: str,
@@ -43,7 +44,7 @@ def topology_from_geometry_main(unused_argv):
   del unused_argv
 
   bond_lengths = bond_length_distribution.AllAtomPairLengthDistributions()
-  bond_lengths.add_from_files(FLAGS.bonds, 0.0)
+  bond_lengths.add_from_files(FLAGS.bonds, 0.0, FLAGS.xnonbond)
   protos = ReadConFormer(bond_lengths, FLAGS.input, FLAGS.output)
   print(protos)
 

@@ -30,25 +30,22 @@ def smi23d(unused_argv):
   del unused_argv
 
   df = pd.read_csv(FLAGS.smiles)
-  mols = [Chem.MolFromSmiles(smi) for smi in df.SMILES]
-  mols = [m for m in mols if not contains_aromatic(m)]
-  logging.info("Read %d molecules", len(mols))
-  hmols = [Chem.AddHs(m) for m in mols]
-  for mol  in hmols:
-    AllChem.EmbedMolecule(mol,AllChem.ETKDG())
-  smiles = list(df.SMILES)
-  sid = list(df.ID)
 
   with tf.io.TFRecordWriter(FLAGS.output) as file_writer:
-
-    for n, hmol in enumerate(hmols):
-      hmol.SetProp("_Name","%s"%sid[n])
-      hmol.SetProp("_ID","%s"%sid[n])
-      hmol.SetProp("_SMILES","%s"%smiles[n])
-      if hmol.GetNumConformers() == 0:
+    for index, row in df.iterrows():
+      smiles = row[0]
+      name = row[1]
+      mol = Chem.MolFromSmiles(smiles)
+      if contains_aromatic(mol):
         continue
-      conf = hmol.GetConformer(0)
-      natoms = hmol.GetNumAtoms()
+      mol = Chem.AddHs(mol)
+      AllChem.EmbedMolecule(mol, AllChem.ETKDG())
+      if mol.GetNumConformers() == 0:
+        continue
+  
+      natoms = mol.GetNumAtoms()
+  
+      conf = mol.GetConformer(0)
       geom = dataset_pb2.Geometry()
       for i in range(0, natoms):
         atom = dataset_pb2.Geometry.AtomPos()
@@ -56,12 +53,14 @@ def smi23d(unused_argv):
         atom.y = conf.GetAtomPosition(i).y / smu_utils_lib.BOHR_TO_ANGSTROMS
         atom.z = conf.GetAtomPosition(i).z / smu_utils_lib.BOHR_TO_ANGSTROMS
         geom.atom_positions.append(atom)
-
+  
       conformer = dataset_pb2.Conformer()
-      conformer.bond_topologies.append(utilities.molecule_to_bond_topology(hmol))
-      conformer.bond_topologies[-1].smiles = smiles[n]
+      conformer.bond_topologies.append(utilities.molecule_to_bond_topology(mol))
+      conformer.bond_topologies[-1].smiles = smiles
       conformer.optimized_geometry.CopyFrom(geom)
+      conformer.conformer_id = int(name)
       file_writer.write(conformer.SerializeToString())
+
 
 
 if __name__ == "__main__":

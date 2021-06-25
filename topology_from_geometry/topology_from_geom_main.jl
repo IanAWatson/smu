@@ -20,7 +20,8 @@ function get_topology_from_geometry(bond_length_distributions::AllBondLengthDist
                                      geometry, matching_parameters)
   hasproperty(result, :bond_topology) || return false
   println(output_stream, length(result.bond_topology))
-  return true
+  flush(output_stream)
+  true
 end
 
 function main()
@@ -29,6 +30,7 @@ function main()
     @argumentrequired String output_fname "-o" "--output"
     @argumentrequired String bonds "-b" "--bonds"
     @argumentoptional Int64 nprocess "-N" "--nprocess"
+    @argumentflag exclude_non_bonded "-x" "--xcldnonbond"
     @argumentflag debug "-debug" "--debug"
     @argumentflag verbose "-v" "--verbose"
   end
@@ -36,10 +38,14 @@ function main()
     logger=Logging.SimpleLogger(stderr,Logging.Debug)
     global_logger(logger)
   end
+# global_logger(Logging.SimpleLogger(stderr, Logging.Error))
+
   @info("input $(input_fname) bonds $(bonds) output $(output_fname) $nprocess")
+  flush(stdout)
   nprocess === nothing && (nprocess = typemax(Int64))
 
   bond_length_distributions = AllBondLengthDistributions()
+  exclude_non_bonded !== nothing && (bond_length_distributions.include_non_bonded = false)
 
   add_from_files!(bonds, bond_length_distributions) || @error("Cannot build bond length distribution $bonds")
 
@@ -59,6 +65,7 @@ function main()
         @warn("No bond_topology, skipping")
         continue
       end
+      @info("processing $(conformer.conformer_id)")
       if get_topology_from_geometry(bond_length_distributions, conformer.bond_topologies[1],
                                     conformer.optimized_geometry, output_stream) 
         molecules_processed += 1
