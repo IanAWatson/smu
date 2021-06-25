@@ -107,7 +107,7 @@ function add_from_files!(stem::String, distributions::AllBondLengthDistributions
   bond_types = [0, 1, 2, 3]
 
   atomic_numbers = [1, 6, 7, 8, 9]
-  for (t1, t2) in filter(x->x[1] <= x[2],collect(Iterators.product(fill(atomic_numbers, 2)...)))
+  for (t1, t2) in filter(x->x[1] <= x[2], collect(Iterators.product(ntuple(i->atomic_numbers, 2)...))[:])
     for btype in 0:3
       fname = "$stem.$(t1).$(btype).$(t2)"
       @info("Processing $fname")

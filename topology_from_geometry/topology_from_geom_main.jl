@@ -28,11 +28,16 @@ function main()
     @argumentrequired String input_fname "-i" "--input"
     @argumentrequired String output_fname "-o" "--output"
     @argumentrequired String bonds "-b" "--bonds"
+    @argumentoptional Int64 nprocess "-N" "--nprocess"
     @argumentflag debug "-debug" "--debug"
     @argumentflag verbose "-v" "--verbose"
   end
-  println("input $(input_fname) bonds $(bonds) output $(output_fname)")
-  debug && Logging.configure(level=Logging.Debug)
+  if debug
+    logger=Logging.SimpleLogger(stderr,Logging.Debug)
+    global_logger(logger)
+  end
+  @info("input $(input_fname) bonds $(bonds) output $(output_fname) $nprocess")
+  nprocess === nothing && (nprocess = typemax(Int64))
 
   bond_length_distributions = AllBondLengthDistributions()
 
@@ -58,7 +63,7 @@ function main()
                                     conformer.optimized_geometry, output_stream) 
         molecules_processed += 1
       end
-      molecules_read > 10 && break
+      molecules_read > nprocess && break
     end
   end
   verbose && println("Read $(molecules_read) molecules, processed $(molecules_processed)")

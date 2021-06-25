@@ -49,15 +49,15 @@ function hydrogen_to_nearest_atom(bond_topology::dataset_pb2.BondTopology,
   return result
 end
 
-"""Return the indices of the heavy atoms in `bond_topology`.
-  Args:
-  Returns:
-"""
-function indices_of_heavy_atoms(bond_topology::dataset_pb2.BondTopology)::Vector{Int32}
-  atoms = bond_topology.atoms
-  findall(atoms->atoms!= dataset_pb2.BondTopology_AtomType.ATOM_H, atoms)
-end
+# Enable sorting of BondTopology's
+import Base: isless
+Base.isless(bt1::BondTopology, bt2::BondTopology) = isless(bt1.score, bt2.score)
 
+# Convenenience function for filtering scores.
+nonzero = x->x>0.0
+
+# Convenenience function for selecting non hydrogen atoms
+not_hydrogen = x->x != BondTopology_AtomType.ATOM_H
 
 """Return all BondTopology's that are plausible.
 
@@ -87,7 +87,8 @@ function bond_topologies_from_geom(
   starting_bond_topology = hydrogen_to_nearest_atom(bond_topology, distances)
   starting_bond_topology === nothing && return result
 
-  heavy_atom_indices = findall(a->a != dataset_pb2.BondTopology_AtomType.ATOM_H, bond_topology.atoms)
+# heavy_atom_indices = findall(a->a != dataset_pb2.BondTopology_AtomType.ATOM_H, bond_topology.atoms)
+  heavy_atom_indices = findall(not_hydrogen, bond_topology.atoms)
   length(heavy_atom_indices) < 2 && return result
 
   # For each atom pair, a list of possible bond types.
@@ -102,7 +103,7 @@ function bond_topologies_from_geom(
     scores = [pdf(bond_lengths, bond_topology.atoms[i], bond_topology.atoms[j], btype, dist)
               for btype in 0:4]
 
-    any((x)-> x > 0, scores) && (bonds_to_scores[(i, j)] = scores)
+    any(nonzero, scores) && (bonds_to_scores[(i, j)] = scores)
   end
 
   @debug("bonds_to_scores $(bonds_to_scores)")
@@ -125,7 +126,7 @@ function bond_topologies_from_geom(
 
   isempty(found_topologies) && return result
 
-  length(found_topologies) > 1 && sort!(found_topologies, by = b -> b.score, reverse=true)
+  length(found_topologies) > 1 && sort!(found_topologies, rev=true)
 
   setproperty!(result, :bond_topology, found_topologies)
 
