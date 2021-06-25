@@ -125,8 +125,6 @@ print(f"Trying to place bond {btype} current {self._current_bonds_attached[a1]} 
 """
 function _place_bond!(a1::Int32, a2::Int32, btype, mol::SmuMolecule)::Bool
   btype > 0 || return true
-  a1 += 1   # Convert to 1 based indexing
-  a2 += 1
   mol.current_bonds_attached[a1] + btype > mol.max_bonds[a1] && return false
   mol.current_bonds_attached[a2] + btype > mol.max_bonds[a2] && return false
 
@@ -162,8 +160,10 @@ function place_bonds!(state::Tuple,
   end
 
   # Optionally check whether all bonds have been matched
+  @debug("Checking all bonds $(mol.must_match_all_bonds)")
   mol.must_match_all_bonds || return result
 
+  @debug("Cf bonds $(mol.current_bonds_attached) $(mol.max_bonds)")
   mol.current_bonds_attached == mol.max_bonds || return nothing
 
   return result

@@ -59,6 +59,7 @@ def smi23d(unused_argv):
 
       conformer = dataset_pb2.Conformer()
       conformer.bond_topologies.append(utilities.molecule_to_bond_topology(hmol))
+      conformer.bond_topologies[-1].smiles = smiles[n]
       conformer.optimized_geometry.CopyFrom(geom)
       file_writer.write(conformer.SerializeToString())
 

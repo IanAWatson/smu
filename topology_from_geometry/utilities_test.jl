@@ -188,7 +188,7 @@ function test_canonical_bond_topology()
   setproperty!(bond_topology, :atoms, atoms)
   setproperty!(bond_topology, :bonds, bonds)
 
-  SmuUtilities.canonical_bond_topology(bond_topology)
+  SmuUtilities.canonical_bond_topology!(bond_topology)
 
   expected = BondTopology()
   atoms = Vector{Int32}()

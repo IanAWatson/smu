@@ -9,8 +9,8 @@ export add_atom!, add_bond!
 export smu_atype_to_atomic_number, number_to_smu_btype, smu_btype_to_number, smu_atom_type_to_max_con
 export atomic_number_to_smu_atom_type
 export add_atom_by_atomic_number!, add_atom_by_type!
-export distances
-export bonded
+export distances, bonded
+export canonical_bond_topology!, same_bond_topology
 
 function bohr_to_angstroms(distance)
   return distance * 0.529177249
@@ -51,10 +51,8 @@ Args:
   charge:
 Returns:
   BondTopology_AtomType
-This type annotation does not work...
-function atomic_number_to_smu_atom_type(atomic_number::T, charge::T=0)::BondTopology_AtomType where {T<:Integer}
 """
-function atomic_number_to_smu_atom_type(atomic_number::T, charge::T=0)::Int32 where {T<:Integer}
+function atomic_number_to_smu_atom_type(atomic_number::Integer, charge::Integer=0)::Int32
   if atomic_number == 6
     return BondTopology_AtomType.ATOM_C
   elseif atomic_number == 7
@@ -212,7 +210,7 @@ Args:
 Returns:
   BondTopology
 """
-function canonical_bond_topology(bond_topology)
+function canonical_bond_topology!(bond_topology)
   if length(bond_topology.bonds) < 2
     return
   end

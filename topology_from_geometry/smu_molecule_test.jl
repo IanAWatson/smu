@@ -1,4 +1,7 @@
-"""Testing the SmuMolecule"""
+"""Testing the SmuMolecule.
+The 1 based array indexing in Julia makes this somewhat discordant with the phython
+implementation.
+"""
 
 module TestSmuMolecule
 
@@ -30,7 +33,7 @@ function test_ethane()
   ethane = carbon_atoms(2)
   add_bond!(0, 1, 1, ethane)
   scores = [0.1, 1.1, 2.1, 3.1]
-  bonds_to_scores = Dict{Tuple{Int32, Int32}, Vector{Float32}}((0, 1) => scores)
+  bonds_to_scores = Dict{Tuple{Int32, Int32}, Vector{Float32}}((1, 2) => scores)
   mol = SmuMolecule(ethane, bonds_to_scores, matching_parameters)
   state = generate_search_state(mol)
   @test length(state) == 1
@@ -59,8 +62,8 @@ function test_ethane_all_btypes()
     numeric_btype = t[1]
     smu_btype = t[2]
     cc = carbon_atoms(2)
-    bonds_to_scores = Dict{Tuple{Int32,Int32}, Vector{Float32}}((0, 1) => zeros(Float32, 4))
-    bonds_to_scores[(0, 1)][numeric_btype + 1] = 1.0
+    bonds_to_scores = Dict{Tuple{Int32,Int32}, Vector{Float32}}((1, 2) => zeros(Float32, 4))
+    bonds_to_scores[(1, 2)][numeric_btype + 1] = 1.0
     mol = SmuMolecule(cc, bonds_to_scores, matching_parameters)
     state = generate_search_state(mol)
     for s in Iterators.product(state...)
@@ -123,10 +126,10 @@ function test_propane_all()
     expected_bonds = t.expected_bonds
     expected_score = t.expected_score
     cc = carbon_atoms(3)
-    bonds_to_scores = Dict{Tuple{Int32,Int32}, Vector{Float32}}((0, 1) => zeros(Float32, 4),
-                       (1, 2) => zeros(Float32, 4))
-    bonds_to_scores[(0, 1)][btype1 + 1] = 1.0
-    bonds_to_scores[(1, 2)][btype2 + 1] = 1.0
+    bonds_to_scores = Dict{Tuple{Int32,Int32}, Vector{Float32}}((1, 2) => zeros(Float32, 4),
+                       (2, 3) => zeros(Float32, 4))
+    bonds_to_scores[(1, 2)][btype1 + 1] = 1.0
+    bonds_to_scores[(2, 3)][btype2 + 1] = 1.0
     mol = SmuMolecule(cc, bonds_to_scores, matching_parameters)
     state = generate_search_state(mol)
     for s in Iterators.product(state...)
@@ -157,11 +160,11 @@ function test_operators()
   cc = carbon_atoms(3)
   add_bond!(0, 1, 1, cc)
   add_bond!(1, 2, 1, cc)
-  bonds_to_scores = Dict{Tuple{Int32,Int32}, Vector{Float32}}((0, 1) => zeros(Float32, 4),
-                                            (1, 2) => zeros(Float32, 4))
+  bonds_to_scores = Dict{Tuple{Int32,Int32}, Vector{Float32}}((1, 2) => zeros(Float32, 4),
+                                            (2, 3) => zeros(Float32, 4))
   scores = [1.0, 3.0]
-  bonds_to_scores[(0, 1)][1] = scores[1]
-  bonds_to_scores[(1, 2)][1] = scores[2]
+  bonds_to_scores[(1, 2)][1] = scores[1]
+  bonds_to_scores[(2, 3)][1] = scores[2]
   mol = SmuMolecule(cc, bonds_to_scores, matching_parameters)
   set_initial_score_and_incrementer!(1.0, Base.:*, mol)
   state = generate_search_state(mol)

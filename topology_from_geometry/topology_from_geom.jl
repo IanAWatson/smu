@@ -1,9 +1,13 @@
+using Combinatorics
 
 using dataset_pb2
 
 using BondLengthDistributions
 using SmuMolecules
 using SmuUtilities
+
+
+const THRESHOLD = 2.0
 
 """Generate a BondTopology that joins each Hydrogen atom to its nearest
     heavy atom.
@@ -27,7 +31,7 @@ function hydrogen_to_nearest_atom(bond_topology::dataset_pb2.BondTopology,
     shortest_distance = 1.0e+30
     closest_heavy_atom = -1
     for a2 in 1:natoms
-      bond_topology.atoms[a2] == dataset_pb2.BondTopology.AtomType.ATOM_H && continue
+      bond_topology.atoms[a2] == dataset_pb2.BondTopology_AtomType.ATOM_H && continue
 
       distances[a1, a2] >= THRESHOLD && continue
 
@@ -39,7 +43,7 @@ function hydrogen_to_nearest_atom(bond_topology::dataset_pb2.BondTopology,
 
     closest_heavy_atom < 0 && return nothing
 
-    add_bond!(a1, closest_heavy_atom, single_bond, result)
+    add_bond!(a1 - 1, closest_heavy_atom - 1, single_bond, result)
   end
 
   return result
@@ -73,18 +77,18 @@ function bond_topologies_from_geom(
     geometry::dataset_pb2.Geometry,
     matching_parameters::MatchingParameters)::dataset_pb2.TopologyMatches
   result = dataset_pb2.TopologyMatches()    # To be returned.
-  len(bond_topology.atoms) == 1 && return result  # return an empty result
+  length(bond_topology.atoms) == 1 && return result  # return an empty result
 
-  canonical_bond_topology(bond_topology)
-  distances = distances(geometry)
+  canonical_bond_topology!(bond_topology)
+  distances = SmuUtilities.distances(geometry)
 
   # First join each Hydrogen to its nearest heavy atom, thereby
   # creating a starting BondTopology from which all others can grow
   starting_bond_topology = hydrogen_to_nearest_atom(bond_topology, distances)
   starting_bond_topology === nothing && return result
 
-  atoms = bond_topology.atoms
-  heavy_atom_indices = findall(atoms->atoms != dataset_pb2.BondTopology_AtomType.ATOM_H)
+  heavy_atom_indices = findall(a->a != dataset_pb2.BondTopology_AtomType.ATOM_H, bond_topology.atoms)
+  length(heavy_atom_indices) < 2 && return result
 
   # For each atom pair, a list of possible bond types.
   # Key is a tuple of the two atom numbers, value is a Vector
@@ -92,46 +96,36 @@ function bond_topologies_from_geom(
 
   bonds_to_scores = Dict{Tuple{Int32,Int32}, Vector{Float32}}()
 
-  found_topologies = Vector{BondTopology}()
+  for (i, j) in Combinatorics.combinations(heavy_atom_indices, 2)  # All pairs
+    (dist = distances[i, j]) > THRESHOLD && continue
 
-  for c in combinations(heavy_atom_indices, 2)  # All pairs
-     i = c[1]
-     j = c[2]
-     dist = distances[i, j]
-     dist > THRESHOLD && continue
+    scores = [pdf(bond_lengths, bond_topology.atoms[i], bond_topology.atoms[j], btype, dist)
+              for btype in 0:4]
 
-    btypes = [bond_lengths.pdf_length_given_type(bond_topology.atoms[i],
-                                                 bond_topology.atoms[j], btype, dist) for btype in 0:4]
-
-#   Should work does not compile.
-#   any(nonzero, btypes) && bonds_to_scores[(i, j)] = btypes
-    if any(nonzero, btypes)
-      bonds_to_scores[(i, j)] = btypes
-    end
+    any((x)-> x > 0, scores) && (bonds_to_scores[(i, j)] = scores)
   end
 
+  @debug("bonds_to_scores $(bonds_to_scores)")
   isempty(bonds_to_scores) && return result
 
-  mol = smu_molecule.SmuMolecule(starting_bond_topology, bonds_to_scores, matching_parameters)
+  found_topologies = Vector{BondTopology}()  # Will be set into `result`.
 
-  search_space = mol.generate_search_state()
-  for s in product(search_space...)
-    bt = mol.place_bonds(s...)
-    bt || continue
+  mol = SmuMolecule(starting_bond_topology, bonds_to_scores, matching_parameters)
 
-    canonical_bond_topology(bt)
-#   should work, fails to compile...
-#   same_bond_topology(bond_topology, bt) && bt.is_starting_topology = true
-    if same_bond_topology(bond_topology, bt)
-      bt.is_starting_topology = true
-    end
+  search_space = generate_search_state(mol)
+  for s in Iterators.product(search_space...)
+    @debug("Placing state $s")
+    (bt = place_bonds!(s, mol)) == nothing && continue
+
+    canonical_bond_topology!(bt)
+    same_bond_topology(bond_topology, bt) && (bt.is_starting_topology = true)
     # smiles not set
     push!(found_topologies, bt)
   end
 
-  if length(found_topologies) > 1
-    sort!(found_topologies, by = b -> b.score, reverse=true)
-  end
+  isempty(found_topologies) && return result
+
+  length(found_topologies) > 1 && sort!(found_topologies, by = b -> b.score, reverse=true)
 
   setproperty!(result, :bond_topology, found_topologies)
 

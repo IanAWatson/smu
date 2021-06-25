@@ -42,7 +42,7 @@ function test_single_distribution()::Bool
   (lengths, counts) = triangular_distribution(min_dist, mode_point, max_dist)
   distribution = BondLengthDistributions.BondLengthDistribution()
 
-  @test BondLengthDistributions.from_arrays(lengths, counts, distribution)
+  @test BondLengthDistributions.from_arrays!(lengths, counts, distribution)
   @test BondLengthDistributions.pdf(distribution, 0.99 * min_dist) == 0.0
   @test BondLengthDistributions.pdf(distribution, 1.001 * max_dist) == 0.0
 
