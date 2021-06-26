@@ -87,7 +87,6 @@ function bond_topologies_from_geom(
   starting_bond_topology = hydrogen_to_nearest_atom(bond_topology, distances)
   starting_bond_topology === nothing && return result
 
-# heavy_atom_indices = findall(a->a != dataset_pb2.BondTopology_AtomType.ATOM_H, bond_topology.atoms)
   heavy_atom_indices = findall(not_hydrogen, bond_topology.atoms)
   length(heavy_atom_indices) < 2 && return result
 
@@ -106,7 +105,7 @@ function bond_topologies_from_geom(
     any(nonzero, scores) && (bonds_to_scores[(i, j)] = scores)
   end
 
-# @debug("bonds_to_scores $(bonds_to_scores)")
+  @debug("bonds_to_scores $(bonds_to_scores)")
   isempty(bonds_to_scores) && return result
 
   found_topologies = Vector{BondTopology}()  # Will be set into `result`.

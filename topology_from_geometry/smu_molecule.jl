@@ -10,13 +10,21 @@ export set_initial_score_and_incrementer!
 export generate_search_state
 export place_bonds!
 
+"""Parameters controlling settable parameters during matching.
+"""
 mutable struct MatchingParameters
+  # If true, all atoms must have their full valence satisfied.
   must_match_all_bonds::Bool
 end
 MatchingParameters() = MatchingParameters(true)
 
+"""Description of a molecule used for building different bonding patterns.
+"""
 mutable struct SmuMolecule
+  # The starting bond_topology, optionally with Hydrogens, and other singly
+  # bonded atoms attached.
   starting_bond_topology::BondTopology
+
   # For each atom, the maximum number of bonds that can be attached.
   max_bonds::Vector{Int32}
 
@@ -29,12 +37,14 @@ mutable struct SmuMolecule
   # to each atom
   current_bonds_attached::Vector{Int32}
 
+  # Scores can be implemented as either multiplicative or additive forms.
+  # Each needs an initial value and a function to accumulate the score.
   initial_score::Float32
   accumulate_score::Function
 
   # The `bonds` and `scores` are copied from the keys and values of
   # the bonds_to_scores dictionary given to the constructor.
-  # The important thing is that they are in the same order.
+  # The important thing is that these arrays are in the same order.
   bonds::Vector{Tuple{Int32, Int32}}
   scores::Vector{Vector{Float32}}
 
@@ -47,7 +57,7 @@ mutable struct SmuMolecule
               matching_parameters::MatchingParameters)
     mol = new();
     mol.starting_bond_topology = hydrogens_attached;
-    # Delegate processing to a function.
+    # Delegate processing to a separate function, keep this small.
     smu_molecule_constructor!(mol);
 
     # separately extract the bonds and scores
@@ -104,8 +114,7 @@ function generate_search_state(mol::SmuMolecule)::Vector{Vector{Int32}}
   result = Vector{Vector{Int32}}()
   for ndx in 1:length(mol.bonds)
     # For each pair of atoms, the plausible bond types - non zero score.
-    scores = mol.scores[ndx]
-    push!(result, findall(scores->scores > 0.0, scores))
+    push!(result, findall(x->x > 0.0, mol.scores[ndx]))
   end
 
   return result
@@ -162,6 +171,6 @@ function place_bonds!(state::Tuple,
   # Optionally check whether all bonds have been matched
   mol.must_match_all_bonds || return result
 
-# @debug("Cf bonds $(mol.current_bonds_attached) $(mol.max_bonds)")
+  @debug("Cf bonds $(mol.current_bonds_attached) $(mol.max_bonds)")
   mol.current_bonds_attached == mol.max_bonds ? result : nothing
 end
