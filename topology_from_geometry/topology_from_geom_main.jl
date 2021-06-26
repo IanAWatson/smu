@@ -19,8 +19,14 @@ function get_topology_from_geometry(bond_length_distributions::AllBondLengthDist
   result = bond_topologies_from_geom(bond_length_distributions, bond_topology,
                                      geometry, matching_parameters)
   hasproperty(result, :bond_topology) || return false
-  println(output_stream, length(result.bond_topology))
-  flush(output_stream)
+  number_bond_topologies = length(result.bond_topology)
+  to_write = string(number_bond_topologies)
+  for bt in result.bond_topology
+    to_write *= ",$(round(bt.score, digits=3))"
+    number_bond_topologies == 1 && break
+    to_write *= bt.is_starting_topology ? ",t" : ",f"
+  end
+  println(output_stream, to_write)
   true
 end
 

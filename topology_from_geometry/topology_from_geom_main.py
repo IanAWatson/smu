@@ -18,6 +18,22 @@ flags.DEFINE_string("bonds", None, "File name stem for bond length distributions
 flags.DEFINE_string("output", None, "Output file")
 flags.DEFINE_boolean("xnonbond", False, "Exclude non bonded interactions")
 
+class SummaryData(beam.DoFn):
+  """Given BondTopologies as input, yield summary data"""
+  def process(self, topology_matches:dataset_pb2.TopologyMatches):
+    result = f"{len(topology_matches.bond_topology)}"
+
+    for bt in topology_matches.bond_topology:
+      result += f",{bt.score:.3f},{bt.smiles}"
+      if len(topology_matches.bond_topology) == 1:
+        break
+      if bt.is_starting_topology:
+        result += ",T"
+      else:
+        result += ",F"
+
+    yield result
+
 
 def ReadConFormer(bond_lengths: bond_length_distribution.AllAtomPairLengthDistributions, input: str,
                   output: str):
@@ -35,6 +51,7 @@ def ReadConFormer(bond_lengths: bond_length_distribution.AllAtomPairLengthDistri
     protos = (p | beam.io.tfrecordio.ReadFromTFRecord(
         input, coder=beam.coders.ProtoCoder(dataset_pb2.Conformer().__class__)) |
               beam.ParDo(topology_from_geom.TopologyFromGeom(bond_lengths)) |
+              beam.ParDo(SummaryData()) |
               beam.io.textio.WriteToText(output))
 
     return protos

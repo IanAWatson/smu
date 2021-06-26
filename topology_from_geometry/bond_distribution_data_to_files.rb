@@ -57,6 +57,12 @@ def first_and_last(data)
   [first_non_nil, last_non_nil]
 end
 
+# Write a single bond length distribution to `fname`.
+# Args:
+#  fname: the output file
+#  data: a vector of counts. We only write from the first to last
+#        non zero values.
+#        The indices are converted by distances by dividing by 10,000
 def write_bond_length_distribution(fname, data) # rubocop:disable Metrics/MethodLength
   first_ndx, last_ndx = first_and_last(data)
   if (last_ndx - first_ndx) < 2

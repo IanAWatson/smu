@@ -114,7 +114,6 @@ function bond_topologies_from_geom(
   mol = SmuMolecule(starting_bond_topology, bonds_to_scores, matching_parameters)
 
   search_space = generate_search_state(mol)
-  println("search_space $search_space ", prod(x->length(x), search_space))
   for s in Iterators.product(search_space...)
     @debug("Placing state $s")
     (bt = place_bonds!(s, mol)) == nothing && continue

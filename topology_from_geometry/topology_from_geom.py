@@ -134,7 +134,6 @@ def bond_topologies_from_geom(
   mol = smu_molecule.SmuMolecule(starting_bond_topology, bonds_to_scores, matching_parameters)
 
   search_space = mol.generate_search_state()
-  print(f"search_space {search_space}")
   for s in itertools.product(*search_space):
     bt = mol.place_bonds(list(s))
     if not bt:

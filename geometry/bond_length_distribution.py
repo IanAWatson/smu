@@ -153,9 +153,13 @@ class EmpiricalLengthDistribution(LengthDistribution):
 
     # The maximum value covered by the emprical values.
     self._maximum = self._df['length'].iloc[-1] + self.bucket_size
+    # Add 1 to all count values to avoid holes in the distribution.
+    # Would be better to do the mean of adjacent points...
+    self._df['count'] = self._df['count'].apply(lambda x: x+1)
 
     self._df['pdf'] = (
-        self._df['count'] / np.sum(self._df['count']) / self.bucket_size)
+#       self._df['count'] / np.sum(self._df['count']) / self.bucket_size)
+        self._df['count'] / np.sum(self._df['count']))
 
     self.right_tail_mass = right_tail_mass
     self._right_tail_dist = None
@@ -267,7 +271,6 @@ class AtomPairLengthDistributions:
   def __getitem__(self, bond_type):
     """Gets the Distribution for the bond_type."""
     if not bond_type in self._bond_type_map:
-      print(f"No data for {bond_type}")
       return 0.0
 
     return self._bond_type_map[bond_type]
@@ -414,12 +417,10 @@ class AllAtomPairLengthDistributions:
       return 0.0
 
     return self._atom_pair_dict[(atom_a, atom_b)].pdf_length_given_type(bond_type, length)
-    print(f"Have data {self._atom_pair_dict[(atom_a, atom_b)]}")
-    if not bond_type in self._atom_pair_dict[(atom_a, atom_b)]:
-      return 0.0
+#   if not bond_type in self._atom_pair_dict[(atom_a, atom_b)]:
+#     return 0.0
 
-    print(f"Looking up pdf for {bond_type}")
-    return self._atom_pair_dict[(atom_a, atom_b)][bond_type].pdf(length)
+#   return self._atom_pair_dict[(atom_a, atom_b)][bond_type].pdf(length)
 
   def probability_of_bond_types(
       self, atom_a,

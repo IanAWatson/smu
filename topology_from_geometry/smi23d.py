@@ -17,6 +17,7 @@ FLAGS = flags.FLAGS
 
 flags.DEFINE_string("smiles", None, "Smiles input file")
 flags.DEFINE_string("output", None, "TFRecord output file")
+flags.DEFINE_integer("nprocess", 0, "Number of items to process")
 
 def contains_aromatic(mol: Chem.RWMol) -> bool:
   """Returns True of `mol` contains any aromatic atoms."""
@@ -30,11 +31,16 @@ def smi23d(unused_argv):
   del unused_argv
 
   df = pd.read_csv(FLAGS.smiles)
+  nprocess = FLAGS.nprocess
+  if nprocess == 0:
+    nprocess = df.shape(0)
+
+  processed = 0
 
   with tf.io.TFRecordWriter(FLAGS.output) as file_writer:
-    for index, row in df.iterrows():
-      smiles = row[0]
-      name = row[1]
+    for ndx in range(0, nprocess):
+      smiles = df.iloc[ndx, 0]
+      name = df.iloc[ndx, 1]
       mol = Chem.MolFromSmiles(smiles)
       if contains_aromatic(mol):
         continue
